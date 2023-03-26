@@ -34,10 +34,24 @@ typedef struct s_env
 	struct s_env *next;
 }               t_env;
 
-t_env   *create_env_list(char **env);
+
+
 int		main(int ac, char **av, char **env);
-t_env 	*ft_envlst_new(char *str);
-void    prompt(t_env *env_list);
+void	prompt(t_env *env_list);
+
+
+/*  env   */
+
+t_env	*create_env_list(char **env);
+t_env	*ft_envlst_new(char *str);
 t_env	*ft_envlst_search(t_env *env, char *searched);
-int parse(char *line);
+
+/*  parsing */
+
+int		parse(char *line);
+int		check_pipe(char *line);
+int		check_oper(char c, char *line, int nb);
+int		check_chars(char *line, char *str);
+int		check_unsupport(char *line);
+void	quoate_flag(int *flag, int c);
 #endif

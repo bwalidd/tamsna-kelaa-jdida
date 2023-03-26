@@ -8,7 +8,14 @@ READLINE = -lreadline -L ./readline -I ./readline -lcurses
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
-SRC = minishell helpers/env helpers/prompt parsing/parse
+SRC = minishell \
+		helpers/env \
+		helpers/prompt \
+		parsing/parse \
+		parsing/checker/check_oper \
+		parsing/checker/check_chars \
+		parsing/checker/check_pipe \
+		parsing/checker/check_unsupport \
 
 
 OBJ = $(SRC:=.o)

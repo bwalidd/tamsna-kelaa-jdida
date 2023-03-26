@@ -29,9 +29,11 @@ int main(int ac, char **av, char **env)
     {
         if (*cmd)
             add_history(cmd);
-        if (ft_strncmp(cmd, "exit", 4) == 0)
-            exit(0);
         if (parse(line))
-            
+        {
+            // exec
+        }
+        prompt(env_list);
+        cmd = readline("$ ");
     }
 }

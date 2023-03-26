@@ -49,10 +49,17 @@ int is_unclosed_quotes(char *line)
     return (0);
 }
 
+
 int parse(char *line)
 {
     if (!line || !*line)
-        return (0);
-    if (!is_empty(line) || is_unclosed_quotes(line) || )
-        //return (0);
+    	|| check_oper('|', line, 1)
+		|| check_oper('<', line, 2)
+		|| check_oper('>', line, 2)
+		|| check_chars(line,"\\;&")
+		|| check_pipe(line)
+	{
+		return (0);
+	}
+        
 }
