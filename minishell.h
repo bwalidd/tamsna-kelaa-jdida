@@ -38,6 +38,7 @@ typedef struct s_env
 int		main(int ac, char **av, char **env);
 void	prompt(t_env *env_list);
 int is_redirection(char c);
+int is_space(char c);
 
 /*  env   */
 
@@ -54,4 +55,6 @@ int		check_chars(char *line, char *str);
 int		check_unsupport(char *line);
 void	quoate_flag(int *flag, int c);
 char    *parse_operator(char *line);
+char    **args_split(char *cmd);
+
 #endif

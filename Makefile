@@ -17,7 +17,8 @@ SRC = minishell \
 		parsing/checker/check_chars \
 		parsing/checker/check_pipe \
 		parsing/checker/check_unsupport \
-		parsing/add_space
+		parsing/add_space \
+		parsing/split_args
 
 
 OBJ = $(SRC:=.o)
