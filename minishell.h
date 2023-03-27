@@ -20,7 +20,6 @@
 # include <unistd.h>
 # include <string.h>
 # include <sys/types.h>
-# include <sys/wait.h>
 # include "libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -35,10 +34,10 @@ typedef struct s_env
 }               t_env;
 
 
-
+ /* utils  */
 int		main(int ac, char **av, char **env);
 void	prompt(t_env *env_list);
-
+int is_redirection(char c);
 
 /*  env   */
 
@@ -54,4 +53,5 @@ int		check_oper(char c, char *line, int nb);
 int		check_chars(char *line, char *str);
 int		check_unsupport(char *line);
 void	quoate_flag(int *flag, int c);
+char    *parse_operator(char *line);
 #endif

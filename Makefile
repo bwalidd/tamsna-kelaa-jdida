@@ -11,11 +11,13 @@ READLINE = -lreadline -L ./readline -I ./readline -lcurses
 SRC = minishell \
 		helpers/env \
 		helpers/prompt \
+		helpers/is_utils \
 		parsing/parse \
 		parsing/checker/check_oper \
 		parsing/checker/check_chars \
 		parsing/checker/check_pipe \
 		parsing/checker/check_unsupport \
+		parsing/add_space
 
 
 OBJ = $(SRC:=.o)
