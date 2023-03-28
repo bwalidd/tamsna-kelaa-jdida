@@ -34,11 +34,30 @@ typedef struct s_env
 }               t_env;
 
 
+
+typedef enum token
+{
+	CMD_NAME = 1,
+	CMD_ARG,
+	R_IN_SIG,
+	R_OUT_SIG,
+	R_OUT_FILE,
+	PIPE,
+	R_APP_SIG,
+	R_APP_FILE,
+	R_IN_FILE,
+	HEREDOC_SIG,
+	HEREDOC_LIM,
+	EMPTY,
+}	t_token;
+
+
  /* utils  */
 int		main(int ac, char **av, char **env);
 void	prompt(t_env *env_list);
 int is_redirection(char c);
 int is_space(char c);
+int	ft_array_size(char **array_str);
 
 /*  env   */
 
@@ -56,5 +75,6 @@ int		check_unsupport(char *line);
 void	quoate_flag(int *flag, int c);
 char    *parse_operator(char *line);
 char    **args_split(char *cmd);
+int		*tokenise_cmd(char **cmd);
 
 #endif
