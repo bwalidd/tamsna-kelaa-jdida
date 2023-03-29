@@ -19,7 +19,8 @@ SRC = minishell \
 		parsing/checker/check_unsupport \
 		parsing/add_space \
 		parsing/split_args \
-		parsing/token_input
+		parsing/token_input \
+		parsing/parse_token
 
 
 OBJ = $(SRC:=.o)

@@ -58,5 +58,8 @@ int *tokenise_cmd(char **cmd)
         define_token(&cmd_type,i,cmd,&cmd_in_pipe);
         i++;
     }
-    // to do check_tokens
+    if(parse_token(cmd_type));
+      return (cmd_type); // to do
+    free(cmd_type);
+    return (0);
 }

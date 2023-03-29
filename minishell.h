@@ -76,5 +76,6 @@ void	quoate_flag(int *flag, int c);
 char    *parse_operator(char *line);
 char    **args_split(char *cmd);
 int		*tokenise_cmd(char **cmd);
+int		parse_token(int *token_arr);
 
 #endif
