@@ -77,5 +77,7 @@ char    *parse_operator(char *line);
 char    **args_split(char *cmd);
 int		*tokenise_cmd(char **cmd);
 int		parse_token(int *token_arr);
-
+void    expand(char **cmd,int *token_arr,t_env *env);
+char    *replacing(char *cmd, int *i);
+char	*replace_wrong_name(char *cmd, int *i);
 #endif
