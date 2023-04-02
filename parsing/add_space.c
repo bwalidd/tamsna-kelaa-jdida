@@ -2,7 +2,7 @@
 
 static char	*check_operator_after(char *cmd, int i, int *len)
 {
-	if ((cmd[i + 1] && cmd[i + 1] != ' ' && !cmd[i + 1]) || *len == 2)
+	if ((cmd[i + 1] && cmd[i + 1] != ' ' && !is_redirection(cmd[i + 1])) || *len == 2)
 	{
 		cmd = add_space_arround(cmd,i,"after");
 		*len = 0;
@@ -86,9 +86,9 @@ char    *parse_operator(char *line)
 		{
 			if (i > 1 && ft_strlen(cmd) > 1 && cmd[i - 1] != ' ' && !is_redirection(cmd[i - 1]))
 			{
-				// before .. cat makefile|wc -l>>file
+				// before ..  cat echo $USER|wc -l>>file
 				cmd = add_space_arround(cmd, i, "before");
-				// after .. cat makefile |wc -l >>file
+				// after .. cat echo $USER |wc -l >>file
 			}
 		}
 		i++;
