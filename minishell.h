@@ -80,4 +80,6 @@ int		parse_token(int *token_arr);
 void    expand(char **cmd,int *token_arr,t_env *env);
 char    *replacing(char *cmd, int *i);
 char	*replace_wrong_name(char *cmd, int *i);
+void    delete_quoate(char **cmd);
+
 #endif

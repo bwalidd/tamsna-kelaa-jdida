@@ -21,8 +21,9 @@ SRC = minishell \
 		parsing/split_args \
 		parsing/token_input \
 		parsing/parse_token \
+		parsing/delete_quoate \
 		parsing/expand/expand \
-		parsing/expand/expand2
+		parsing/expand/expand2 \
 
 
 OBJ = $(SRC:=.o)
