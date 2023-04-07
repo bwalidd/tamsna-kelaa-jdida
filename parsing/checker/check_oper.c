@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:52:59 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/06 23:53:00 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/07 17:08:38 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int check_oper(char c, char *line, int nb)
 			write(2,"syntax error\n",13);
 			return (1);
 		}
-		if(line[i] == NULL)
+		if(!line[i])
 			break;
 	}
 	return (0);

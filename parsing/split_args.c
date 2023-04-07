@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:35 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/06 23:53:36 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/07 17:20:38 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char    **args_split(char *cmd)
     int     check;
 
     while (cmd && *cmd && is_space(*cmd))
-        cmd++
+        cmd++;
     nb_args = count_args(cmd);
     split = malloc((nb_args + 1) * sizeof(char *));
     split[nb_args] = NULL;

@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 15:21:42 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/03/22 22:41:31 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/07 02:44:13 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_env	*ft_envlst_search(t_env *env, char *searched)
 	new = env;
 	while (new != NULL)
 	{
-		if (!ft_strcmp(new->var_name, searched))
+		if (!ft_strcmp(new->env_name, searched))
 			return (new);
 		new = new->next;
 	}

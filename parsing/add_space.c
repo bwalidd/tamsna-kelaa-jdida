@@ -6,11 +6,13 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:20 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/06 23:53:21 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/07 17:20:02 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static char	*add_space_arround(char *str, int i, char *line);
 
 static char	*check_operator_after(char *cmd, int i, int *len)
 {
@@ -59,7 +61,10 @@ static char	*add_space_arround(char *str, int i, char *line)
 	char	*str2;
 	char	*full_str;
 
-	if (line == "before")
+	str1 = NULL;
+	str2 = NULL;
+	full_str = NULL;
+	if (ft_strcmp(line, "before") == 0)
 	{
 		str1 = ft_substr(str, 0, i);
 		str2 = ft_strjoin(str1 , " ");
@@ -67,13 +72,13 @@ static char	*add_space_arround(char *str, int i, char *line)
 		str1 = ft_substr(str,i,1000);
 		full_str = ft_strjoin(str2, str1);
 	}
-	else if (line == "after")
+	if (ft_strcmp(line, "after") == 0)
 	{
 		str1= ft_substr(str,0,i + 1);
 		str2= ft_strjoin(str1, " ");
 		free(str1);
 		str1 = ft_substr(str, i + 1 , 1000);
-		full_str(str2, str1);
+		full_str = ft_strjoin(str2, str1);
 	}
 	free(str1);
 	free(str2);

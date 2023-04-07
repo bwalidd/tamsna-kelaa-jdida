@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:12 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/06 23:53:13 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/07 18:17:35 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void free_all(char *str,char *str2,char *var_name)
 	free (var_name);
 }
 
-static *char replace_var(char *cmd, int i,t_env *env)
+static char *replace_var(char *cmd, int *i,t_env *env)
 {
 	char	*str;
 	char	*str2;
@@ -28,7 +28,8 @@ static *char replace_var(char *cmd, int i,t_env *env)
 	t_env	*find;
 	int		end_var;
 
-	end_var = ++(*i);
+	str2 = NULL;
+	end_var = *i + 1;
 	while ((cmd[end_var] && (ft_isalnum(cmd[end_var]) || cmd[end_var] == '_')))
 		end_var++;
 	var_name = ft_substr(cmd, (*i) +1, end_var - (*i) - 1);
@@ -50,21 +51,21 @@ static *char replace_var(char *cmd, int i,t_env *env)
 
 static char *apply_expansion(char *cmd, t_env *env, int *i, int flag)
 {
-	if ((cmd[i] == "$" && flag == 0 && ft_isalpha(cmd[*i + 1]))
-		|| (cmd[i] == "$" && flag == 0 && cmd[*i + 1] == '_'))
+	if ((cmd[*i] == '$' && flag == 0 && ft_isalpha(cmd[*i + 1]))
+		|| (cmd[*i] == '$' && flag == 0 && cmd[*i + 1] == '_'))
 	{
-		cmd = replace_var(cmd,i,env);
+		cmd = replace_var(cmd, i, env);
 		if (cmd[*i] == '$' || cmd[*i] == '"' || cmd[*i] == '\'')
 			*i -= 1;
-		else if (cmd[i] == '\0')
+		else if (!cmd[*i])
 			*i = *i - 2;
 	}
 	else if (cmd[*i] == '$' && flag == 0)
 	{
-		cmd = replace_wrong_name(cmd, &i);
+		cmd = replace_wrong_name(cmd, i);
 		if (cmd[*i] == '$' || cmd[*i] == '"' || cmd[*i] == '\'')
 			*i -= 1;
-		else if (cmd[i] == '\0')
+		else if (cmd[*i] == '\0')
 			*i = *i - 2;
 	}
 	return (cmd);
@@ -88,13 +89,15 @@ static char *apply_expander(char *cmd, t_env *env)
 			else if (cmd[i] == 0)
 				break ;
 		}
-		else if (cmd[i] == "$" && !flag &&
-				(cmd[i + 1] == '"' || cmd[i + 1] == '\'' || cmd[i + 1] == "$") || !cmd[i + 1])
-		// to do
+		else if (cmd[i] == '$' && !flag &&
+        	((cmd[i + 1] == '"' || cmd[i + 1] == '\'' || cmd[i + 1] == '$') || !cmd[i + 1]))
+		{
+			// to do
+		}
 		else
 			cmd = apply_expansion(cmd, env, &i,flag);
 	}
-	
+	return (cmd);
 }
 
 void    expand(char **cmd,int *token_arr,t_env *env)
@@ -113,7 +116,7 @@ void    expand(char **cmd,int *token_arr,t_env *env)
 			if (cmd[i][j] != ' ' || !(cmd[i][j] >= 9 && cmd[i][j] <= 13))
 				break;
 		}
-		if (cmd[i][j] == NULL)
+		if (!cmd[i][j])
 			token_arr[i] = EMPTY;
 		i++;
 	}

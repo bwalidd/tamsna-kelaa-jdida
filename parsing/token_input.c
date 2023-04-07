@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:39 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/06 23:53:40 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/07 17:22:11 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int *tokenise_cmd(char **cmd)
     int i;
 
     cmd_type = ft_calloc(ft_array_size(cmd) + 1 ,sizeof(int));
-    if (!cmp_type)
+    if (!cmd_type)
         return (NULL);
     i = 0;
     cmd_in_pipe = 0;
@@ -70,7 +70,7 @@ int *tokenise_cmd(char **cmd)
         define_token(&cmd_type,i,cmd,&cmd_in_pipe);
         i++;
     }
-    if(parse_token(cmd_type));
+    if(parse_token(cmd_type))
       return (cmd_type); // to do
     free(cmd_type);
     return (0);

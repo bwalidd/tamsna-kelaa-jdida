@@ -1073,7 +1073,7 @@ READLINE(3)                Library Functions Manual                READLINE(3)
              "C-_"  vi-undo
              " "  forward-char
              "#"  insert-comment
-             "$"  end-of-line
+             '$'  end-of-line
              "%"  vi-match
              "&"  vi-tilde-expand
              "*"  vi-complete

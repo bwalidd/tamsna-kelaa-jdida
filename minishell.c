@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/03/23 02:52:21 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/07 02:43:10 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int main(int ac, char **av, char **env)
     {
         if (*cmd)
             add_history(cmd);
-        if (parse(line))
+        if (parse(cmd))
         {
             // exec
         }

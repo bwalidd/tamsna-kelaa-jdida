@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:15 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/06 23:53:16 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/07 18:19:01 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char *replace_wrong_name(char *cmd, int *i)
     str[*i] = '\0';
     str2 = ft_substr(cmd, (*i) + 2, ft_strlen(str));
     free(cmd);
-    cmd = ft_strjoin(str1, str2);
+    cmd = ft_strjoin(str, str2);
     *i = ft_strlen(str);
     free(str);
     free(str2);
@@ -44,7 +44,7 @@ char    *replacing(char *cmd, int *i)
     free(cmd);
     cmd = ft_strjoin(str2, str);
     *i = ft_strlen(str2);
-    free(str1);
+    free(str);
     free(str2);
     return (cmd);
 }

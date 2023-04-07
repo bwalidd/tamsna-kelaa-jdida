@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 21:59:40 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/03/23 02:52:35 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/07 02:54:04 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	prompt(t_env *env_list);
 int is_redirection(char c);
 int is_space(char c);
 int	ft_array_size(char **array_str);
+int     ft_envlst_len(t_env *env_list);
 
 /*  env   */
 

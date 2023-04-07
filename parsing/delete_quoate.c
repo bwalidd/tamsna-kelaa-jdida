@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:23 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/06 23:53:24 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/07 17:32:56 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ static char *remove_quoate(char *tok, int *i)
 	new = ft_strjoin(before_q, inside_q);
 	free(before_q);
 	free(inside_q);
-	*i = j - 2;
-	before_q = ft_strjoin(new, tok + j + 1);
+	*i = end_q - 2;
+	before_q = ft_strjoin(new, tok + end_q + 1);
 	free(tok);
 	free(new);
 	tok = ft_strdup(before_q);
@@ -40,12 +40,15 @@ static char *remove_quoate(char *tok, int *i)
 static char *delete_it(char *tok)
 {
 	int	i;
+
+	i = 0;
 	while (tok[i])
 	{
 		if(tok[i] == '\'' || tok[i] == '"')
 			tok = remove_quoate(tok,&i);
 		i++;
 	}
+	return (tok);
 }
 
 void    delete_quoate(char **cmd)
@@ -55,7 +58,7 @@ void    delete_quoate(char **cmd)
 	i = 0;
 	while (cmd[i])
 	{
-		if ((cmd[i] && ft_strchr(cmd[i], '"')) || (cmd[i] && ft_strchr('\'')))
+		if (cmd[i] && (ft_strchr(cmd[i], '"') || ft_strchr(cmd[i], '\'')))
 				cmd[i] = delete_it(cmd[i]);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 22:44:31 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/03/22 18:59:33 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/07 02:48:22 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		ft_isascii(int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_isalpha(int c);
 int		ft_isalnum(int c);
-size_t	ft_strlen(const char *s);
+int		ft_strlen(char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t n);
 char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);

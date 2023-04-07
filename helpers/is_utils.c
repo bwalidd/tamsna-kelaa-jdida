@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:52:46 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/06 23:52:47 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/07 02:53:51 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,17 @@ int	ft_array_size(char **array_str)
 	while (array_str && array_str[i])
 		i++;
 	return (i);
+}
+
+int     ft_envlst_len(t_env *env_list)
+{
+    int i;
+
+    i = 0;
+    while (env_list)
+    {
+        env_list = env_list->next;
+        i++;
+    }
+    return (i);
 }
