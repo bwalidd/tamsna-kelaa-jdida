@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:12 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/07 18:17:35 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/09 17:45:44 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char *replace_var(char *cmd, int *i,t_env *env)
 	if (find && find->env_value)
 		str2 = ft_strjoin(str, find->env_value);
 	else
-		str2 = ft_strjoin(str2, "");
+		str2 = ft_strjoin(str, "");
 	free(str);
 	str = ft_substr(cmd, end_var,1000);
 	free(cmd);
@@ -51,14 +51,13 @@ static char *replace_var(char *cmd, int *i,t_env *env)
 
 static char *apply_expansion(char *cmd, t_env *env, int *i, int flag)
 {
-	if ((cmd[*i] == '$' && flag == 0 && ft_isalpha(cmd[*i + 1]))
-		|| (cmd[*i] == '$' && flag == 0 && cmd[*i + 1] == '_'))
+	if (cmd[*i] == '$' && flag == 0 && (ft_isalnum(cmd[*i + 1]) || cmd[*i + 1] == '_'))
 	{
 		cmd = replace_var(cmd, i, env);
 		if (cmd[*i] == '$' || cmd[*i] == '"' || cmd[*i] == '\'')
 			*i -= 1;
-		else if (!cmd[*i])
-			*i = *i - 2;
+		/*else if (!cmd[*i])
+			*i = *i - 2;*/
 	}
 	else if (cmd[*i] == '$' && flag == 0)
 	{
@@ -93,6 +92,7 @@ static char *apply_expander(char *cmd, t_env *env)
         	((cmd[i + 1] == '"' || cmd[i + 1] == '\'' || cmd[i + 1] == '$') || !cmd[i + 1]))
 		{
 			// to do
+			
 		}
 		else
 			cmd = apply_expansion(cmd, env, &i,flag);
@@ -115,6 +115,7 @@ void    expand(char **cmd,int *token_arr,t_env *env)
 		{
 			if (cmd[i][j] != ' ' || !(cmd[i][j] >= 9 && cmd[i][j] <= 13))
 				break;
+			j++;
 		}
 		if (!cmd[i][j])
 			token_arr[i] = EMPTY;

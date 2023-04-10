@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:39 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/07 17:22:11 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/08 02:33:32 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void define_oper(char *cmd, int *cmd_type,int **cmd_in_pipe)
 {
     if (cmd[0] == '|')
     {
-		*cmd_type = PIPE;
+		  *cmd_type = PIPE;
         // to be fixed in below
         **cmd_in_pipe = 0;
     }

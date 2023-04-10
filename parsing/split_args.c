@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:35 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/07 17:20:38 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/07 23:11:02 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ static int arg_len_counter(char *cmd)
     }
     return (i);
 }
+
+/*
+https://www.tldraw.com/r/v2_c_rs2yde5VWi2265g07p8Vd
+https://www.tldraw.com/r/v2_c_rs2yde5VWi2265g07p8Vd
+*/
 
 /*
  cat
