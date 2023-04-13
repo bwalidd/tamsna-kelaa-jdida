@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:23 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/07 17:32:56 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/12 21:23:48 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char *remove_quoate(char *tok, int *i)
 	while (tok[end_q] != '\'' && tok[end_q] != '"')
 		end_q++;
 	before_q = ft_substr(tok, 0, *i);
-	inside_q = ft_substr(tok, *i+1, end_q - *i - 1);
+	inside_q = ft_substr(tok, *i + 1, end_q - *i - 1);
 	new = ft_strjoin(before_q, inside_q);
 	free(before_q);
 	free(inside_q);

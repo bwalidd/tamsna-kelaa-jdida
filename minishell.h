@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 21:59:40 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/07 02:54:04 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/12 21:42:16 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct s_env
 {
 	char    *env_name;
 	char    *env_value;
-	struct s_env *prv;
 	struct s_env *next;
 }               t_env;
 
