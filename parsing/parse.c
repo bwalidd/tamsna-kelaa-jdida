@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 02:49:24 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/07 21:27:47 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/14 23:30:51 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ int parse(char *line)
 		|| check_oper('<', line, 2)
 		|| check_oper('>', line, 2)
 		|| check_chars(line,"\\;&")
-		|| check_pipe(line))
+		|| check_pipe(line)
+        || check_oper_in_last(line, '|')
+        || check_oper_in_last(line, '<')
+        || check_oper_in_last(line, '>'))
 		return (0);
     if (is_empty(line) || is_unclosed_quotes(line))
         return (0);

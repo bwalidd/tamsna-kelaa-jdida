@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:12 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/09 17:45:44 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/14 18:17:27 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static char *apply_expansion(char *cmd, t_env *env, int *i, int flag)
 	return (cmd);
 }
 
-static char *apply_expander(char *cmd, t_env *env)
+char *apply_expander(char *cmd, t_env *env)
 {
 	int i;
 	int	flag;

@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 21:59:40 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/12 21:42:16 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/14 23:31:22 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,9 @@ char    **args_split(char *cmd);
 int		*tokenise_cmd(char **cmd);
 int		parse_token(int *token_arr);
 void    expand(char **cmd,int *token_arr,t_env *env);
+char	*apply_expander(char *cmd, t_env *env);
 char    *replacing(char *cmd, int *i);
 char	*replace_wrong_name(char *cmd, int *i);
 void    delete_quoate(char **cmd);
-
+int check_oper_in_last(char *line ,char c);
 #endif

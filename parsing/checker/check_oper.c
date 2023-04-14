@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:52:59 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/07 17:08:38 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/13 23:37:39 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	quoate_flag(int *flag, int c)
 		else if (*flag == 0)
 			*flag = 1;
 	}
-	if (c == '\"')
+	if (c == '"')
 	{
 		if (*flag == 2)
 			*flag = 0;
