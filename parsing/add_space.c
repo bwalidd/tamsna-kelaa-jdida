@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:20 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/07 17:20:02 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/15 00:07:39 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,3 +113,5 @@ char    *parse_operator(char *line)
 	cmd = parse_operator2(cmd);
 	return (cmd);
 }
+
+// echo ls | wc-l >> file echo "wc -l |"
