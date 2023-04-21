@@ -52,7 +52,7 @@ static int check_next_oper(int *token_arr)
 	}
 	if (flag)
 	{
-		write(2,"syntax error in a next arg\n",28);
+		ft_putstr_fd("syntax error in a next arg\n", 2);
 		return (1);
 	}
 	return (0);

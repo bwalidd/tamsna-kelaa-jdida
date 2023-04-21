@@ -44,11 +44,14 @@ static char	*parse_operator2(char *line)
 		quoate_flag(&flag, cmd[i]);
 		if (flag == 0 && (is_redirection(cmd[i]) || cmd[i] == '|'))
 		{
-			if (is_redirection(cmd[i]))
+			while (is_redirection(cmd[i]))
+			{
 				len++;
-			// before .. cat makefile |wc -l >>file
+				i++;
+			}
+			if (is_redirection(cmd[i - 1]))
+				i--;
 			cmd = check_operator_after(cmd, i, &len);
-			// after .. cat makefile | wc -l >> file
 		}
 		i++;
 	}

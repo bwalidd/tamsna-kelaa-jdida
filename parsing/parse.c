@@ -60,16 +60,14 @@ static int is_unclosed_quotes(char *line)
 
 int parse(char *line)
 {
-	if (!line || !*line
-		|| check_oper('|', line, 1)
-		|| check_oper('<', line, 2)
-		|| check_oper('>', line, 2)
-		|| check_chars(line,"\\;&")
-		|| check_pipe(line)
-		|| check_oper_in_last(line, '|')
-		|| check_oper_in_last(line, '<')
-		|| check_oper_in_last(line, '>'))
+	if (!line || !*line)
+        return (0);
+    if (check_oper('|', line, 1) || check_oper('<', line, 2) || check_oper('>', line, 2))
+        return (0);
+    if (check_oper_in_last(line, '|') || check_oper_in_last(line, '<') || check_oper_in_last(line, '>'))
 		return (0);
+    if (check_chars(line,"\\;&") || check_pipe(line))
+        return (0);
 	if (is_empty(line) || is_unclosed_quotes(line))
 		return (0);
 	return (1);    

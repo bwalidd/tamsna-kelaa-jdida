@@ -18,8 +18,9 @@ static void define_oper(char *cmd, int *cmd_type,int **cmd_in_pipe)
     if (cmd[0] == '|')
     {
 		  *cmd_type = PIPE;
-        // to be fixed in below
+        // to be fixed in below -- true to be tested
         **cmd_in_pipe = 0;
+        // note is any thing after | is a CMDNAME
     }
 	else if (ft_strlen(cmd) > 1 && cmd[0] == '<')
 		*cmd_type = HEREDOC_SIG;
@@ -71,7 +72,7 @@ int *tokenise_cmd(char **cmd)
         i++;
     }
     if(parse_token(cmd_type))
-      return (cmd_type); // to do
+      return (cmd_type); // to do under in exit status
     free(cmd_type);
     return (0);
 }

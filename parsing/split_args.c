@@ -71,6 +71,8 @@ static int count_args(char *cmd)
         }
     }
     return (count + (flag == 0));
+    //echo "'hello' there" == 2
+    //echo 'hello' there == 3
 }
 
 char    **args_split(char *cmd)
@@ -79,7 +81,6 @@ char    **args_split(char *cmd)
     int     nb_args;
     int     arg_len;
     int     i;
-    int     check;
 
     while (cmd && *cmd && is_space(*cmd))
         cmd++;
@@ -89,12 +90,9 @@ char    **args_split(char *cmd)
     i = 0;
     while (i < nb_args)
     {
-        check = 0;
-       arg_len = arg_len_counter(cmd);
-       split[i] = ft_substr(cmd,0,arg_len);
-       if (cmd[arg_len] != '\0')
-            check = 1;
-       cmd = cmd + arg_len + check;
+       arg_len = arg_len_counter(cmd)+ 1;
+       split[i] = ft_substr(cmd,0,arg_len); 
+       cmd += arg_len;
        while (*cmd && is_space(*cmd))
             cmd++;
         i++;
