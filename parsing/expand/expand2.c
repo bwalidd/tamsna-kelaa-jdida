@@ -19,7 +19,7 @@ char *replace_wrong_name(char *cmd, int *i)
     char    *str2;
 
     str = ft_strdup(cmd);
-    str[*i] = '\0';
+    str[*i] = 0;
     str2 = ft_substr(cmd, (*i) + 2, ft_strlen(str));
     free(cmd);
     cmd = ft_strjoin(str, str2);
@@ -28,7 +28,12 @@ char *replace_wrong_name(char *cmd, int *i)
     free(str2);
     return (cmd);
 }
-
+/*
+ echo "sisisissi"$*"dsssqwe"
+ str = "sisisissi"
+ str2 = "dsssqwe"
+ cmd = "sisisissi"""dsssqwe"
+*/
 char    *replacing(char *cmd, int *i)
 {
     char    *exit;
@@ -48,3 +53,17 @@ char    *replacing(char *cmd, int *i)
     free(str2);
     return (cmd);
 }
+
+
+/*
+echo 
+"hi my name is"$?"exit status"
+"hi my name is"90"exit status"
+*/
+
+/*
+str = "hi my name is"
+str2 = "hi my name is"0
+str = "exit status"
+cmd = "hi my name is"0"exit status"
+*/

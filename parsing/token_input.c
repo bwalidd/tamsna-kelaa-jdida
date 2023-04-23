@@ -73,6 +73,7 @@ int *tokenise_cmd(char **cmd)
     }
     if(parse_token(cmd_type))
       return (cmd_type); // to do under in exit status
+    global_exit = 2;
     free(cmd_type);
     return (0);
 }

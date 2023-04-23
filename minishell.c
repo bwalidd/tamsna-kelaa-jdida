@@ -12,6 +12,10 @@
 
 #include "minishell.h"
 
+int global_exit;
+
+
+
 int main(int ac, char **av, char **env)
 {
     char *cmd;
@@ -20,11 +24,12 @@ int main(int ac, char **av, char **env)
     if (ac > 1)
     {
         printf("Error: too many arguments\n");
-        return (1);
+        return (127);
     }
     env_list = create_env_list(env);
     prompt(env_list);
     cmd = readline("$ ");
+    global_exit = 0;
     while (cmd)
     {
         if (*cmd)
@@ -36,4 +41,5 @@ int main(int ac, char **av, char **env)
         prompt(env_list);
         cmd = readline("$ ");
     }
+    return (global_exit);
 }

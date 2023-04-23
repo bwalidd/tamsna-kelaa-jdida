@@ -12,15 +12,18 @@
 
 #include "../minishell.h"
 
-static char *remove_quoate(char *tok, int *i)
+static char *remove_quoate(char *tok, int *i,char found)
 {
 	char	*before_q;
 	char	*inside_q;
 	char	*new;
 	int		end_q;
+	char	*after_q;
 
+
+	after_q = 0;
 	end_q = *i + 1;
-	while (tok[end_q] != '\'' && tok[end_q] != '"')
+	while (tok[end_q] != found)
 		end_q++;
 	before_q = ft_substr(tok, 0, *i);
 	inside_q = ft_substr(tok, *i + 1, end_q - *i - 1);
@@ -28,24 +31,32 @@ static char *remove_quoate(char *tok, int *i)
 	free(before_q);
 	free(inside_q);
 	*i = end_q - 2;
-	before_q = ft_strjoin(new, tok + end_q + 1);
+	after_q = ft_substr(tok, end_q, 1000);
+	inside_q = ft_strjoin(new,after_q);
 	free(tok);
 	free(new);
-	tok = ft_strdup(before_q);
-	free(before_q);
+	free(after_q);
+	tok = ft_strdup(inside_q);
+	free(inside_q);
 	return (tok);
 }
-
-
-static char *delete_it(char *tok)
+/*
+ echo
+ gooo"here is my name '$HOME'"wbouwach
+ before_q = gooo
+ inside_q = here is my name '$HOME'
+ new = gooohere is my name '$HOME'
+ before_q = 
+*/
+static char *delete_it(char *tok, char found)
 {
 	int	i;
 
 	i = 0;
 	while (tok[i])
 	{
-		if(tok[i] == '\'' || tok[i] == '"')
-			tok = remove_quoate(tok,&i);
+		if(tok[i] == found)
+			tok = remove_quoate(tok,&i,found);
 		i++;
 	}
 	return (tok);
@@ -55,14 +66,17 @@ static char *delete_it(char *tok)
 void    delete_quoate(char **cmd, t_env *env)
 {
 	int i;
+	char found;
 
 	i = 0;
 	while (cmd[i])
 	{
+		found = '0';
 		if (cmd[i] && (ft_strchr(cmd[i], '"') || ft_strchr(cmd[i], '\'')))
 		{
-			cmd[i] = delete_it(cmd[i]);	
-			cmd[i] = apply_expander(cmd[i], env);
+			found = cmd[i];
+			cmd[i] = delete_it(cmd[i],found);	
+			//cmd[i] = apply_expander(cmd[i], env);
 		}
 		i++;
 	}

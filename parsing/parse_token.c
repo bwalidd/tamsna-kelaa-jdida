@@ -52,7 +52,7 @@ static int check_next_oper(int *token_arr)
 	}
 	if (flag)
 	{
-		ft_putstr_fd("syntax error in a next arg\n", 2);
+		ft_putstr_fd("minishell: syntax error: near unexpected token\n",2);
 		return (1);
 	}
 	return (0);
@@ -83,6 +83,7 @@ int parse_token(int *token_arr)
 {
 	if (check_double_pipe(token_arr) || check_next_oper(token_arr) || pipe_in_end(token_arr))
 	{
+		global_exit = 2;
 		return (0);
 	}
 	return (1);

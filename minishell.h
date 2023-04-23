@@ -32,7 +32,7 @@ typedef struct s_env
 	struct s_env *next;
 }               t_env;
 
-
+int global_exit
 
 typedef enum token
 {

@@ -32,7 +32,7 @@ static char *replace_var(char *cmd, int *i,t_env *env)
 	end_var = *i + 1;
 	while ((cmd[end_var] && (ft_isalnum(cmd[end_var]) || cmd[end_var] == '_')))
 		end_var++;
-	var_name = ft_substr(cmd, (*i) +1, end_var - (*i) - 1);
+	var_name = ft_substr(cmd, (*i) + 1, end_var - (*i) - 1);
 	find = ft_envlst_search(env, var_name);
 	str = ft_substr(cmd,0,*i);
 	if (find && find->env_value)
@@ -48,6 +48,15 @@ static char *replace_var(char *cmd, int *i,t_env *env)
 	return (cmd);
 }
 
+/*
+replace_var ex 
+echo
+"hi my home dir is"$HOME"and and "$HOME
+str = "hi my home dir is"
+str2 = "hi my home dir is"wbouwach
+str = "and and"$HOME
+cmd = "hi my home dir is"wbouwach"and and"$HOME
+*/
 
 static char *apply_expansion(char *cmd, t_env *env, int *i, int flag)
 {
@@ -56,8 +65,8 @@ static char *apply_expansion(char *cmd, t_env *env, int *i, int flag)
 		cmd = replace_var(cmd, i, env);
 		if (cmd[*i] == '$' || cmd[*i] == '"' || cmd[*i] == '\'')
 			*i -= 1;
-		/*else if (!cmd[*i])
-			*i = *i - 2;*/
+		else if (!cmd[*i])
+			*i = -2;
 	}
 	else if (cmd[*i] == '$' && flag == 0)
 	{
@@ -65,7 +74,7 @@ static char *apply_expansion(char *cmd, t_env *env, int *i, int flag)
 		if (cmd[*i] == '$' || cmd[*i] == '"' || cmd[*i] == '\'')
 			*i -= 1;
 		else if (cmd[*i] == '\0')
-			*i = *i - 2;
+			*i = -2;
 	}
 	return (cmd);
 }
@@ -88,14 +97,15 @@ char *apply_expander(char *cmd, t_env *env)
 			else if (cmd[i] == 0)
 				break ;
 		}
-		else if (cmd[i] == '$' && !flag &&
-        	((cmd[i + 1] == '"' || cmd[i + 1] == '\'' || cmd[i + 1] == '$') || !cmd[i + 1]))
+		else if (cmd[i] == '$' && flag == 0 &&
+        	(cmd[i + 1] == '"' || cmd[i + 1] == '\'' || cmd[i + 1] == '$' || !cmd[i + 1] || cmd[i + 1] == ' '))
 		{
-			// to do
+			// just printing $
 			
 		}
 		else
 			cmd = apply_expansion(cmd, env, &i,flag);
+		i++;
 	}
 	return (cmd);
 }
@@ -108,7 +118,7 @@ void    expand(char **cmd,int *token_arr,t_env *env)
 	i = 0;
 	while (cmd[i])
 	{
-		if(ft_strchr(cmd[i], '$'))
+		if (ft_strchr(cmd[i], '$'))
 			cmd[i] = apply_expander(cmd[i], env);
 		j = 0;
 		while (cmd[i][j])
@@ -123,3 +133,17 @@ void    expand(char **cmd,int *token_arr,t_env *env)
 	}
 	
 }
+/*
+echo
+
+"hi 'my name is $HOME"
+
+|
+
+wc
+
+>>
+
+file
+
+*/
