@@ -39,7 +39,7 @@ clean:
 	@make clean -C libft/
 	@rm -f $(OBJ)
 
-fclean: clean`
+fclean: clean
 	@make fclean -C libft/
 	@rm -f libft.a
 	@rm -f $(NAME)
