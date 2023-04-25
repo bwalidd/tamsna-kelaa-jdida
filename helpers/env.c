@@ -65,7 +65,7 @@ void    ft_envlst_add_back(t_env **head, t_env *new)
     while (tmp->next)
         tmp = tmp->next;
     tmp->next = new;
-    new->prv = tmp;
+    new->prev = tmp;
 }
 
 t_env   *create_env_list(char **env)

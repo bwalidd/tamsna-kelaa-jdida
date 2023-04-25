@@ -30,9 +30,10 @@ typedef struct s_env
 	char    *env_name;
 	char    *env_value;
 	struct s_env *next;
+	struct s_env *prev;
 }               t_env;
 
-int global_exit
+int global_exit;
 
 typedef enum token
 {
