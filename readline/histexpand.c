@@ -53,7 +53,7 @@
 #define HISTORY_QUOTE_CHARACTERS	"\"'`"
 #define HISTORY_EVENT_DELIMITERS	"^$*%-"
 
-#define slashify_in_quotes "\\`\"$"
+#define slashify_in_quotes "\\`\'$'
 
 #define fielddelim(c)	(whitespace(c) || (c) == '\n')
 

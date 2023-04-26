@@ -6,16 +6,16 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 13:20:55 by wbouwach          #+#    #+#             */
-/*   Updated: 2022/10/24 16:59:48 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/25 22:03:10 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, int start, int len)
 {
 	char	*p;
-	size_t	i;
+	int	i;
 
 	i = 0;
 	if (!s)

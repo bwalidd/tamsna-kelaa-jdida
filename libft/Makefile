@@ -6,7 +6,7 @@
 #    By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/26 22:37:07 by wbouwach          #+#    #+#              #
-#    Updated: 2023/03/22 18:59:14 by wbouwach         ###   ########.fr        #
+#    Updated: 2023/04/25 21:53:17 by wbouwach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ $(NAME): $(OBJ)
 	@ar -rc $(NAME) $(OBJ) 
 
 clean:
-	@$(RM) $(OBJ) $(OBJ_B)
+	@$(RM) $(OBJ)
 
 fclean: clean
 	@$(RM) $(NAME)

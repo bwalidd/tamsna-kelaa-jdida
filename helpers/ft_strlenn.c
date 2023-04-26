@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strlenn.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/06 16:55:21 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/25 21:56:29 by wbouwach         ###   ########.fr       */
+/*   Created: 2023/04/25 21:57:14 by wbouwach          #+#    #+#             */
+/*   Updated: 2023/04/25 21:57:59 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-int	ft_strlen(const char *s)
+
+int ft_strlenn(char *s)
 {
-	int	i;
+    int	i;
 
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	return (i);
+    i = 0;
+    while (s[i] != '\0')
+        i++;
+    return (i);
 }

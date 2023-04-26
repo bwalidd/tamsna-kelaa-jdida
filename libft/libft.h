@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 22:44:31 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/03/22 18:59:33 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/25 22:19:00 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <string.h>
+# include "../minishell.h"
 
 typedef struct s_list
 {
@@ -33,7 +34,7 @@ int		ft_isascii(int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_isalpha(int c);
 int		ft_isalnum(int c);
-size_t	ft_strlen(const char *s);
+int		ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t n);
 char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);
@@ -44,7 +45,7 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_strdup(const char *s1);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char	*ft_strtrim(char const *s1, char const *set);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_substr(char const *s, int start, int len);
 char	*ft_strmapi(const char *s, char (*f) (unsigned int, char));
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
@@ -58,6 +59,4 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_striteri(char *s, void (*f) (unsigned int, char *));
-
-
 #endif

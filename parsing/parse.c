@@ -6,53 +6,71 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 02:49:24 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/03/23 03:18:48 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/17 03:30:12 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int is_empty(char *line)
+static int is_empty(char *line)
 {
-    while (*line)
-    {
-        if (*line != ' ' && *line != '\t')
-            return (0);
-        line++;
-    }
-    return (1);
+	while (*line)
+	{
+		if (*line != ' ' && *line != '\t')
+			return (0);
+		line++;
+	}
+	return (1);
 }
 
-
-int is_unclosed_quotes(char *line)
+// check if is unclosed quotes
+static int is_unclosed_quotes(char *line)
 {
-    int i;
-    int single_quotes;
-    int double_quotes;
+	int i;
+    char quotes;
 
     i = 0;
-    double_quotes = 0;
-    single_quotes = 0;
     while (line[i])
     {
-        if (line[i] == '"')
-            double_quotes++;
-        else if (line[i] == '\'')
-            single_quotes++;
+        if (line[i] == '\'' || line[i] == '\"')
+        {
+            quotes = line[i];
+            i++;
+            while (line[i] && line[i] != quotes)
+            {
+                i++;
+                if (line[i] == quotes)
+                {
+                    quotes = '0';
+                    break;
+                }
+                
+            }
+        }
         i++;
     }
-    if (single_quotes % 2 != 0 || double_quotes % 2 != 0)
+    if (quotes != '0')
     {
-        printf("Error: unclosed quotes\n");
+        ft_putstr_fd("minishell: unclosed quotes\n", 2);
         return (1);
     }
     return (0);
 }
+// echo "hell'o" | wc
 
 int parse(char *line)
 {
-    if (!line || !*line)
+	if (!line || !*line)
+        global_exit = 2;
+    if (check_oper('|', line, 1) || check_oper('<', line, 2) || check_oper('>', line, 2))
+        global_exit = 2;
+    if (check_oper_in_last(line, '|') || check_oper_in_last(line, '<') || check_oper_in_last(line, '>'))
+		global_exit = 2;
+    if (check_chars(line,"\\;&") || check_pipe(line))
+        global_exit = 2;
+	if (is_empty(line) || is_unclosed_quotes(line))
+		global_exit = 2;
+    if (global_exit == 2)
         return (0);
-    if (!is_empty(line) || is_unclosed_quotes(line) || )
-        //return (0);
+	return (1);    
 }

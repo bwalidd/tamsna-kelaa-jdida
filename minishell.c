@@ -6,11 +6,15 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/03/23 02:52:21 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/07 02:43:10 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int global_exit;
+
+
 
 int main(int ac, char **av, char **env)
 {
@@ -20,18 +24,22 @@ int main(int ac, char **av, char **env)
     if (ac > 1)
     {
         printf("Error: too many arguments\n");
-        return (1);
+        return (127);
     }
     env_list = create_env_list(env);
     prompt(env_list);
     cmd = readline("$ ");
+    global_exit = 0;
     while (cmd)
     {
         if (*cmd)
             add_history(cmd);
-        if (ft_strncmp(cmd, "exit", 4) == 0)
-            exit(0);
-        if (parse(line))
-            
+        if (parse(cmd))
+        {
+            // exec
+        }
+        prompt(env_list);
+        cmd = readline("$ ");
     }
+    return (global_exit);
 }
