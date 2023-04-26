@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 02:49:24 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/26 14:45:27 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/26 17:17:54 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,40 +24,37 @@ static int is_empty(char *line)
 }
 
 // check if is unclosed quotes
+static int check_outside(int nbr)
+{
+   if(nbr % 2 == 0)
+        return (0);
+    return (1);
+}
+
 static int is_unclosed_quotes(char *line)
 {
+    int double_count;
+    int single_count;
     int i;
-    char quotes;
 
+    double_count = 0;
+    single_count = 0;
     i = 0;
-    if (!ft_strchr(line, '\'') && !ft_strchr(line, '\"'))
-        return (0);
     while (line[i])
     {
-        quotes = 'x';
-        if (line[i] == '\'' || line[i] == '\"')
-        {
-            quotes = line[i];
-            i++;
-            while (line[i])
-            {
-                if (line[i] == quotes)
-                {
-                    quotes = '0';
-                    break;
-                }
-                i++;
-            }
-        }
+        if (line[i] == '\"')
+                if (check_outside(single_count) == 0)
+                    double_count++;
+        if (line[i] == '\'')
+            if (check_outside(double_count) == 0)
+                    single_count++;
         i++;
     }
-    if (quotes != '0')
-    {
-        ft_putstr_fd("minishell: unclosed quotes\n", 2);
+    if (double_count % 2 != 0 || single_count % 2 != 0)
         return (1);
-    }
     return (0);
 }
+
 // echo "hell'o" | wc
 
 int parse(char *line)

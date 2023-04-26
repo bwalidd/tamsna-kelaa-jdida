@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/26 12:47:23 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:43:53 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int main(int ac, char **av, char **env)
             add_history(cmd);
         if (parse(cmd))
         {
-            printf("good syntax\n");
+            printf("%s\n", parse_operator(cmd));
         }
        // prompt(env_list);
        free(cmd);

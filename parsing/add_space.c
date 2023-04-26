@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:20 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/25 21:59:47 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/26 17:31:38 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ char    *parse_operator(char *line)
 	i = 0;
 	flag = 0;
 	cmd = ft_strdup(line);
-	free (line);
 	while (cmd[i])
 	{
 		quoate_flag(&flag, cmd[i]);

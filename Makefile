@@ -1,10 +1,10 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 READLINE = -lreadline -L ./readline -I ./readline -lcurses
 
 .c.o:
-	@$(CC) $(CFLAGS) -c $< -o $@  #-fsanitize=address
+	@$(CC) $(CFLAGS) -c $< -o $@ 
 
 SRC = minishell \
 		helpers/env \
