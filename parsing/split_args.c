@@ -6,14 +6,11 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:35 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/07 23:11:02 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/26 20:56:02 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-
-
 
 
 static int arg_len_counter(char *cmd)
@@ -34,20 +31,7 @@ static int arg_len_counter(char *cmd)
     return (i);
 }
 
-/*
-https://www.tldraw.com/r/v2_c_rs2yde5VWi2265g07p8Vd
-https://www.tldraw.com/r/v2_c_rs2yde5VWi2265g07p8Vd
-*/
 
-/*
- cat
-makefile
- |
- wc 
- -l 
- >> 
- file 
- */
 static int count_args(char *cmd)
 {
     int i;
@@ -90,8 +74,8 @@ char    **args_split(char *cmd)
     i = 0;
     while (i < nb_args)
     {
-       arg_len = arg_len_counter(cmd)+ 1;
-       split[i] = ft_substr(cmd,0,arg_len); 
+       arg_len = arg_len_counter(cmd) + 1;
+       split[i] = ft_substr(cmd, 0, arg_len); 
        cmd += arg_len;
        while (*cmd && is_space(*cmd))
             cmd++;
