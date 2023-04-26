@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:52:59 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/15 00:09:50 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/26 11:33:21 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int check_oper(char c, char *line, int nb)
 		}
 		if(!line[i])
 			break;
+		i++;
 	}
 	return (0);
 }

@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror
 READLINE = -lreadline -L ./readline -I ./readline -lcurses
 
 .c.o:
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@  #-fsanitize=address
 
 SRC = minishell \
 		helpers/env \
