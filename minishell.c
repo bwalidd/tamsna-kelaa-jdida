@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/27 17:57:41 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/27 17:58:47 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int main(int ac, char **av, char **env)
                 printf("%s === %d\n", s[i], t[i]);
                 i++;
             }
-            
+            //wgiuuggie
         }
        // prompt(env_list);
        free(cmd);
