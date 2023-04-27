@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/27 04:06:52 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/04/27 14:27:10 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int main(int ac, char **av, char **env)
         {
             int i = 0;
             printf("%s\n", parse_operator(cmd));
-            free(cmd);
+            //free(cmd);
             cmd = parse_operator(cmd);
             char **s = args_split(cmd);
             int *t = tokenise_cmd(s);

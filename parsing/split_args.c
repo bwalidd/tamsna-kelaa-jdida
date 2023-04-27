@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:35 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/26 20:56:02 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/27 14:27:36 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static int count_args(char *cmd)
     {
         if (cmd[i] == '\'' || cmd[i] == '\"')
             quoate_flag(&flag,cmd[i]);
-        i++;
         if (is_space(cmd[i]) && flag == 0)
         {
             while (cmd[i] && is_space(cmd[i]))
@@ -53,6 +52,7 @@ static int count_args(char *cmd)
             if (cmd[i])
                 count++;
         }
+        i++;
     }
     return (count + (flag == 0));
     //echo "'hello' there" == 2
@@ -74,8 +74,8 @@ char    **args_split(char *cmd)
     i = 0;
     while (i < nb_args)
     {
-       arg_len = arg_len_counter(cmd) + 1;
-       split[i] = ft_substr(cmd, 0, arg_len); 
+       arg_len = arg_len_counter(cmd);
+       split[i] = ft_substr(cmd, 0, arg_len);
        cmd += arg_len;
        while (*cmd && is_space(*cmd))
             cmd++;

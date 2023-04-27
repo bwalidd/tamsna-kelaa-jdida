@@ -121,7 +121,7 @@ char    **args_split(char *cmd)
     i = 0;
     while (i < nb_args)
     {
-       arg_len = arg_len_counter(cmd) + 1;
+       arg_len = arg_len_counter(cmd);
        split[i] = ft_substr(cmd, 0, arg_len); 
        cmd += arg_len;
        while (*cmd && is_space(*cmd))
@@ -133,7 +133,7 @@ char    **args_split(char *cmd)
 
 
 int main() {
-  char *cmd = "echo 'hello' there my     name is 'mohamed'";
+  char *cmd = "echo 'hello' there my     name is";
     char **s = args_split(cmd);
     int i = 0;
     while(s && s[i]){
