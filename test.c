@@ -133,7 +133,7 @@ char    **args_split(char *cmd)
 
 
 int main() {
-  char *cmd = "echo 'hello' there my     name is";
+  char *cmd = "cat | ls >> file echo                'fvniubeiru'bie vuyyvuy";
     char **s = args_split(cmd);
     int i = 0;
     while(s && s[i]){

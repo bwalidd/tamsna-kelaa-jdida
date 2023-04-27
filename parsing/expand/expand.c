@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:12 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/25 21:59:08 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/27 17:11:56 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,12 @@ char *apply_expander(char *cmd, t_env *env)
 			else if (cmd[i] == 0)
 				break ;
 		}
-		else if (cmd[i] == '$' && flag == 0 &&
-        	(cmd[i + 1] == '"' || cmd[i + 1] == '\'' || cmd[i + 1] == '$' || !cmd[i + 1] || cmd[i + 1] == ' '))
-		{
-			// just printing $
+		// else if (cmd[i] == '$' && flag == 0 &&
+        // 	(cmd[i + 1] == '"' || cmd[i + 1] == '\'' || cmd[i + 1] == '$' || !cmd[i + 1] || cmd[i + 1] == ' '))
+		// {
+		// 	// just printing $
 			
-		}
+		// }
 		else
 			cmd = apply_expansion(cmd, env, &i,flag);
 		i++;
