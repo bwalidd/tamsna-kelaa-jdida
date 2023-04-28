@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/04/28 15:16:32 by oel-houm         ###   ########.fr       */
+=======
+/*   Updated: 2023/04/27 17:58:47 by wbouwach         ###   ########.fr       */
+>>>>>>> 06dea568cd8f3cf4eb7dfa051c3e5c6b13304899
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +38,7 @@ int main(int ac, char **av, char **env)
             add_history(cmd);
         if (parse(cmd))
         {
+<<<<<<< HEAD
             //int i = 0;
             printf("%s\n", parse_operator(cmd));
             free(cmd);
@@ -46,6 +51,20 @@ int main(int ac, char **av, char **env)
                // i++;
             //}
             
+=======
+            int i = 0;
+            printf("%s\n", cmd);
+            
+            cmd = parse_operator(cmd);
+            char **s = args_split(cmd);
+            int *t = tokenise_cmd(s);
+            while (s[i] && t[i])
+            {
+                printf("%s === %d\n", s[i], t[i]);
+                i++;
+            }
+            //wgiuuggie
+>>>>>>> 06dea568cd8f3cf4eb7dfa051c3e5c6b13304899
         }
        // prompt(env_list);
        free(cmd);
