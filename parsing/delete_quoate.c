@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delete_quoate.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:23 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/29 12:44:38 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/29 17:52:52 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,5 @@ void    delete_quoate(char **cmd)
 		// printf("--------------------\n");
 		i++;
 	}
+	//printf("delete_qouate === %s\n", cmd[1]);
 }

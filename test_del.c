@@ -189,7 +189,7 @@ void    delete_quoate(char **cmd)
 }
 
 int main(){
-char *s = "echo  \"'\"\"'\"hello\"'\"\"'\" hhhhhhh";
+char *s = "echo  echo  \"\"'vreuygggier'\"\" hhhhhhh";
 char **cmd = ft_split(s, ' ');
    delete_quoate(cmd);
     //int i = 0;
