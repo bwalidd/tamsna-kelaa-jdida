@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/29 14:59:37 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/04/29 17:22:02 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,37 +135,74 @@ void	pwd_cmd(char **line)
  }
  */
 
- void   echo_cmd(char **line, int *t) // echo -n "omar el houmaadi" "salam www''haha" '485'
- {
+
+int     check_n_sequence(char *str)
+{
+    int i;
+
+    i = 0;
+    if (str[i] != '-')
+        return (0);
+    i++;
+    while (str[i])
+    {
+        if (str[i] != 'n')
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
+void   echo_cmd(char **line, int *t)
+{
+    // echo -n "omar el houmaadi" "salam www''haha" '485'
+    // echo   "omarrelhoumadi" -n "abc''123" 'xyz'
+    // echo -n   "omarrelhoumadi" -n "abc''123" 'xyz'
+    // -n   -nnnn     dsfjsdjfjsdf -n
+    //     echo -nnn=mar el houmadi
+    //     echo -nnn =mar el houmadi
+    // first loop on them all, and check if there is a parameter arg after cmd[1]
     int i;
     int j;
     int jlen;
+    int flag_n;
 
     i = 0;
+    flag_n = 0;
     while (line[i])
     {
         if (t[i] == 2)
         {
             j = 0;
             jlen = ft_strlen(line[i]) - 1;
-            //while (line[i])
-            //{
-                // -n   -nnnn     dsfjsdjfjsdf -n
-            if (line[i][j] == '-') 
-                //
+            if ((ft_strncmp(line[i], "-n", 2) == 0 && i == 1) || (check_n_sequence(line[i]) == 1 && i == 1))
+            {
+                if (check_n_sequence(line[i]) == 0)
+                {
+                    int j;
+
+                    j = 0;
+                    while (line[i][j])
+                    {
+                        write(1, &line[i][j], 1);
+                        j++;
+                    }
+                    flag_n = 0;
+                }
+                else
+                    flag_n = 1;
+            }
             else if (line[i][j] == '"' && line[i][jlen] == '"')
             {
-                //write(1, "(1) ", 4);
                 j = 1;
                  while (j < jlen)
                 {
                     write(1, &line[i][j], 1);
                     j++;
                 }
-            } 
+            }
             else if (line[i][j] == '\'' && line[i][jlen] == '\'')
             {
-                //write(1, "(2) ", 4);
                 j = 1;
                 while (j < jlen)
                 {
@@ -175,7 +212,6 @@ void	pwd_cmd(char **line)
             }
             else
             {
-                //write(1, "(3) ", 4);
                 j = 0;
                 while (j < jlen + 1)
                 {
@@ -183,12 +219,15 @@ void	pwd_cmd(char **line)
                     j++;
                 }
             }
-            write(1, " ", 1);
-            //}
+            if (line[i + 1] != NULL && !(i == 1 && flag_n == 1))
+            {
+                write(1, " ", 1);
+            }
         }
         i++;
     }
-    write(1, "\n", 1);
+    if (flag_n == 0)
+        write(1, "\n", 1);
  }
 
 void    parse_cmd(char **cmd, int *tokenised_cmd) //,token
@@ -210,10 +249,10 @@ void    parse_cmd(char **cmd, int *tokenised_cmd) //,token
     }
     else if (ft_strncmp(cmd[0], "echo", 4) == 0 && !cmd[0][4])
     {
+        //delete_quoate(cmd);
         echo_cmd(cmd, tokenised_cmd);
     }
 }
-
 
 int main(int ac, char **av, char **env)
 {
