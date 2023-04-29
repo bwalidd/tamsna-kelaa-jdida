@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/28 17:50:53 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/04/29 14:59:37 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,7 @@ static int	number_of_args(char **args)
 
 	count = 0;
 	while (args[count] != NULL)
-	{
-		//printf("args[%d]: %s\n", count, args[count]);
 		count++;
-	}
-	//printf("count:%d\n", count);
 	return (--count);
 }
 
@@ -99,16 +95,103 @@ void	pwd_cmd(char **line)
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		perror("getcwd"); //manage the error
-	//ft_putstr_fd(cwd, 1);
 	ft_putendl_fd(cwd, 1);
 	free(cwd);
 }
 
+/*
+ void   echo_cmd(char **line, int *t) // echo -n "omar el houmaadi" "salam www''haha" '485'
+ {
+    int i;
+    int j;
+    int jlen;
 
+    i = 0;
+    while (line[i])
+    {
+        if (t[i] == 2)
+        {
+            j = 0;
+            jlen = ft_strlen(line[i]) - 1;
+            //printf("%s = %d\n", line[i], jlen);
+            while (line[i][j] && i < jlen)
+            {
+                if (((j == 0 && line[i][j] == '"') || (j == jlen && line[i][j] == '"'))) // ((j == 0 && line[i][j] == '\'') || (j == jlen && line[i][j] == '\'')))
+                    j++;
+                else if ((j == 0 && line[i][j] == '\'') || (j == jlen && line[i][j] == '\''))
+                    j++;
+                else
+                {
+                    write(1, &line[i][j], 1);
+                    j++;
+                }
+            }
+            write(1, " ", 1);
+        }
+        //printf("%s == %d\n", line[i], t[i]);
+        i++;
+    }
+    write(1, "\n", 1);
+ }
+ */
 
+ void   echo_cmd(char **line, int *t) // echo -n "omar el houmaadi" "salam www''haha" '485'
+ {
+    int i;
+    int j;
+    int jlen;
 
-// fix exit == 1
-void    parse_cmd(char **cmd) //,token
+    i = 0;
+    while (line[i])
+    {
+        if (t[i] == 2)
+        {
+            j = 0;
+            jlen = ft_strlen(line[i]) - 1;
+            //while (line[i])
+            //{
+                // -n   -nnnn     dsfjsdjfjsdf -n
+            if (line[i][j] == '-') 
+                //
+            else if (line[i][j] == '"' && line[i][jlen] == '"')
+            {
+                //write(1, "(1) ", 4);
+                j = 1;
+                 while (j < jlen)
+                {
+                    write(1, &line[i][j], 1);
+                    j++;
+                }
+            } 
+            else if (line[i][j] == '\'' && line[i][jlen] == '\'')
+            {
+                //write(1, "(2) ", 4);
+                j = 1;
+                while (j < jlen)
+                {
+                    write(1, &line[i][j], 1);
+                    j++;
+                }
+            }
+            else
+            {
+                //write(1, "(3) ", 4);
+                j = 0;
+                while (j < jlen + 1)
+                {
+                    write(1, &line[i][j], 1);
+                    j++;
+                }
+            }
+            write(1, " ", 1);
+            //}
+        }
+        i++;
+    }
+    write(1, "\n", 1);
+ }
+
+void    parse_cmd(char **cmd, int *tokenised_cmd) //,token
 {
     if (ft_strncmp(cmd[0], "exit", 4) == 0 && !cmd[0][4])
     {
@@ -124,6 +207,10 @@ void    parse_cmd(char **cmd) //,token
     else if (ft_strncmp(cmd[0], "pwd" , 3) == 0 && !cmd[0][3])
     {
         pwd_cmd(cmd);
+    }
+    else if (ft_strncmp(cmd[0], "echo", 4) == 0 && !cmd[0][4])
+    {
+        echo_cmd(cmd, tokenised_cmd);
     }
 }
 
@@ -153,7 +240,7 @@ int main(int ac, char **av, char **env)
             //free(cmd);
             cmd = parse_operator(cmd);
             char **s = args_split(cmd);
-            //int *t = tokenise_cmd(s);
+            int *t = tokenise_cmd(s);
             // split cmd between pipes
            // while(s && s[i])
             //{
@@ -165,7 +252,7 @@ int main(int ac, char **av, char **env)
                  //   printf("%s\n", s[j]);
                   //  j++;
                // }
-               parse_cmd(s);
+               parse_cmd(s, t);
                i++;
             //}
         }
