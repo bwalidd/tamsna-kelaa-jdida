@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 02:49:24 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/26 17:17:54 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/04/29 12:41:56 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ static int is_unclosed_quotes(char *line)
         i++;
     }
     if (double_count % 2 != 0 || single_count % 2 != 0)
+	{
+		ft_putstr_fd("minishell: unclosed quotes\n", 2);
         return (1);
+	}
     return (0);
 }
 
