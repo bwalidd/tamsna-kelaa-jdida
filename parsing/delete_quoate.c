@@ -3,89 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   delete_quoate.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:23 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/29 17:52:52 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/04/30 15:14:21 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char *remove_quoate(char *tok, int *i,char found)
+static char	*apply_delete(char *tok, int *i)
 {
-	char	*before_q;
-	char	*inside_q;
-	char	*new;
-	int		end_q;
-	char	*after_q;
+	char	*tmp[2];
+	char	*new_tok;
+	char	quote;
+	int		j;
 
-	//after_q = 0;
-	end_q = *i + 1;
-	while (tok[end_q] != found)
-		end_q++;
-	//printf("start_quote = %d\n",*i);
-	//printf("end_q = %d\n",end_q);
-	before_q = ft_substr(tok, 0, *i);
-	//printf("before_q = %s\n",before_q);
-	inside_q = ft_substr(tok, *i + 1, end_q - *i - 1);
-	//printf("inside_q = %s\n",inside_q);
-	new = ft_strjoin(before_q, inside_q);
-	//printf("new = %s\n",new);
-	free(before_q);
-	free(inside_q);
-	after_q = ft_substr(tok, end_q + 1, 1000);
-	//printf("after_q = %s\n",after_q);
-	free(tok);
-	tok = ft_strjoin(new,after_q);
-	free(new);
-	free(after_q);
+	quote = tok[*i];
+	j = *i + 1;
+	while (tok[j] != quote)
+		j++;
+	tmp[0] = ft_substr(tok, 0, *i);
+	tmp[1] = ft_substr(tok, *i + 1, j - *i - 1);
+	new_tok = ft_strjoin(tmp[0], tmp[1]);
+	free (tmp[0]);
+	free (tmp[1]);
+	*i = j - 2;
+	tmp[0] = ft_strjoin(new_tok, tok + j + 1);
+	free (tok);
+	free (new_tok);
+	tok = ft_strdup(tmp[0]);
+	free (tmp[0]);
+	return (tok);
+}
+/*
+echo
+
+-n"haahah hhaaha hajaoai"
+
+*/
+static char	*delete_quoate_tok(char *tok)
+{
+	int		i;
+
+	i = 0;
+	while (tok[i])
+	{
+		if (tok[i] == '\'' || tok[i] == '"')
+			tok = apply_delete(tok, &i);
+		i++;
+	}
 	return (tok);
 }
 
-static char *delete_it(char *tok, char found)
+void	delete_quoate(char **cmd)
 {
 	int	i;
 
 	i = 0;
-	// printf("tok = %s\n",tok);
-	while (tok[i])
-	{
-		if(tok[i] == found)
-			tok = remove_quoate(tok,&i,found);
-		i++;
-	}
-	return (tok);
-}
-
-
-
-void    delete_quoate(char **cmd)
-{
-	int i;
-	char found;
-	int j;
-
-	i = 0;
 	while (cmd[i])
 	{
-		if (ft_strchr(cmd[i], '"') || ft_strchr(cmd[i], '\''))
-		{
-            j = 0;
-			while(cmd[i][j])
-			{
-				if(cmd[i][j] == '\'' || cmd[i][j] == '"')
-				{
-					found = cmd[i][j];
-					break;
-				}
-				j++;
-			}
-			cmd[i] = delete_it(cmd[i],found);
-		}
-		// printf("cmd[i] = %s\n",cmd[i]);
-		// printf("--------------------\n");
+		if ((cmd[i] && ft_strchr(cmd[i], '\'')) || (cmd[i] && ft_strchr(cmd[i], '"')))
+			cmd[i] = delete_quoate_tok(cmd[i]);
 		i++;
 	}
-	//printf("delete_qouate === %s\n", cmd[1]);
 }
