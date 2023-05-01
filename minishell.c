@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/01 18:41:09 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/01 21:43:23 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,30 @@ int find_env(char *env, t_env *env_list)
         env_list = env_list->next;
     }
     return (0);
+}
+
+void    set_env(char *env_name, char *env_value, t_env *env_list) // new_env_value 
+{
+    //size_t  i;
+    int     env_len;
+    //char    *tmp;
+    //char    *new;
+    
+    if (!env_name || !env_value)
+        return ;
+    env_len = ft_strlen(env_name);
+    if (find_env(env_name, env_list) > 0) // remove this condition #EXPORT_FIX
+    {
+        while (env_list->env_name)
+        {
+            if (ft_strncmp(env_list->env_name, env_name, env_len) == 0)
+            {
+                //free(env_list->env_value);
+                //env_list->env_value = env_value;
+            }
+            env_list = env_list->next;
+        }
+    }
 }
 
 
@@ -264,7 +288,6 @@ void    env_cmd(char **cmd, t_env *env_list)
     }
 }
 
-
 void    cd_cmd(char **cmd, t_env *env_list)
 {
     //if (**char args && args[1] && args[2])
@@ -272,42 +295,49 @@ void    cd_cmd(char **cmd, t_env *env_list)
     int     ret;
     char    *path;
     char    *pwd;
-
-    printf("d=%d\n", find_env(cmd[1], env_list));
+    //printf("d=%d\n", find_env(cmd[1], env_list));
 
     // cd ./project313/42network
     // add in $OLDPWD and $PWD
     pwd = getcwd(NULL, 0);
     path = ft_strdup(cmd[1]);
-    ret = chdir(path);
-    if (ret == -1) // if chdir() returns -1, it means that the directory could not be changed.
-        perror("chdir"); // using perror to print the error message to the console.
+    if (cmd[0] && !cmd[1])
+    {
+        write(1, "begin\n", 1);
+        ret = chdir("/Users/oel-houm");
+        write(1, "finish\n", 1);
+    }
     else
+        ret = chdir(path);
+    (void)env_list;
+    if (ret == -1) // if chdir() returns -1, it means that the directory could not be changed.
+        perror("chdir error"); // using perror to print the error message to the console.
+    /* else
     {
         // update the PWD environment variable with the new directory path using the setenv()
         // we have also update the OLDPWD environment variable with the previous directory path.
         if (pwd)
         {
-            // set_env("OLDPWD", pwd);
+            //set_env("OLDPWD", pwd, env_list);
             free(pwd);
         }
         if ((pwd = getcwd(NULL, 0)))
         {
-            // set_env("PWD", pwd);
+            //set_env("PWD", pwd, env_list);
             free(pwd);
         }
         //printf("PWD=%s\n", get_env_value("PWD"));
         //printf("OLDPWD=%s\n", get_env_value("OLDPWD"));
-        /*
+        
         ft_putstr_fd("PWD=", 1);
-        ft_putstr_fd(, 1);
+        ft_putstr_fd(" ", 1);
         ft_putstr_fd("\n", 1);
         ft_putstr_fd("OLDPWD=", 1);
-        ft_putstr_fd(, 1);
+        ft_putstr_fd(" ", 1);
         ft_putstr_fd("\n", 1);
-        */
+        
     }
-    return ;
+    return ; */
     // free(pwd);
     
 
