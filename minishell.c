@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/01 21:43:23 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/01 23:25:54 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,24 +295,27 @@ void    cd_cmd(char **cmd, t_env *env_list)
     int     ret;
     char    *path;
     char    *pwd;
-    //printf("d=%d\n", find_env(cmd[1], env_list));
+    // printf("d=%d\n", find_env(cmd[1], env_list));
 
     // cd ./project313/42network
     // add in $OLDPWD and $PWD
     pwd = getcwd(NULL, 0);
-    path = ft_strdup(cmd[1]);
+    ret = 0;
     if (cmd[0] && !cmd[1])
     {
-        write(1, "begin\n", 1);
+        write(1, "begin\n", 6);
         ret = chdir("/Users/oel-houm");
-        write(1, "finish\n", 1);
+        write(1, "finish\n", 6);
     }
     else
+    {
+        path = ft_strdup(cmd[1]);
         ret = chdir(path);
+    }
     (void)env_list;
     if (ret == -1) // if chdir() returns -1, it means that the directory could not be changed.
         perror("chdir error"); // using perror to print the error message to the console.
-    /* else
+    else
     {
         // update the PWD environment variable with the new directory path using the setenv()
         // we have also update the OLDPWD environment variable with the previous directory path.
@@ -337,7 +340,7 @@ void    cd_cmd(char **cmd, t_env *env_list)
         ft_putstr_fd("\n", 1);
         
     }
-    return ; */
+    return ;
     // free(pwd);
     
 
