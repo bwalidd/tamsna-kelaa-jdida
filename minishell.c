@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/29 20:11:58 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/01 18:41:09 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,27 @@
 int global_exit;
 
 
+int find_env(char *env, t_env *env_list)
+{
+    size_t  i;
+    int     len;
 
+    len = ft_strlen(env);
+    i = 1;
+    while (env_list != NULL)
+    {
+        if (ft_strncmp(env_list->env_name, env, len) == 0)
+        {
+            if (ft_strncmp(&env_list->env_name[len + 1], "=", 0) == 0)
+                return (i);
+            i++;
+        }
+        else
+            i++;
+        env_list = env_list->next;
+    }
+    return (0);
+}
 
 
 static int	number_of_args(char **args)
@@ -155,13 +175,6 @@ int     check_n_sequence(char *str)
 
 void   echo_cmd(char **line, int *t)
 {
-    // echo -n "omar el houmaadi" "salam www''haha" '485'
-    // echo   "omarrelhoumadi" -n "abc''123" 'xyz'
-    // echo -n   "omarrelhoumadi" -n "abc''123" 'xyz'
-    // -n   -nnnn     dsfjsdjfjsdf -n
-    //     echo -nnn=mar el houmadi
-    //     echo -nnn =mar el houmadi
-    // first loop on them all, and check if there is a parameter arg after cmd[1]
     int i;
     int j;
     int jlen;
@@ -215,7 +228,6 @@ void   echo_cmd(char **line, int *t)
             }*/
             else
             {
-                //printf("hahahahaha\n");
                 flag_ = 1;
                 j = 0;
                 while (j < jlen + 1)
@@ -236,20 +248,77 @@ void   echo_cmd(char **line, int *t)
     }
     if (flag_n == 0)
         write(1, "\n", 1);
-    //   echo "'""'"hello"'""'"
-    //  echo -n -n -n-n-n bhhbfbfh
-    //  echo -n -n -n -n -nnnnnnnn bhhbfbfh
-    //  echo $PATH
-    // echo omar ""    doesnt works
-    //echo -n -n n -nnnnnn hello world
-    //echo yu -nnnn=hahaha yasalam
     // remove the flag_ #FIX
  }
 
-void    parse_cmd(char **cmd, int *tokenised_cmd) //,token
+void    env_cmd(char **cmd, t_env *env_list)
+{
+    (void)cmd;
+    while (env_list != NULL)
+    {
+        ft_putstr_fd(env_list->env_name, 1);
+        ft_putstr_fd("=", 1);
+        ft_putstr_fd(env_list->env_value, 1);
+        ft_putstr_fd("\n", 1);
+        env_list = env_list->next;
+    }
+}
+
+
+void    cd_cmd(char **cmd, t_env *env_list)
+{
+    //if (**char args && args[1] && args[2])
+    // then print "error: too many arguments" + exit(1)
+    int     ret;
+    char    *path;
+    char    *pwd;
+
+    printf("d=%d\n", find_env(cmd[1], env_list));
+
+    // cd ./project313/42network
+    // add in $OLDPWD and $PWD
+    pwd = getcwd(NULL, 0);
+    path = ft_strdup(cmd[1]);
+    ret = chdir(path);
+    if (ret == -1) // if chdir() returns -1, it means that the directory could not be changed.
+        perror("chdir"); // using perror to print the error message to the console.
+    else
+    {
+        // update the PWD environment variable with the new directory path using the setenv()
+        // we have also update the OLDPWD environment variable with the previous directory path.
+        if (pwd)
+        {
+            // set_env("OLDPWD", pwd);
+            free(pwd);
+        }
+        if ((pwd = getcwd(NULL, 0)))
+        {
+            // set_env("PWD", pwd);
+            free(pwd);
+        }
+        //printf("PWD=%s\n", get_env_value("PWD"));
+        //printf("OLDPWD=%s\n", get_env_value("OLDPWD"));
+        /*
+        ft_putstr_fd("PWD=", 1);
+        ft_putstr_fd(, 1);
+        ft_putstr_fd("\n", 1);
+        ft_putstr_fd("OLDPWD=", 1);
+        ft_putstr_fd(, 1);
+        ft_putstr_fd("\n", 1);
+        */
+    }
+    return ;
+    // free(pwd);
+    
+
+    // printf("ret=%d\n", ret);
+}
+
+void    parse_cmd(char **cmd, int *tokenised_cmd, t_env *env_list) //,token
 {
     if (ft_strncmp(cmd[0], "exit", 4) == 0 && !cmd[0][4])
     {
+        (void)env_list;
         exit_cmd(cmd);
         int i = 0;
         while (cmd[i])
@@ -261,17 +330,31 @@ void    parse_cmd(char **cmd, int *tokenised_cmd) //,token
     }
     else if (ft_strncmp(cmd[0], "pwd" , 3) == 0 && !cmd[0][3])
     {
+        (void)env_list;
         pwd_cmd(cmd);
     }
     else if (ft_strncmp(cmd[0], "echo", 4) == 0 && !cmd[0][4])
     {
+        (void)env_list;
         delete_quoate(cmd);
         echo_cmd(cmd, tokenised_cmd);
+    }
+    else if (ft_strncmp(cmd[0], "env", 3) == 0 && !cmd[0][3])
+    {
+        env_cmd(cmd, env_list);
+    }
+    else if (ft_strncmp(cmd[0], "cd", 2) == 0 && !cmd[0][2])
+    {
+        cd_cmd(cmd, env_list);
     }
 }
 
 int main(int ac, char **av, char **env)
 {
+    // cd with only a relative or absolute path
+    // export with no options
+    // unset with no option
+    // exit with no options
     char *cmd;
     t_env *env_list;
     (void)av;
@@ -307,7 +390,7 @@ int main(int ac, char **av, char **env)
                  //   printf("%s\n", s[j]);
                   //  j++;
                // }
-               parse_cmd(s, t);
+               parse_cmd(s, t, env_list);
                i++;
             //}
         }
