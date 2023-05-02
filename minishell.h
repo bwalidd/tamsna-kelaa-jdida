@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 21:59:40 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/02 16:40:40 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/02 19:59:05 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@
 
 typedef struct s_env
 {
-	char    *env_name;
-	char    *env_value;
-	struct s_env *next;
-	struct s_env *prev;
+	char    		*env_name;
+	char    		*env_value;
+	int				unset;
+	struct s_env 	*next;
+	struct s_env 	*prev;
 }               t_env;
 
 extern int global_exit;
