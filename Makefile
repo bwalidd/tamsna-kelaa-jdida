@@ -1,7 +1,9 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
-READLINE = -lreadline -L ./readline -I ./readline -lcurses
+//READLINE = -lreadline -L ./readline -I ./readline -lcurses
+READLINE = -L /usr/lib/x86_64-linux-gnu -lreadline -lncurses
+LDLIBS = -lreadline -lncurses
 
 .c.o:
 	@$(CC) $(CFLAGS) -c $< -o $@ 
@@ -30,17 +32,17 @@ OBJ = $(SRC:=.o)
 all: $(NAME) 
 
 $(NAME): $(OBJ)
-	@make -C libft/
+	@make -s -C libft/
 	@mv libft/libft.a .
 	@$(CC) $(CFLAGS) $(READLINE) $(OBJ) -o $(NAME) libft.a
 	@echo "\033[3;32mminishell is ready\033[0m"
 
 clean:
-	@make clean -C libft/
+	@make -s clean -C libft/
 	@rm -f $(OBJ)
 
 fclean: clean
-	@make fclean -C libft/
+	@make -s fclean -C libft/
 	@rm -f libft.a
 	@rm -f $(NAME)
 

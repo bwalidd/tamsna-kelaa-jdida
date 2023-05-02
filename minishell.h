@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 21:59:40 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/04/27 00:37:39 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:40:40 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include "libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+//# include "/usr/include/readline/readline.h"
+//# include "/usr/include/readline/history.h"
+
 
 
 typedef struct s_env
@@ -33,7 +36,7 @@ typedef struct s_env
 	struct s_env *prev;
 }               t_env;
 
-int global_exit;
+extern int global_exit;
 
 typedef enum token
 {

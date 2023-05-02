@@ -1,1 +1,3 @@
 obsfuction
+https://github.com/rizky/42-corrections/blob/master/minishell.pdf
+fclean & clean

@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 23:05:16 by wbouwach          #+#    #+#             */
-/*   Updated: 2022/10/27 16:02:51 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/05/02 13:39:00 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ static int	word_count(const char *str, char c)
 
 static int	word_len(const char *s, char c)
 {
-	int	i;
+	//int	i;
 	int	count;
 
-	i = 0;
+	//i = 0;
 	count = 0;
 	while (*s != c && *s)
 	{
