@@ -6,19 +6,32 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/05/02 16:34:53 by oel-houm         ###   ########.fr       */
-=======
-/*   Updated: 2023/05/02 13:56:48 by oel-houm         ###   ########.fr       */
->>>>>>> 865e576d4381e79466ccc813e983712ee050c11e
+/*   Updated: 2023/05/02 18:38:27 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
 int global_exit;
 
+char    *get_env_value(char *env_var, t_env *env_list)
+{
+    int env_len;
+
+    if (!env_var)
+        return (NULL);
+    env_len = ft_strlen(env_var);
+    while (env_list->env_name)
+    {
+        if (ft_strncmp(env_list->env_name, env_var, env_len) == 0)
+        {
+            return (env_list->env_value);
+            break ;
+        }
+        env_list = env_list->next;
+    }
+    return (NULL);
+}
 
 int find_env(char *env, t_env *env_list)
 {
@@ -42,10 +55,12 @@ int find_env(char *env, t_env *env_list)
     return (0);
 }
 
+// set env_value on the specified env_name
 void    set_env(char *env_name, char *env_value, t_env *env_list) // new_env_value 
 {
     //size_t  i;
     int     env_len;
+    char    *env;
     //char    *tmp;
     //char    *new;
     
@@ -58,8 +73,10 @@ void    set_env(char *env_name, char *env_value, t_env *env_list) // new_env_val
         {
             if (ft_strncmp(env_list->env_name, env_name, env_len) == 0)
             {
-                //free(env_list->env_value);
-                //env_list->env_value = env_value;
+                free(env_list->env_value);
+                env = ft_strdup(env_value); // leaks-fix
+                env_list->env_value = env;
+                break ;
             }
             env_list = env_list->next;
         }
@@ -201,7 +218,7 @@ int     check_n_sequence(char *str)
     return (1);
 }
 
-void   echo_cmd(char **line, int *t)
+void   echo_cmd(char **line, int *t) // remove the flag_ #FIX
 {
     int i;
     int j;
@@ -236,24 +253,6 @@ void   echo_cmd(char **line, int *t)
                 else
                     flag_n = 1;
             }
-            /*else if (line[i][j] == '"' && line[i][jlen] == '"')
-            {
-                j = 1;
-                 while (j < jlen)
-                {
-                    write(1, &line[i][j], 1);
-                    j++;
-                }
-            }
-            else if (line[i][j] == '\'' && line[i][jlen] == '\'')
-            {
-                j = 1;
-                while (j < jlen)
-                {
-                    write(1, &line[i][j], 1);
-                    j++;
-                }
-            }*/
             else
             {
                 flag_ = 1;
@@ -263,8 +262,6 @@ void   echo_cmd(char **line, int *t)
                     write(1, &line[i][j], 1);
                     j++;
                 }
-                //write(1, " ", 1);
-                //if (line[i + 1] != NULL && !(i == 1 && flag_n == 1))
                 if (line[i + 1] != NULL)
                 {
                     write(1, " ", 1);
@@ -276,10 +273,9 @@ void   echo_cmd(char **line, int *t)
     }
     if (flag_n == 0)
         write(1, "\n", 1);
-    // remove the flag_ #FIX
  }
 
-void    env_cmd(char **cmd, t_env *env_list)
+void    env_cmd(char **cmd, t_env *env_list) // deny printing equal character "=" ila env_name & env_vaue dont exist in case of (unset var)
 {
     (void)cmd;
     while (env_list != NULL)
@@ -296,13 +292,12 @@ void    cd_cmd(char **cmd, t_env *env_list)
 {
     //if (**char args && args[1] && args[2])
     // then print "error: too many arguments" + exit(1)
+    // printf("d=%d\n", find_env(cmd[1], env_list));
+    // cd ./project313/42network
+    // add in $OLDPWD and $PWD
     int     ret;
     char    *path;
     char    *pwd;
-    // printf("d=%d\n", find_env(cmd[1], env_list));
-
-    // cd ./project313/42network
-    // add in $OLDPWD and $PWD
     pwd = getcwd(NULL, 0);
     ret = 0;
     if (cmd[0] && !cmd[1])
@@ -317,34 +312,50 @@ void    cd_cmd(char **cmd, t_env *env_list)
         perror("chdir error"); // using perror to print the error message to the console.
     else
     {
-        // update the PWD environment variable with the new directory path using the setenv()
-        // we have also update the OLDPWD environment variable with the previous directory path.
         if (pwd)
         {
-            //set_env("OLDPWD", pwd, env_list);
+            set_env("OLDPWD", pwd, env_list);
             free(pwd);
         }
         if ((pwd = getcwd(NULL, 0)))
         {
-            //set_env("PWD", pwd, env_list);
+            set_env("PWD", pwd, env_list);
             free(pwd);
         }
-        //printf("PWD=%s\n", get_env_value("PWD"));
-        //printf("OLDPWD=%s\n", get_env_value("OLDPWD"));
-        
-        ft_putstr_fd("PWD=", 1);
-        ft_putstr_fd(" ", 1);
-        ft_putstr_fd("\n", 1);
-        ft_putstr_fd("OLDPWD=", 1);
-        ft_putstr_fd(" ", 1);
-        ft_putstr_fd("\n", 1);
-        
+        // ft_putstr_fd("PWD=", 1);
+        // ft_putstr_fd(get_env_value("PWD", env_list), 1);
+        // ft_putstr_fd("\n", 1);
+        // ft_putstr_fd("OLDPWD=", 1);
+        // ft_putstr_fd(get_env_value("OLDPWD", env_list), 1);
+        // ft_putstr_fd("\n", 1);
     }
     return ;
     // free(pwd);
-    
+}
 
-    // printf("ret=%d\n", ret);
+void    export_cmd(char **cmd, t_env *env_list)
+{
+    (void)cmd;
+    (void)env_list;
+    return ;
+}
+
+void    unset_cmd(char **cmd, t_env *env_list)
+{
+    // delete env_list->env_name
+    // delete env_list->env_value
+    // unset PATH
+    while (env_list->env_name)
+    {
+        if (ft_strncmp(env_list->env_name, cmd[1], ft_strlen(cmd[1])) == 0)
+        {
+            free(env_list->env_name);
+            free(env_list->env_value);
+            break;
+        }
+        env_list = env_list->next;
+    }
+    return ;
 }
 
 void    parse_cmd(char **cmd, int *tokenised_cmd, t_env *env_list) //,token
@@ -380,6 +391,16 @@ void    parse_cmd(char **cmd, int *tokenised_cmd, t_env *env_list) //,token
     {
         cd_cmd(cmd, env_list);
     }
+    else if (ft_strncmp(cmd[0], "export", 6) == 0)
+    {
+        export_cmd(cmd, env_list);
+    }
+    else if (ft_strncmp(cmd[0], "unset", 5) == 0)
+    {
+        unset_cmd(cmd, env_list);
+    }
+    else
+        write(1, ":(\n", 3);
 }
 
 int main(int ac, char **av, char **env)
