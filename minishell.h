@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 21:59:40 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/02 14:17:40 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:40:40 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 # include <string.h>
 # include <sys/types.h>
 # include "libft/libft.h"
-//# include <readline/readline.h>
-//# include <readline/history.h>
-# include "/usr/include/readline/readline.h"
-# include "/usr/include/readline/history.h"
+# include <readline/readline.h>
+# include <readline/history.h>
+//# include "/usr/include/readline/readline.h"
+//# include "/usr/include/readline/history.h"
 
 
 
