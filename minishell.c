@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/02 20:26:05 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/02 21:07:24 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,17 +351,31 @@ void    unset_cmd(char **cmd, t_env *env_list)
     // unset PATH
     // unset PATH loop on the cmd[n]
     // convert $VAR to string then pass it to be executed
-    while (env_list != NULL)
+    int     i;
+    int     cmd_len;
+    t_env   *env_header;
+
+    env_header = env_list;
+    i = 1;
+    while (cmd[i])
     {
-        if (ft_strncmp(env_list->env_name, cmd[1], ft_strlen(cmd[1])) == 0)
+        env_list = env_header;
+        cmd_len = ft_strlen(cmd[i]);
+        while (env_list != NULL)
         {
-            env_list->unset = 1;
-            break ;
+            if (ft_strncmp(cmd[i], env_list->env_name, cmd_len) == 0 && ft_strlen(env_list->env_name) == ft_strlen(cmd[i])) // THIS LINE //
+            {
+                env_list->unset = 1;
+                break ;
+            }
+            env_list = env_list->next;
         }
-        env_list = env_list->next;
+        i++;
     }
     return ;
 }
+// unset SHELL OLDPWD PWD TERM PAGER LS_COLORS LSCOLORS USERLOGIN HOME TMPDIR LANG SHLVL LESS MallocNanoZone _ ZSH ORIGINAL_XDG_CURRENT_DESKTOP SSH_AUTH_SOCK Apple_PubSub_Socket_Render LOGNAME USER COMMAND_MODE COLORTERM XPC_FLAGS ZDOTDIR SECURITYSESSIONID  GIT_ASKPASS XPC_SERVICE_NAME USER_ZDOTDIR __CF_USER_TEXT_ENCODING TERM_PROGRAM TERM_PROGRAM_VERSION                        
+// PATH
 
 void    parse_cmd(char **cmd, int *tokenised_cmd, t_env *env_list) //,token
 {
