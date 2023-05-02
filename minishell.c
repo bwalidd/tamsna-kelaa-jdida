@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/01 23:25:54 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:34:53 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,11 +302,7 @@ void    cd_cmd(char **cmd, t_env *env_list)
     pwd = getcwd(NULL, 0);
     ret = 0;
     if (cmd[0] && !cmd[1])
-    {
-        write(1, "begin\n", 6);
         ret = chdir("/Users/oel-houm");
-        write(1, "finish\n", 6);
-    }
     else
     {
         path = ft_strdup(cmd[1]);
