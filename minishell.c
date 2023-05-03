@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/03 14:55:26 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:14:53 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,36 +341,93 @@ void    cd_cmd(char **cmd, t_env *env_list)
     // free(pwd);
 }
 
-int     if_space(char *str) // _ or letter
-{ // x1=dskfkdksf
-    int i;
+// allowed begin char
+int     if_allowed(char *str)
+{
+    //  .=value
+    //  u.u=value
+    //  98=value
+    //  _uuu=value
+    // letter=value
+    int     i;
 
     i = 1;
-    while (str[1])
+    if (!ft_isalpha(str[0]) && str[0] != '_')
     {
-        if ()
+        while (str[i] != '\0' && str[i] != '=')
         {
-            //
+            if (str[0] >= 48 && str[i] <= 57)
+            {
+                ft_putstr_fd("minishell: export: not an identifier: 59: \n", 2);
+                return (0);
+            }
+            else if ((str[0] >= 33 && str[0] <= 47) ||
+                (str[0] >= 58 && str[0] <= 64) ||
+                (str[0] >= 91 && str[0] <= 96) ||
+                (str[0] >= 123 && str[0] <= 126))
+            {
+                ft_putstr_fd("minishell: export: not valid in this context \n", 2);
+                // print error here until reach != '=' or '\0'
+                ft_putstr_fd("\n", 2);
+                return (0);
+            }
+            i++;
         }
-        i++;
+        // if = only    
     }
+    else
+    {
+        write(1, "else\n", 5);
+    }
+    return (0);
+    // while (str[i])
+    // {
+    //     if ()
+    //     {
+    //         //
+    //     }
+    //     i++;
+    // }
 }
+
+// int     if_space(char *str) // _ or letter
+// { // x1=dskfkdksf
+//     int i;
+
+//     i = 1;
+//     while (str[1])
+//     {
+//         if ()
+//         {
+//             //
+//         }
+//         i++;
+//     }
+// }
 
 void    export_cmd(char **cmd, t_env *env_list) // export var1=abc var2=xyz fkd5sfd5fs  tty=565 
 // export _=abc x2=jdfjg x3=fjghjfdg   djfhdshfjdhshhjdsghjdfjg  x5=kfgjfdg x6=fjdfghdfg -a -q -o
 {
+    (void)env_list;
     int     i;
 
     i = 1;
     if (cmd[0] && !cmd[1])
     {
-        //
+        write(1, "", 1);
     }
     else
     {
+        //while (cmd[i] != '\0' || cmd[i] != '=')
         while (cmd[i])
         {
-            //
+            if (if_allowed(cmd[i]) == 1)
+            {
+                ft_putstr_fd(cmd[i], 1);
+                ft_putstr_fd("\tallowed\n", 1);
+            }
+            else
+                //
             i++;
         }
     }
