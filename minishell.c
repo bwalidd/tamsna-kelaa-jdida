@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/03 16:14:53 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/03 20:34:40 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,6 +341,18 @@ void    cd_cmd(char **cmd, t_env *env_list)
     // free(pwd);
 }
 
+void    print_export_string(char *str)
+{
+    int     i;
+
+    i = 0;
+    while (str[i] != '=' && str[i] != '\0')
+    {
+        write(2, &str[i], 1);
+        i++;
+    }
+}
+
 // allowed begin char
 int     if_allowed(char *str)
 {
@@ -356,9 +368,11 @@ int     if_allowed(char *str)
     {
         while (str[i] != '\0' && str[i] != '=')
         {
-            if (str[0] >= 48 && str[i] <= 57)
+            if (str[0] >= 48 && str[0] <= 57)
             {
-                ft_putstr_fd("minishell: export: not an identifier: 59: \n", 2);
+                ft_putstr_fd("minishell: export: not an identifier: ", 2);
+                print_export_string(str);
+                ft_putstr_fd(" \n", 2);
                 return (0);
             }
             else if ((str[0] >= 33 && str[0] <= 47) ||
@@ -366,9 +380,11 @@ int     if_allowed(char *str)
                 (str[0] >= 91 && str[0] <= 96) ||
                 (str[0] >= 123 && str[0] <= 126))
             {
-                ft_putstr_fd("minishell: export: not valid in this context \n", 2);
+                ft_putstr_fd("minishell: export: not valid in this context: ", 2);
+                print_export_string(str);
+                ft_putstr_fd(" \n", 2);
                 // print error here until reach != '=' or '\0'
-                ft_putstr_fd("\n", 2);
+                //ft_putstr_fd("\n", 2);
                 return (0);
             }
             i++;
@@ -377,6 +393,7 @@ int     if_allowed(char *str)
     }
     else
     {
+        // ila kan kayn denied char f had str li f else
         write(1, "else\n", 5);
     }
     return (0);
@@ -411,7 +428,7 @@ void    export_cmd(char **cmd, t_env *env_list) // export var1=abc var2=xyz fkd5
     (void)env_list;
     int     i;
 
-    i = 1;
+    i = 1;    //latest ttouch
     if (cmd[0] && !cmd[1])
     {
         write(1, "", 1);
