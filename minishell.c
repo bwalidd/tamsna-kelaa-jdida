@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/02 21:07:24 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/03 14:55:26 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,7 +277,6 @@ void   echo_cmd(char **line, int *t) // remove the flag_ #FIX
 
 void    env_cmd(char **cmd, t_env *env_list) // deny printing equal character "=" ila env_name & env_vaue dont exist in case of (unset var)
 {
-    //(void)env_list;
     (void)cmd;
     while (env_list != NULL)
     {
@@ -299,6 +298,11 @@ void    cd_cmd(char **cmd, t_env *env_list)
     // printf("d=%d\n", find_env(cmd[1], env_list));
     // cd ./project313/42network
     // add in $OLDPWD and $PWD
+
+    // KAYN WA7D LPROBLEM MNIN KANDIR UNSET PATH, PWD, OLDPWD
+        // khassni nzid export PWD=$PATH instead of dak tkhrbi9 li dayr 
+
+
     int     ret;
     char    *path;
     char    *pwd;
@@ -337,25 +341,60 @@ void    cd_cmd(char **cmd, t_env *env_list)
     // free(pwd);
 }
 
-void    export_cmd(char **cmd, t_env *env_list)
+int     if_space(char *str) // _ or letter
+{ // x1=dskfkdksf
+    int i;
+
+    i = 1;
+    while (str[1])
+    {
+        if ()
+        {
+            //
+        }
+        i++;
+    }
+}
+
+void    export_cmd(char **cmd, t_env *env_list) // export var1=abc var2=xyz fkd5sfd5fs  tty=565 
+// export _=abc x2=jdfjg x3=fjghjfdg   djfhdshfjdhshhjdsghjdfjg  x5=kfgjfdg x6=fjdfghdfg -a -q -o
 {
-    (void)cmd;
+    int     i;
+
+    i = 1;
+    if (cmd[0] && !cmd[1])
+    {
+        //
+    }
+    else
+    {
+        while (cmd[i])
+        {
+            //
+            i++;
+        }
+    }
+    //(void)cmd;
     (void)env_list;
+    while (cmd[i])
+    {
+        printf("%s\n", cmd[i]);
+        i++;
+    }
     return ;
 }
 
 void    unset_cmd(char **cmd, t_env *env_list)
 {
-    // delete env_list->env_name
-    // delete env_list->env_value
-    // unset PATH
-    // unset PATH loop on the cmd[n]
+    // cmdlen env_len !
     // convert $VAR to string then pass it to be executed
     int     i;
     int     cmd_len;
+    int     env_len;
     t_env   *env_header;
 
     env_header = env_list;
+    env_len = ft_strlen(env_list->env_name);
     i = 1;
     while (cmd[i])
     {
@@ -363,7 +402,7 @@ void    unset_cmd(char **cmd, t_env *env_list)
         cmd_len = ft_strlen(cmd[i]);
         while (env_list != NULL)
         {
-            if (ft_strncmp(cmd[i], env_list->env_name, cmd_len) == 0 && ft_strlen(env_list->env_name) == ft_strlen(cmd[i])) // THIS LINE //
+            if ((ft_strncmp(cmd[i], env_list->env_name, cmd_len) == 0) && (env_len == cmd_len))
             {
                 env_list->unset = 1;
                 break ;
