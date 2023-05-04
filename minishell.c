@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/03 20:34:40 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/04 16:48:25 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,8 +353,25 @@ void    print_export_string(char *str)
     }
 }
 
+int     is_allowed(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i] != '\0' && str[i] != '=')
+    {
+        if ((str[i] >= 33 && str[i] <= 47) ||
+            (str[i] >= 58 && str[i] <= 64) ||
+            (str[i] >= 91 && str[i] <= 96) ||
+            (str[i] >= 123 && str[i] <= 126))
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
 // allowed begin char
-int     if_allowed(char *str)
+int     if_allowed(char *str) // export_checker //check begin // check export arg
 {
     //  .=value
     //  u.u=value
@@ -383,44 +400,27 @@ int     if_allowed(char *str)
                 ft_putstr_fd("minishell: export: not valid in this context: ", 2);
                 print_export_string(str);
                 ft_putstr_fd(" \n", 2);
-                // print error here until reach != '=' or '\0'
-                //ft_putstr_fd("\n", 2);
                 return (0);
             }
             i++;
         }
-        // if = only    
     }
     else
     {
-        // ila kan kayn denied char f had str li f else
-        write(1, "else\n", 5);
+        if (is_allowed(&str[i]) == 1)
+        {
+            write(1, "else\n", 5);
+        }
+        else
+        {
+            ft_putstr_fd("minishell: export: not valid in this context: ", 2);
+            print_export_string(str);
+            ft_putstr_fd(" \n", 2);
+        }
+        
     }
     return (0);
-    // while (str[i])
-    // {
-    //     if ()
-    //     {
-    //         //
-    //     }
-    //     i++;
-    // }
 }
-
-// int     if_space(char *str) // _ or letter
-// { // x1=dskfkdksf
-//     int i;
-
-//     i = 1;
-//     while (str[1])
-//     {
-//         if ()
-//         {
-//             //
-//         }
-//         i++;
-//     }
-// }
 
 void    export_cmd(char **cmd, t_env *env_list) // export var1=abc var2=xyz fkd5sfd5fs  tty=565 
 // export _=abc x2=jdfjg x3=fjghjfdg   djfhdshfjdhshhjdsghjdfjg  x5=kfgjfdg x6=fjdfghdfg -a -q -o
@@ -428,7 +428,7 @@ void    export_cmd(char **cmd, t_env *env_list) // export var1=abc var2=xyz fkd5
     (void)env_list;
     int     i;
 
-    i = 1;    //latest ttouch
+    i = 1;
     if (cmd[0] && !cmd[1])
     {
         write(1, "", 1);
@@ -470,17 +470,29 @@ void    unset_cmd(char **cmd, t_env *env_list)
     env_header = env_list;
     env_len = ft_strlen(env_list->env_name);
     i = 1;
+    int n;
     while (cmd[i])
     {
         env_list = env_header;
         cmd_len = ft_strlen(cmd[i]);
         while (env_list != NULL)
         {
-            if ((ft_strncmp(cmd[i], env_list->env_name, cmd_len) == 0) && (env_len == cmd_len))
+            
+            //if ((ft_strncmp(cmd[i], env_list->env_name, cmd_len) == 0) && (env_len == cmd_len))
+            // ndir comparison nchof chkon li kbrf len wahc cmd wla envlen o li kbr howa li ydoz f conditin li lt7t as size_t n;
+            if (env_len > cmd_len)
+                n = env_len;
+            else
+                n = cmd_len;
+            if ((ft_strncmp(cmd[i], env_list->env_name, n) == 0))
             {
+                printf("cmd=%s\tenv=%s\n", cmd[i], env_list->env_name);
                 env_list->unset = 1;
+                //printf("%d\t%s\n", env_list->unset, env_list->env_name);
                 break ;
             }
+            else
+                //printf("cmd=%s\tcmdlen=%d\t\tenv=%s\tenvlen=%d\n", cmd[i], cmd_len, env_list->env_name, env_len);
             env_list = env_list->next;
         }
         i++;
