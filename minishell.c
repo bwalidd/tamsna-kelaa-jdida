@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/04 16:48:25 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/05 01:40:23 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -422,7 +422,7 @@ int     if_allowed(char *str) // export_checker //check begin // check export ar
     return (0);
 }
 
-void    export_cmd(char **cmd, t_env *env_list) // export var1=abc var2=xyz fkd5sfd5fs  tty=565 
+void    export_cmd(char **cmd, t_env *env_list) // export var1=abc var2=xyz fkd5sfd5fs  tty=565           export_cmd += t_env env_list
 // export _=abc x2=jdfjg x3=fjghjfdg   djfhdshfjdhshhjdsghjdfjg  x5=kfgjfdg x6=fjdfghdfg -a -q -o
 {
     (void)env_list;
@@ -554,6 +554,8 @@ int main(int ac, char **av, char **env)
     // export with no options
     // unset with no option
     // exit with no options
+    (void)ac;
+    (void)av;
     char *cmd;
     t_env *env_list;
     (void)av;
