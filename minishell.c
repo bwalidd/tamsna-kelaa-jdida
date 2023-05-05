@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/05 01:40:23 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/05 23:10:57 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -370,8 +370,44 @@ int     is_allowed(char *str)
     return (1);
 }
 
+void    do_export(char *str, t_env *env_list)
+{// export name=omar
+ // export name=  
+    (void)env_list;
+    int var_len;
+    int value_len;
+    int flag;
+    int i;
+
+    i = 0;
+    flag = 0;
+    var_len = 0;
+    value_len = 0;
+    while (str[i])
+    {
+        if (str[i] == '=')
+            break ;
+        i++;
+    }
+    var_len = i;
+    if (str[i] == '=' && str[i + 1])
+    {
+        flag = 1;
+        i++;
+    }
+    while (str[i])
+    {
+        value_len++;
+        i++;
+    }
+    // if varlen > and valuelen != 0 and .... then export to
+    printf("str: %s\n", str);
+    printf("var_len: %d\n", var_len);
+    printf("value_len: %d\n", value_len);
+}
+
 // allowed begin char
-int     if_allowed(char *str) // export_checker //check begin // check export arg
+int     if_allowed(char *str, t_env *env_list) // export_checker //check begin // check export arg
 {
     //  .=value
     //  u.u=value
@@ -387,9 +423,9 @@ int     if_allowed(char *str) // export_checker //check begin // check export ar
         {
             if (str[0] >= 48 && str[0] <= 57)
             {
-                ft_putstr_fd("minishell: export: not an identifier: ", 2);
+                ft_putstr_fd("minishell: export: `", 2);
                 print_export_string(str);
-                ft_putstr_fd(" \n", 2);
+                ft_putstr_fd("': not a valid identifier\n", 2);
                 return (0);
             }
             else if ((str[0] >= 33 && str[0] <= 47) ||
@@ -397,9 +433,9 @@ int     if_allowed(char *str) // export_checker //check begin // check export ar
                 (str[0] >= 91 && str[0] <= 96) ||
                 (str[0] >= 123 && str[0] <= 126))
             {
-                ft_putstr_fd("minishell: export: not valid in this context: ", 2);
+                ft_putstr_fd("minishell: export: `", 2);
                 print_export_string(str);
-                ft_putstr_fd(" \n", 2);
+                ft_putstr_fd("': not a valid identifier\n", 2);
                 return (0);
             }
             i++;
@@ -409,13 +445,13 @@ int     if_allowed(char *str) // export_checker //check begin // check export ar
     {
         if (is_allowed(&str[i]) == 1)
         {
-            write(1, "else\n", 5);
+            do_export(str, env_list);
         }
         else
         {
-            ft_putstr_fd("minishell: export: not valid in this context: ", 2);
+            ft_putstr_fd("minishell: export: `", 2);
             print_export_string(str);
-            ft_putstr_fd(" \n", 2);
+            ft_putstr_fd("': not a valid identifier\n", 2);
         }
         
     }
@@ -438,7 +474,7 @@ void    export_cmd(char **cmd, t_env *env_list) // export var1=abc var2=xyz fkd5
         //while (cmd[i] != '\0' || cmd[i] != '=')
         while (cmd[i])
         {
-            if (if_allowed(cmd[i]) == 1)
+            if (if_allowed(cmd[i], env_list) == 1)
             {
                 ft_putstr_fd(cmd[i], 1);
                 ft_putstr_fd("\tallowed\n", 1);
