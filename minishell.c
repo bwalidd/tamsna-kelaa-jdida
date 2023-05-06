@@ -10,6 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+┌──(toowan㉿toowan)-[~]
+└─$ unset LS_COLOR*                     
+unset: LS_COLOR*: invalid parameter name
+*/
+
 #include "minishell.h"
 
 int global_exit;
@@ -370,6 +376,8 @@ int     is_allowed(char *str)
     return (1);
 }
 
+// ft_strdup(char *str, char limiter, )
+
 void    do_export(char *str, t_env *env_list)
 {// export name=omar
  // export name=  
@@ -405,8 +413,6 @@ void    do_export(char *str, t_env *env_list)
     // printf("str: %s\n", str);
     // printf("var_len: %d\n", var_len);
     // printf("value_len: %d\n", value_len);
-    while (env_list->next != NULL)
-        env_list = env_list->next;
     char *var = malloc(sizeof(char) * var_len + 1 );
     char *val = malloc(sizeof(char) * value_len + 1);
     i = 0;
@@ -426,20 +432,40 @@ void    do_export(char *str, t_env *env_list)
         str++;
     }
     val[i] = '\0';
-    env_list->env_name = var;
-    env_list->env_value = val;
-    //env_list->next = ;
-    env_list->unset = 0;
-    printf("str: %s\n", str);
-    printf("var= %s\n", env_list->env_name);
-    printf("val= %s\n", env_list->env_value);
 
-    printf("prev_var= %s\n", env_list->prev->env_name);
-    printf("prev_val= %s\n", env_list->prev->env_value);
+    //check if the var is already kayn f 
+    t_env   *tail_env;
+    //while (env_list->next != NULL)
+    while (env_list != NULL)
+    {
+        if (env_list->next == NULL)
+            tail_env = env_list;
+        if (ft_strncmp(env_list->env_name, var, var_len) == 0)
+            env_list->unset = 1;
+        env_list = env_list->next;
+    }
 
-    printf("var_len: %d\n", var_len);
-    printf("value_len: %d\n", value_len);
+    t_env   *new_env;
+    new_env = malloc(sizeof(t_env));
+    new_env->env_name = var;
+    new_env->env_value = val;
+    new_env->unset = 0;
+
+    //new_env->prev = env_list;
+    new_env->prev = tail_env;
+    new_env->next = NULL;
+    tail_env->next = new_env;
+    //printf("str: %s\n", str);
+    //printf("var= %s\n", env_list->env_name);
+    //printf("val= %s\n", env_list->env_value);
+    //printf("prev_var= %s\n", env_list->prev->env_name);
+    //printf("prev_val= %s\n", env_list->prev->env_value);
+    //printf("var_len: %d\n", var_len);
+    //printf("value_len: %d\n", value_len);
 }
+// check if the varname already is in the env
+// ila kan exist ghnbdel lih gha value dyalo safi
+// ila nn ghansawb var & val mn jdid
 
 // allowed begin char
 int     if_allowed(char *str, t_env *env_list) // export_checker //check begin // check export arg
@@ -496,7 +522,7 @@ int     if_allowed(char *str, t_env *env_list) // export_checker //check begin /
 void    export_cmd(char **cmd, t_env *env_list) // export var1=abc var2=xyz fkd5sfd5fs  tty=565           export_cmd += t_env env_list
 // export _=abc x2=jdfjg x3=fjghjfdg   djfhdshfjdhshhjdsghjdfjg  x5=kfgjfdg x6=fjdfghdfg -a -q -o
 {
-    (void)env_list;
+    //(void)env_list;
     int     i;
 
     i = 1;
@@ -515,7 +541,7 @@ void    export_cmd(char **cmd, t_env *env_list) // export var1=abc var2=xyz fkd5
                 ft_putstr_fd("\tallowed\n", 1);
             }
             else
-                //
+                write(1, "fake\n", 5);
             i++;
         }
     }
@@ -536,28 +562,27 @@ void    unset_cmd(char **cmd, t_env *env_list)
     int     i;
     int     cmd_len;
     int     env_len;
+    int     n;
     t_env   *env_header;
 
     env_header = env_list;
-    env_len = ft_strlen(env_list->env_name);
     i = 1;
-    int n;
     while (cmd[i])
     {
         env_list = env_header;
         cmd_len = ft_strlen(cmd[i]);
         while (env_list != NULL)
         {
-            
+            env_len = ft_strlen(env_list->env_name); // unset name unset name _ SCHOOL42 MAIL42 USER42
             //if ((ft_strncmp(cmd[i], env_list->env_name, cmd_len) == 0) && (env_len == cmd_len))
             // ndir comparison nchof chkon li kbrf len wahc cmd wla envlen o li kbr howa li ydoz f conditin li lt7t as size_t n;
             if (env_len > cmd_len)
                 n = env_len;
             else
                 n = cmd_len;
-            if ((ft_strncmp(cmd[i], env_list->env_name, n) == 0))
+            if ((ft_strncmp(cmd[i], env_list->env_name, n) == 0) && env_list->unset != 1)
             {
-                printf("cmd=%s\tenv=%s\n", cmd[i], env_list->env_name);
+                printf("cmd=%s\tenv=%s\tn=%d\n", cmd[i], env_list->env_name, n);
                 env_list->unset = 1;
                 //printf("%d\t%s\n", env_list->unset, env_list->env_name);
                 break ;
