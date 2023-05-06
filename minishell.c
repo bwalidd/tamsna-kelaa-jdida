@@ -373,7 +373,7 @@ int     is_allowed(char *str)
 void    do_export(char *str, t_env *env_list)
 {// export name=omar
  // export name=  
-    (void)env_list;
+    //(void)env_list;
     int var_len;
     int value_len;
     int flag;
@@ -385,6 +385,7 @@ void    do_export(char *str, t_env *env_list)
     value_len = 0;
     while (str[i])
     {
+        //flag++;
         if (str[i] == '=')
             break ;
         i++;
@@ -392,7 +393,7 @@ void    do_export(char *str, t_env *env_list)
     var_len = i;
     if (str[i] == '=' && str[i + 1])
     {
-        flag = 1;
+        flag++; // flag = 1 doens't work in some compilers
         i++;
     }
     while (str[i])
@@ -401,7 +402,41 @@ void    do_export(char *str, t_env *env_list)
         i++;
     }
     // if varlen > and valuelen != 0 and .... then export to
+    // printf("str: %s\n", str);
+    // printf("var_len: %d\n", var_len);
+    // printf("value_len: %d\n", value_len);
+    while (env_list->next != NULL)
+        env_list = env_list->next;
+    char *var = malloc(sizeof(char) * var_len + 1 );
+    char *val = malloc(sizeof(char) * value_len + 1);
+    i = 0;
+    while (i < var_len)
+    {
+        var[i] = str[i];
+        i++;
+    }
+    var[i] = '\0';
+    i = 0;
+    str = &str[var_len + 1];
+    while (*str)
+    {
+        val[i] = *str;
+        //printf("%c-", val[i]);
+        i++;
+        str++;
+    }
+    val[i] = '\0';
+    env_list->env_name = var;
+    env_list->env_value = val;
+    //env_list->next = ;
+    env_list->unset = 0;
     printf("str: %s\n", str);
+    printf("var= %s\n", env_list->env_name);
+    printf("val= %s\n", env_list->env_value);
+
+    printf("prev_var= %s\n", env_list->prev->env_name);
+    printf("prev_val= %s\n", env_list->prev->env_value);
+
     printf("var_len: %d\n", var_len);
     printf("value_len: %d\n", value_len);
 }
