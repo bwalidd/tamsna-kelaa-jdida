@@ -5,3 +5,5 @@ need for some functions to code unset, export cmds
 	prototype:	
 3-a function help me to set env
 	prototype:	
+
+#include "../minishell.h"

