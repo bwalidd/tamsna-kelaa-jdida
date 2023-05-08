@@ -25,10 +25,6 @@
 # include <readline/history.h>
 //# include "/usr/include/readline/readline.h"
 //# include "/usr/include/readline/history.h"
-#include <netinet/in.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-
 
 
 typedef struct s_env

