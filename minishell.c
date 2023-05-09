@@ -129,13 +129,14 @@ void		exit_cmd(char **cmd) // exit_cmd takes 2 params: cmd + copy_of_env
 			ft_putstr_fd("minishell: exit: ", 2);
             ft_putstr_fd(cmd[1], 2);
             ft_putstr_fd(": numeric argument required\n", 2);
-            exit(255);
+            //exit(255); // 255 !!
 		}
 		else if (cmd && ft_isnum(cmd[1]) == 1)
 		{
             ft_putstr_fd("exit\n", 2);
             ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		}
+            //exit(1337); // fix mix
+		}  //remove this comment
 	}
 	else if (number_of_args(cmd) == 1)
 	{
@@ -146,9 +147,9 @@ void		exit_cmd(char **cmd) // exit_cmd takes 2 params: cmd + copy_of_env
             ft_putstr_fd(cmd[1], 2);
             ft_putstr_fd(": numeric argument required\n", 2);
 		}
-		int exit_value = ft_atoi(cmd[1]); //fix ft_atoi.c + change the value of $? in ENV
+		//int exit_value = ft_atoi(cmd[1]); //fix ft_atoi.c + change the value of $? in ENV
         //printf("exit\n");
-		exit(exit_value);// check if cmd[1] is num then convert from char to int...
+		//exit(exit_value);// check if cmd[1] is num then convert from char to int...
 		//execvp(cmd[0], cmd);
 	}
 	else if (number_of_args(cmd) == 0)
@@ -554,9 +555,8 @@ void    cd_cmd(char **cmd, t_env *env_list)
     char    *path;
     char    *pwd;
     char    **export_cwd;
-    //
-    //char **pwd_ptr = malloc(sizeof(char*) * 3);
-    //
+    char    *tmp_arg;
+
     pwd = getcwd(NULL, 0);
     ret = 0;
     if (cmd[0] && !cmd[1])
@@ -573,31 +573,31 @@ void    cd_cmd(char **cmd, t_env *env_list)
     {
         if (pwd)
         {
-            ///////// fix that
-            export_cwd = ft_split("export pwd=yasalam", ' ');
+            tmp_arg = ft_strjoin("export OLDPWD=", pwd);
+            export_cwd = ft_split(tmp_arg, ' ');
+            free(tmp_arg);
             export_cmd(export_cwd, env_list);
-            set_env("OLDPWD", pwd, env_list);
+            free(export_cwd);
             free(pwd);
-            //free(pwd_ptr);
         }
         if ((pwd = getcwd(NULL, 0)))
         {
-            ///////// fix that
-            export_cwd = ft_split("export pwd=yasalam", ' ');
+            tmp_arg = ft_strjoin("export PWD=", pwd);
+            export_cwd = ft_split(tmp_arg, ' ');
+            free(tmp_arg);
             export_cmd(export_cwd, env_list);
-            set_env("PWD", pwd, env_list);
+            free(export_cwd);
             free(pwd);
-            //free(pwd_ptr);
         }
         // ft_putstr_fd("PWD=", 1);
-        // ft_putstr_fd(get_env_value("PWD", env_list), 1);
+        // ft_putstr_fd(get_env_value("PWD", env_list), 1);  // and env_list->unset == 0 (to add)
         // ft_putstr_fd("\n", 1);
         // ft_putstr_fd("OLDPWD=", 1);
-        // ft_putstr_fd(get_env_value("OLDPWD", env_list), 1);
+        // ft_putstr_fd(get_env_value("OLDPWD", env_list), 1);  // and env_list->unset == 0
         // ft_putstr_fd("\n", 1);
     }
-    return ;
     // free(pwd);
+    return ;
 }
 
 

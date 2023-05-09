@@ -4,3 +4,4 @@ fclean & clean
 customize hks
 fix readline header in makefile and minishell.h
 // fix exit
+handle perm in cd
