@@ -6,17 +6,11 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 15:53:43 by oel-houm          #+#    #+#             */
-/*   Updated: 2023/05/09 16:19:24 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/09 18:34:04 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-/*
-FIX THIS
-MINISHELL$ export _y_name=david
-minishell: export: `_y_name': not a valid identifier
-*/
-
 
 /* this function need some improvements (to fix later):
 ft_strdup(char *str, char limiter, )
@@ -34,7 +28,6 @@ void    do_export(char *str, t_env *env_list)
     value_len = 0;
     while (str[i])
     {
-        //flag++;
         if (str[i] == '=')
             break ;
         i++;
@@ -42,7 +35,7 @@ void    do_export(char *str, t_env *env_list)
     var_len = i;
     if (str[i] == '=' && str[i + 1])
     {
-        flag++; //flag = 1
+        flag++;
         i++;
     }
     while (str[i])
@@ -90,8 +83,6 @@ void    do_export(char *str, t_env *env_list)
     tail_env->next = new_env;
 }
 
-
-
 void    print_export_string(char *str)
 {
     int     i;
@@ -121,7 +112,8 @@ int     is_allowed(char *str)
     {
         if ((str[i] >= 33 && str[i] <= 47) ||
             (str[i] >= 58 && str[i] <= 64) ||
-            (str[i] >= 91 && str[i] <= 96) ||
+            (str[i] >= 91 && str[i] <= 94) ||
+            (str[i] == 96) ||
             (str[i] >= 123 && str[i] <= 126))
             return (0);
         i++;
@@ -129,7 +121,7 @@ int     is_allowed(char *str)
     return (1);
 }
 
-int no_space(char *str) // is_nospace
+int is_nospace(char *str)
 {
     int i;
 
@@ -157,7 +149,6 @@ void     if_allowed(char *str, t_env *env_list) // export_checker //check begin 
             {
                 print_invalid_identifier_error(str);
                 return ;
-                //return (0);
             }
             else if ((str[0] >= 33 && str[0] <= 47) ||
                 (str[0] >= 58 && str[0] <= 64) ||
@@ -166,14 +157,13 @@ void     if_allowed(char *str, t_env *env_list) // export_checker //check begin 
             {
                 print_invalid_identifier_error(str);
                 return ;
-                //return (0);
             }
             i++;
         }
     }
     else //check all str
     {
-        if (no_space(&str[i]) == 1)
+        if (is_nospace(&str[i]) == 1)
             return ;
         else if (is_allowed(&str[i]) == 1)
             do_export(str, env_list);
@@ -181,7 +171,6 @@ void     if_allowed(char *str, t_env *env_list) // export_checker //check begin 
             print_invalid_identifier_error(str);
     }
     return ;
-    //return (0);
 }
 
 void    export_cmd(char **cmd, t_env *env_list)
