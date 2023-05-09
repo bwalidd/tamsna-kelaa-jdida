@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 04:23:19 by oel-houm          #+#    #+#             */
-/*   Updated: 2023/05/09 16:21:41 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/09 17:15:21 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,18 +86,21 @@ void cd_cmd(char **cmd, t_env *env_list)
     else
     {
         path = ft_strdup(cmd[1]);
-        if (access(path, R_OK | X_OK) != 0)
+        if (access(path, F_OK) == -1)
         {
-            perror("minishell: cd");
-            //perror("Permission denied");
-        }
-        else if (access(path, F_OK) == -1)
-        {
-            perror("No such file or directory");
+            ft_putstr_fd("No such file or directory\n", 2);
+			return ;
         }
         else if (access(path, X_OK) == -1)
         {
-            perror("Not a directory");
+            ft_putstr_fd("Not a directory\n", 2);
+			return ;
+        }
+		else if (access(path, R_OK | X_OK) != 0)
+        {
+            //perror("minishell: cd");
+            ft_putstr_fd("Permission denied\n", 2);
+			return ;
         }
         else
         {
