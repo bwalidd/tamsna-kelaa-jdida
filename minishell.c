@@ -373,12 +373,13 @@ int     is_allowed(char *str)
     return (1);
 }
 
-// ft_strdup(char *str, char limiter, )
 
+
+/* this function need some improvements (to fix later):
+ft_strdup(char *str, char limiter, )
+*/
 void    do_export(char *str, t_env *env_list)
-{// export name=omar
- // export name=  
-    //(void)env_list;
+{
     int var_len;
     int value_len;
     int flag;
@@ -398,7 +399,7 @@ void    do_export(char *str, t_env *env_list)
     var_len = i;
     if (str[i] == '=' && str[i + 1])
     {
-        flag++; // flag = 1 doens't work in some compilers
+        flag++; //flag = 1
         i++;
     }
     while (str[i])
@@ -406,10 +407,6 @@ void    do_export(char *str, t_env *env_list)
         value_len++;
         i++;
     }
-    // if varlen > and valuelen != 0 and .... then export to
-    // printf("str: %s\n", str);
-    // printf("var_len: %d\n", var_len);
-    // printf("value_len: %d\n", value_len);
     char *var = malloc(sizeof(char) * var_len + 1 );
     char *val = malloc(sizeof(char) * value_len + 1);
     i = 0;
@@ -424,15 +421,12 @@ void    do_export(char *str, t_env *env_list)
     while (*str)
     {
         val[i] = *str;
-        //printf("%c-", val[i]);
         i++;
         str++;
     }
     val[i] = '\0';
 
-    //check if the var is already kayn f 
     t_env   *tail_env;
-    //while (env_list->next != NULL)
     while (env_list != NULL)
     {
         if (env_list->next == NULL)
@@ -448,30 +442,21 @@ void    do_export(char *str, t_env *env_list)
     new_env->env_value = val;
     new_env->unset = 0;
 
-    //new_env->prev = env_list;
     new_env->prev = tail_env;
     new_env->next = NULL;
     tail_env->next = new_env;
-    //printf("str: %s\n", str);
-    //printf("var= %s\n", env_list->env_name);
-    //printf("val= %s\n", env_list->env_value);
-    //printf("prev_var= %s\n", env_list->prev->env_name);
-    //printf("prev_val= %s\n", env_list->prev->env_value);
-    //printf("var_len: %d\n", var_len);
-    //printf("value_len: %d\n", value_len);
 }
-// check if the varname already is in the env
-// ila kan exist ghnbdel lih gha value dyalo safi
-// ila nn ghansawb var & val mn jdid
+
+void    print_invalid_identifier_error(char *str)
+{
+    ft_putstr_fd("minishell: export: `", 2);
+    print_export_string(str);
+    ft_putstr_fd("': not a valid identifier\n", 2);
+}
 
 // allowed begin char
 int     if_allowed(char *str, t_env *env_list) // export_checker //check begin // check export arg
 {
-    //  .=value
-    //  u.u=value
-    //  98=value
-    //  _uuu=value
-    // letter=value
     int     i;
 
     i = 1;
@@ -481,9 +466,7 @@ int     if_allowed(char *str, t_env *env_list) // export_checker //check begin /
         {
             if (str[0] >= 48 && str[0] <= 57)
             {
-                ft_putstr_fd("minishell: export: `", 2);
-                print_export_string(str);
-                ft_putstr_fd("': not a valid identifier\n", 2);
+                print_invalid_identifier_error(str);
                 return (0);
             }
             else if ((str[0] >= 33 && str[0] <= 47) ||
@@ -491,9 +474,7 @@ int     if_allowed(char *str, t_env *env_list) // export_checker //check begin /
                 (str[0] >= 91 && str[0] <= 96) ||
                 (str[0] >= 123 && str[0] <= 126))
             {
-                ft_putstr_fd("minishell: export: `", 2);
-                print_export_string(str);
-                ft_putstr_fd("': not a valid identifier\n", 2);
+                print_invalid_identifier_error(str);
                 return (0);
             }
             i++;
@@ -506,47 +487,35 @@ int     if_allowed(char *str, t_env *env_list) // export_checker //check begin /
             do_export(str, env_list);
         }
         else
-        {
-            ft_putstr_fd("minishell: export: `", 2);
-            print_export_string(str);
-            ft_putstr_fd("': not a valid identifier\n", 2);
-        }
-        
+            print_invalid_identifier_error(str);
     }
     return (0);
 }
 
-void    export_cmd(char **cmd, t_env *env_list) // export var1=abc var2=xyz fkd5sfd5fs  tty=565           export_cmd += t_env env_list
-// export _=abc x2=jdfjg x3=fjghjfdg   djfhdshfjdhshhjdsghjdfjg  x5=kfgjfdg x6=fjdfghdfg -a -q -o
+void    export_cmd(char **cmd, t_env *env_list)
 {
     int i;
     i = 1;
     if (cmd[0] && !cmd[1])
     {
-        write(1, "", 1); // export loop !!!!!!!!!
-    }
-    /////////////////////   FIX this   //////////////////////////
-    else
-    {
-        //while (cmd[i] != '\0' || cmd[i] != '=')
-        while (cmd[i])
+        while (env_list)
         {
-            if (if_allowed(cmd[i], env_list) == 1)
-            {
-                ft_putstr_fd(cmd[i], 1);
-                ft_putstr_fd("\tallowed\n", 1);
-            }
-            else
-                write(1, "fake\n", 5);
-            i++;
+            ft_putstr_fd("declare -x ", 1);
+            ft_putstr_fd(env_list->env_name, 1);
+            ft_putstr_fd("=", 1);
+            ft_putstr_fd(env_list->env_value, 1);
+            ft_putstr_fd("\n", 1);
+            env_list = env_list->next;
         }
     }
-    ////////////////////////////////////////////////////////////
-    // after fixing export + cmd[1]
-    while (cmd[i])
+    // fix exit
+    else   // fix [export + str_without_=]
     {
-        printf("%s\n", cmd[i]);
-        i++;
+        while (cmd[i])
+        {
+            if_allowed(cmd[i], env_list);
+            i++;
+        }
     }
     return ;
 }
