@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:52:38 by oel-houm          #+#    #+#             */
-/*   Updated: 2023/05/09 18:48:11 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/09 20:25:41 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,11 @@ static int	ft_isnum(char *str) // ft_isnum ft_isdigit
 	return (1);
 }
 
-void		exit_cmd(char **cmd) // exit_cmd takes 2 params: cmd + copy_of_env
+void		exit_cmd(char **cmd)
 {
+	int	i;
+
+	i = 0;
 	if (number_of_args(cmd) > 1)
 	{
 		//4-set exit status to 1
@@ -60,7 +63,9 @@ void		exit_cmd(char **cmd) // exit_cmd takes 2 params: cmd + copy_of_env
 	}
 	else if (number_of_args(cmd) == 1)
 	{
-		if (!(ft_isnum(cmd[1])))
+		if (cmd[1][0] == '+' || cmd[1][0] == '-')
+			i++;
+		if (!(ft_isnum(&cmd[1][i])))
 		{
 			ft_putstr_fd("exit\n", 2);
 			ft_putstr_fd("minishell: exit: ", 2);
@@ -72,6 +77,12 @@ void		exit_cmd(char **cmd) // exit_cmd takes 2 params: cmd + copy_of_env
 		else
 		{
 			global_exit = ft_atoi(cmd[1]);
+			if (global_exit < 0)
+			{
+				global_exit = global_exit * -1;
+				global_exit = 256 - global_exit;
+			}
+			ft_putstr_fd("exit\n", 2);
 			exit(global_exit);
 		}
 	}
