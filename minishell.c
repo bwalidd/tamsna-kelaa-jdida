@@ -296,83 +296,6 @@ void    env_cmd(char **cmd, t_env *env_list) // deny printing equal character "=
     }
 }
 
-void    cd_cmd(char **cmd, t_env *env_list)
-{
-    //if (**char args && args[1] && args[2])
-    // then print "error: too many arguments" + exit(1)
-    // printf("d=%d\n", find_env(cmd[1], env_list));
-    // cd ./project313/42network
-    // add in $OLDPWD and $PWD
-
-    // KAYN WA7D LPROBLEM MNIN KANDIR UNSET PATH, PWD, OLDPWD
-        // khassni nzid export PWD=$PATH instead of dak tkhrbi9 li dayr 
-    int     ret;
-    char    *path;
-    char    *pwd;
-    pwd = getcwd(NULL, 0);
-    ret = 0;
-    if (cmd[0] && !cmd[1])
-        ret = chdir("/Users/oel-houm");
-    else
-    {
-        path = ft_strdup(cmd[1]);
-        ret = chdir(path);
-    }
-    (void)env_list;
-    if (ret == -1) // if chdir() returns -1, it means that the directory could not be changed.
-        perror("chdir error"); // using perror to print the error message to the console.
-    else
-    {
-        if (pwd)
-        {
-            set_env("OLDPWD", pwd, env_list);
-            free(pwd);
-        }
-        if ((pwd = getcwd(NULL, 0)))
-        {
-            set_env("PWD", pwd, env_list);
-            free(pwd);
-        }
-        // ft_putstr_fd("PWD=", 1);
-        // ft_putstr_fd(get_env_value("PWD", env_list), 1);
-        // ft_putstr_fd("\n", 1);
-        // ft_putstr_fd("OLDPWD=", 1);
-        // ft_putstr_fd(get_env_value("OLDPWD", env_list), 1);
-        // ft_putstr_fd("\n", 1);
-    }
-    return ;
-    // free(pwd);
-}
-
-void    print_export_string(char *str)
-{
-    int     i;
-
-    i = 0;
-    while (str[i] != '=' && str[i] != '\0')
-    {
-        write(2, &str[i], 1);
-        i++;
-    }
-}
-
-int     is_allowed(char *str)
-{
-    int i;
-
-    i = 0;
-    while (str[i] != '\0' && str[i] != '=')
-    {
-        if ((str[i] >= 33 && str[i] <= 47) ||
-            (str[i] >= 58 && str[i] <= 64) ||
-            (str[i] >= 91 && str[i] <= 96) ||
-            (str[i] >= 123 && str[i] <= 126))
-            return (0);
-        i++;
-    }
-    return (1);
-}
-
 
 
 /* this function need some improvements (to fix later):
@@ -447,6 +370,18 @@ void    do_export(char *str, t_env *env_list)
     tail_env->next = new_env;
 }
 
+
+void    print_export_string(char *str)
+{
+    int     i;
+
+    i = 0;
+    while (str[i] != '=' && str[i] != '\0')
+    {
+        write(2, &str[i], 1);
+        i++;
+    }
+}
 void    print_invalid_identifier_error(char *str)
 {
     ft_putstr_fd("minishell: export: `", 2);
@@ -454,20 +389,52 @@ void    print_invalid_identifier_error(char *str)
     ft_putstr_fd("': not a valid identifier\n", 2);
 }
 
-// allowed begin char
-int     if_allowed(char *str, t_env *env_list) // export_checker //check begin // check export arg
+int     is_allowed(char *str)
 {
-    int     i;
+    int i;
+
+    i = 0;
+    while (str[i] != '\0' && str[i] != '=')
+    {
+        if ((str[i] >= 33 && str[i] <= 47) ||
+            (str[i] >= 58 && str[i] <= 64) ||
+            (str[i] >= 91 && str[i] <= 96) ||
+            (str[i] >= 123 && str[i] <= 126))
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
+int no_space(char *str) // is_nospace
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        if (str[i] == '=')
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
+// allowed begin char
+void     if_allowed(char *str, t_env *env_list) // export_checker //check begin // check export arg
+{
+    int i;
 
     i = 1;
-    if (!ft_isalpha(str[0]) && str[0] != '_')
+    if (!ft_isalpha(str[0]) && str[0] != '_')         // check begining str[0]
     {
         while (str[i] != '\0' && str[i] != '=')
         {
             if (str[0] >= 48 && str[0] <= 57)
             {
                 print_invalid_identifier_error(str);
-                return (0);
+                return ;
+                //return (0);
             }
             else if ((str[0] >= 33 && str[0] <= 47) ||
                 (str[0] >= 58 && str[0] <= 64) ||
@@ -475,22 +442,29 @@ int     if_allowed(char *str, t_env *env_list) // export_checker //check begin /
                 (str[0] >= 123 && str[0] <= 126))
             {
                 print_invalid_identifier_error(str);
-                return (0);
+                return ;
+                //return (0);
             }
             i++;
         }
     }
-    else
+    else //check all str
     {
-        if (is_allowed(&str[i]) == 1)
-        {
+        if (no_space(&str[i]) == 1)
+            return ;
+        else if (is_allowed(&str[i]) == 1)
             do_export(str, env_list);
-        }
         else
             print_invalid_identifier_error(str);
     }
-    return (0);
+    return ;
+    //return (0);
 }
+/*
+FIX THIS
+MINISHELL$ export _y_name=david
+minishell: export: `_y_name': not a valid identifier
+*/
 
 void    export_cmd(char **cmd, t_env *env_list)
 {
@@ -508,8 +482,7 @@ void    export_cmd(char **cmd, t_env *env_list)
             env_list = env_list->next;
         }
     }
-    // fix exit
-    else   // fix [export + str_without_=]
+    else
     {
         while (cmd[i])
         {
@@ -562,6 +535,71 @@ void    unset_cmd(char **cmd, t_env *env_list)
 }
 // unset SHELL OLDPWD PWD TERM PAGER LS_COLORS LSCOLORS USERLOGIN HOME TMPDIR LANG SHLVL LESS MallocNanoZone _ ZSH ORIGINAL_XDG_CURRENT_DESKTOP SSH_AUTH_SOCK Apple_PubSub_Socket_Render LOGNAME USER COMMAND_MODE COLORTERM XPC_FLAGS ZDOTDIR SECURITYSESSIONID  GIT_ASKPASS XPC_SERVICE_NAME USER_ZDOTDIR __CF_USER_TEXT_ENCODING TERM_PROGRAM TERM_PROGRAM_VERSION                        
 // PATH
+
+
+
+
+
+void    cd_cmd(char **cmd, t_env *env_list)
+{
+    //if (**char args && args[1] && args[2])
+    // then print "error: too many arguments" + exit(1)
+    // printf("d=%d\n", find_env(cmd[1], env_list));
+    // cd ./project313/42network
+    // add in $OLDPWD and $PWD
+
+    // KAYN WA7D LPROBLEM MNIN KANDIR UNSET PATH, PWD, OLDPWD
+        // khassni nzid export PWD=$PATH instead of dak tkhrbi9 li dayr 
+    int     ret;
+    char    *path;
+    char    *pwd;
+    char    **export_cwd;
+    //
+    //char **pwd_ptr = malloc(sizeof(char*) * 3);
+    //
+    pwd = getcwd(NULL, 0);
+    ret = 0;
+    if (cmd[0] && !cmd[1])
+        ret = chdir("/Users/oel-houm");
+    else
+    {
+        path = ft_strdup(cmd[1]);
+        ret = chdir(path);
+    }
+    (void)env_list;
+    if (ret == -1) // if chdir() returns -1, it means that the directory could not be changed.
+        perror("chdir error"); // using perror to print the error message to the console.
+    else
+    {
+        if (pwd)
+        {
+            ///////// fix that
+            export_cwd = ft_split("export pwd=yasalam", ' ');
+            export_cmd(export_cwd, env_list);
+            set_env("OLDPWD", pwd, env_list);
+            free(pwd);
+            //free(pwd_ptr);
+        }
+        if ((pwd = getcwd(NULL, 0)))
+        {
+            ///////// fix that
+            export_cwd = ft_split("export pwd=yasalam", ' ');
+            export_cmd(export_cwd, env_list);
+            set_env("PWD", pwd, env_list);
+            free(pwd);
+            //free(pwd_ptr);
+        }
+        // ft_putstr_fd("PWD=", 1);
+        // ft_putstr_fd(get_env_value("PWD", env_list), 1);
+        // ft_putstr_fd("\n", 1);
+        // ft_putstr_fd("OLDPWD=", 1);
+        // ft_putstr_fd(get_env_value("OLDPWD", env_list), 1);
+        // ft_putstr_fd("\n", 1);
+    }
+    return ;
+    // free(pwd);
+}
+
 
 void    parse_cmd(char **cmd, int *tokenised_cmd, t_env *env_list) //,token
 {

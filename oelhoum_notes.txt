@@ -3,3 +3,4 @@ https://github.com/rizky/42-corrections/blob/master/minishell.pdf
 fclean & clean
 customize hks
 fix readline header in makefile and minishell.h
+// fix exit
