@@ -6,13 +6,13 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 15:49:31 by oel-houm          #+#    #+#             */
-/*   Updated: 2023/05/09 15:49:55 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:21:07 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void    env_cmd(char **cmd, t_env *env_list) // deny printing equal character "=" ila env_name & env_vaue dont exist in case of (unset var)
+void    env_cmd(char **cmd, t_env *env_list)
 {
     (void)cmd;
     while (env_list != NULL)

@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 15:53:43 by oel-houm          #+#    #+#             */
-/*   Updated: 2023/05/09 15:55:26 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:19:24 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ FIX THIS
 MINISHELL$ export _y_name=david
 minishell: export: `_y_name': not a valid identifier
 */
-
-
 
 
 /* this function need some improvements (to fix later):

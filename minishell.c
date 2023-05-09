@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/09 15:57:58 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:15:11 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,18 +113,11 @@ void    parse_cmd(char **cmd, int *tokenised_cmd, t_env *env_list) //,token
         env_cmd(cmd, env_list);
     }
     else if (ft_strncmp(cmd[0], "cd", 2) == 0 && !cmd[0][2])
-    {
-        cd_cmd(cmd, env_list); // KAYN WA7D LPROBLEM MNIN KANDIR UNSET PATH, PWD, OLDPWD
-        // khassni nzid export PWD=$PATH instead of dak tkhrbi9 li dayr 
-    }
+        cd_cmd(cmd, env_list);
     else if (ft_strncmp(cmd[0], "export", 6) == 0)
-    {
         export_cmd(cmd, env_list);
-    }
     else if (ft_strncmp(cmd[0], "unset", 5) == 0)
-    {
         unset_cmd(cmd, env_list);
-    }
     else
         write(1, ":(\n", 3);
 }
