@@ -16,3 +16,11 @@ need for some functions to code unset, export cmds
 	prototype:
 
 #include "../minishell.h"
+
+tldraw prototype
+split(cmd, token=6)
+open all files first + check them with access and opendir
+start execution
+errno enomen erange
+signals
+https://github.com/jdecorte-be/42-minishell/blob/master/common/builtins/unset.c
