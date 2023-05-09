@@ -1,9 +1,0 @@
-need for some functions to code unset, export cmds
-
-1-need dealing with env_list
-2-a function help me to search env variables
-	prototype:	
-3-a function help me to set env
-	prototype:	
-
-#include "../minishell.h"

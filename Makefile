@@ -25,6 +25,12 @@ SRC = minishell \
 		parsing/delete_quoate \
 		parsing/expand/expand \
 		parsing/expand/expand2 \
+		execution/unset.c \
+		execution/exit.c \
+		execution/pwd.c \
+		execution/echo.c \
+		execution/cd.c \
+		execution/export.c \
 
 
 OBJ = $(SRC:=.o)

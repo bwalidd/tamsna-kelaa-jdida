@@ -5,3 +5,14 @@ customize hks
 fix readline header in makefile and minishell.h
 // fix exit
 handle perm in cd
+
+
+need for some functions to code unset, export cmds
+
+1-need dealing with env_list
+2-a function help me to search env variables
+	prototype:
+3-a function help me to set env
+	prototype:
+
+#include "../minishell.h"

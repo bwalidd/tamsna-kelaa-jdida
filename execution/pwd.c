@@ -3,18 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-houm <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 15:21:15 by oel-houm          #+#    #+#             */
-/*   Updated: 2023/04/28 15:38:51 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/09 15:42:48 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "../minishell.h"
 
+void	pwd_cmd(char **line)
+{
+	(void)line;
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		perror("getcwd"); //manage the error
+	ft_putendl_fd(cwd, 1);
+	free(cwd);
+}
+
+/*
 void		ft_putstr_fd(char *s, int fd)
 {
 	int	i;
@@ -46,3 +56,4 @@ int		main()
 	pwd_cmd(s);
 	return (0);
 }
+*/
