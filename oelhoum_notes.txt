@@ -24,3 +24,4 @@ start execution
 errno enomen erange
 signals
 https://github.com/jdecorte-be/42-minishell/blob/master/common/builtins/unset.c
+fix permissions in cd

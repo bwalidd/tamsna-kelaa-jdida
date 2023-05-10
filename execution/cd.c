@@ -6,138 +6,82 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 04:23:19 by oel-houm          #+#    #+#             */
-/*   Updated: 2023/05/09 17:15:21 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:21:41 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/*
-void    cd_cmd(char **cmd, t_env *env_list)
+static void		print_error(char **args)
 {
-    int     ret;
-    char    *path;
-    char    *pwd;
+	ft_putstr_fd("cd: ", 2);
+	if (args[2])
+		ft_putstr_fd("string not in pwd: ", 2);
+	else
+	{
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd(": ", 2);
+	}
+	ft_putendl_fd(args[1], 2);
+}
+
+void    update_PWD_and_OLDPWD(char *pwd, t_env *env_list)
+{
     char    **export_cwd;
     char    *tmp_arg;
 
+    if (pwd)
+    {
+        tmp_arg = ft_strjoin("export OLDPWD=", pwd);
+        export_cwd = ft_split(tmp_arg, ' ');
+        free(tmp_arg);
+        export_cmd(export_cwd, env_list);
+        free(export_cwd);
+        free(pwd);
+    }
     pwd = getcwd(NULL, 0);
-    ret = 0;
-    if (cmd[0] && !cmd[1])
-        ret = chdir("/Users/oel-houm"); // $HOME
-    else
+    if (pwd)
     {
-        // path = ft_strdup(cmd[1]);
-        // ret = chdir(path);
-        path = ft_strdup(cmd[1]);
-        if (access(path, R_OK | X_OK) != 0)
-        {
-            perror("/ User does not have read/execute permission for directory");
-        }
-        if (access(path, F_OK) == -1) // Check if the directory exists
-            perror("No such file or directory"); // If the directory does not exist, print an error message
-        else if (access(path, X_OK) == -1) // Check if the directory is executable
-            perror("Not a directory"); // If the directory is not executable, print an error message
-        else
-            ret = chdir(path); // If the directory exists and is executable, change the directory
-        free(path);
+        tmp_arg = ft_strjoin("export PWD=", pwd);
+        export_cwd = ft_split(tmp_arg, ' ');
+        free(tmp_arg);
+        export_cmd(export_cwd, env_list);
+        free(export_cwd);
+        free(pwd);
     }
-    (void)env_list;
-    if (ret == -1) // if chdir() returns -1, it means that the directory could not be changed.
-        perror("chdir error"); // using perror to print the error message to the console.
     else
-    {
-        if (pwd)
-        {
-            tmp_arg = ft_strjoin("export OLDPWD=", pwd);
-            export_cwd = ft_split(tmp_arg, ' ');
-            free(tmp_arg);
-            export_cmd(export_cwd, env_list);
-            free(export_cwd);
-            free(pwd);
-        }
-        if ((pwd = getcwd(NULL, 0)))
-        {
-            tmp_arg = ft_strjoin("export PWD=", pwd);
-            export_cwd = ft_split(tmp_arg, ' ');
-            free(tmp_arg);
-            export_cmd(export_cwd, env_list);
-            free(export_cwd);
-            free(pwd);
-        }
-    }
-    // free(pwd);
-    return ;
+        perror("minishell: getcwd");
 }
-*/
 
 void cd_cmd(char **cmd, t_env *env_list)
 {
-    int ret;
-    char *path;
-    char *pwd;
-    char **export_cwd;
-    char *tmp_arg;
+    int     cd_ret;
+    char    *path;
+    char    *pwd;
 
+    cd_ret = 0;
     pwd = getcwd(NULL, 0);
-    ret = 0;
     if (cmd[0] && !cmd[1])
-        ret = chdir("/Users/oel-houm"); // $HOME
+    {
+        path = ft_strdup("/Users/oel-houm");
+        //path = ft_strdup("/home/toowan");
+        if (access(path, F_OK) != -1)
+            cd_ret = chdir(path); // $HOME
+        else
+            perror("minishell: cd");
+        free(path);
+    }
     else
     {
         path = ft_strdup(cmd[1]);
-        if (access(path, F_OK) == -1)
-        {
-            ft_putstr_fd("No such file or directory\n", 2);
-			return ;
-        }
-        else if (access(path, X_OK) == -1)
-        {
-            ft_putstr_fd("Not a directory\n", 2);
-			return ;
-        }
-		else if (access(path, R_OK | X_OK) != 0)
-        {
-            //perror("minishell: cd");
-            ft_putstr_fd("Permission denied\n", 2);
-			return ;
-        }
-        else
-        {
-            ret = chdir(path);
-        }
+        cd_ret = chdir(path);
         free(path);
-    }
-    (void)env_list;
-    if (ret == -1)
-    {
-        perror("chdir error");
-    }
-    else
-    {
-        if (pwd)
-        {
-            tmp_arg = ft_strjoin("export OLDPWD=", pwd);
-            export_cwd = ft_split(tmp_arg, ' ');
-            free(tmp_arg);
-            export_cmd(export_cwd, env_list);
-            free(export_cwd);
-            free(pwd);
-        }
-        pwd = getcwd(NULL, 0);
-        if (pwd)
-        {
-            tmp_arg = ft_strjoin("export PWD=", pwd);
-            export_cwd = ft_split(tmp_arg, ' ');
-            free(tmp_arg);
-            export_cmd(export_cwd, env_list);
-            free(export_cwd);
-            free(pwd);
-        }
+        if (cd_ret < 0)
+            cd_ret *= -1;
+        if (cd_ret != 0)
+            print_error(cmd);
         else
-        {
-            perror("getcwd error");
-        }
+            update_PWD_and_OLDPWD(pwd, env_list);
     }
     return;
 }
