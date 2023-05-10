@@ -161,6 +161,7 @@ int main(int ac, char **av, char **env)
                  //   printf("%s\n", s[j]);
                   //  j++;
                // }
+               expand(s, t, env_list);
                parse_cmd(s, t, env_list);
                i++;
             //}

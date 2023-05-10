@@ -25,7 +25,7 @@ static void		print_error(char **args)
 	ft_putendl_fd(args[1], 2);
 }
 
-void    update_PWD_and_OLDPWD(char *pwd, t_env *env_list)
+static void update_PWD_and_OLDPWD(char *pwd, t_env *env_list)
 {
     char    **export_cwd;
     char    *tmp_arg;
