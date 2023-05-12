@@ -39,7 +39,7 @@ typedef struct s_env
 
 extern int global_exit;
 
-typedef enum token
+typedef enum e_token //this
 {
 	CMD_NAME = 1,
 	CMD_ARG,
