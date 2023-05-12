@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/09 16:15:11 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/12 20:22:41 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,28 +318,48 @@ int main(int ac, char **av, char **env)
      cmd = parse_operator(cmd);
      s = args_split(cmd);
      int num_of_cmds = count_cmds(s, '|');
-    int *tt = tokenise_cmd(s);
-    char ***yes = cmd_ptr(s, tt);
-               (void)env_list;
-               (void)s;
-               (void)tt;
+    int *t = tokenise_cmd(s);
+    char ***yes = cmd_ptr(s, t);
+            //    (void)env_list;
+            //    (void)s;
+            //    (void)tt;
                int l = 0;
                int d = 0;
                //int num_of_cmds = count_cmds(sz, '|');
+               //int num_of_cmds = count_cmds(s, '|');
                //printf("%d", num_of_cmds);
                while (l < num_of_cmds)
                {
                     d = 0;
                     while (yes[l][d])
                     {
-                        printf("%s ", yes[l][d]);
+                        //printf("%s ", yes[l][d]);
                         // if (yes[l][d + 1] == NULL)
                         //     printf("before:\n%s       after:%s\n", yes[l][d], yes[l][d + 1]);
                         d++;
                     }
-                    printf("\n");
+                    //printf("\n");
                     l++;
                 }
+                int pid = fork();
+                int status;
+                if (pid == -1)
+                {
+                    perror("fork");
+                    exit(EXIT_FAILURE);
+                }
+                if (pid == 0)
+                {
+                    execvp(yes[0][0], yes[0]);
+                    exit(EXIT_SUCCESS);
+                }
+                else
+                {
+                    wait(&status);
+                    //printf("pid else parent \n");
+                    //execvp(yes[0][0], yes[0]);
+                }
+                //execvp(yes[0][0], yes[0]);
                //expand(s, t, env_list);
                //parse_cmd(s, t, env_list);
                i++;
@@ -355,6 +375,11 @@ int main(int ac, char **av, char **env)
 
 
 /*
+
+env -i ./minishell
+<Makefile>yy
+code sort_env_list func
+
 char* input_string = "echo 'hello_world' >> outfile | ls -l | wc -l >> outfile_2"; =>to=>char**
 Echo	            ===	1
 'hello wolrd'	    ===	2
@@ -382,3 +407,20 @@ char    **split_cmd_by_pipe(char **cmd_split, int *tokens)
 */
 
 //char **cmd_ptr = malloc x 3;
+
+
+
+/*
+char **s = {"echo", "'hello_world'", ">>", "outfile", "|", "ls", "-l", "|", "wc", "-l", ">>", "outfile_2"};
+
+char ***cmd_ptr;
+char cmd_ptr[0];
+char cmd_ptr[1];
+char cmd_ptr[2];
+...
+int *t = 1 2 x x 6 ;
+
+
+
+tokinise(cmd_ptr[0]);
+*/
