@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/12 20:22:41 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/13 18:52:45 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,8 +294,13 @@ int main(int ac, char **av, char **env)
     global_exit = 0;
     while (1)
     {
-        if (*cmd)
+        if (cmd)
             add_history(cmd);
+        else
+        {
+            printf("ctrl + d, exiting with value 127\n");
+            return (127);
+        }
         if (parse(cmd))
         {
             int i = 0;
@@ -420,6 +425,8 @@ char cmd_ptr[2];
 ...
 int *t = 1 2 x x 6 ;
 
+
+tokinsie(cmd_ptr[1];)
 
 
 tokinise(cmd_ptr[0]);
