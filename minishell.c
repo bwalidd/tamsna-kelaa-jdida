@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/13 18:52:45 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/13 19:12:14 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,7 +325,7 @@ int main(int ac, char **av, char **env)
      int num_of_cmds = count_cmds(s, '|');
     int *t = tokenise_cmd(s);
     char ***yes = cmd_ptr(s, t);
-            //    (void)env_list;
+                (void)env_list;
             //    (void)s;
             //    (void)tt;
                int l = 0;

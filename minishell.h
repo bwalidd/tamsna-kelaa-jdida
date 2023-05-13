@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 21:59:40 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/09 15:57:02 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/13 19:11:55 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 //# include "/usr/include/readline/readline.h"
 //# include "/usr/include/readline/history.h"
 # include <errno.h>
-
+# include <sys/wait.h>
 
 typedef struct s_env
 {
