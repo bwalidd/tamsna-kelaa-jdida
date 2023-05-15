@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 21:59:40 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/09 15:57:02 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/15 19:20:42 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 //# include "/usr/include/readline/history.h"
 # include <errno.h>
 
+
+# define STDIN 	0
+# define STDOUT 1
+# define STDERR 2
 
 typedef struct s_env
 {
@@ -99,5 +103,7 @@ void	echo_cmd(char **line, int *t);
 void	env_cmd(char **cmd, t_env *env_list);
 void    export_cmd(char **cmd, t_env *env_list);
 void    cd_cmd(char **cmd, t_env *env_list);
+
+//void	piping_child_cmd(char *cmd, char **env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/13 18:52:45 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/15 20:53:30 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,6 +276,23 @@ char ***cmd_ptr(char **cmds, int *tokens)
     return (cmd_ptr);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+// void execute_command(char **cmd, )
+// {
+//     //
+// }
+
+
 int main(int ac, char **av, char **env)
 {
     (void)ac;
@@ -296,11 +313,11 @@ int main(int ac, char **av, char **env)
     {
         if (cmd)
             add_history(cmd);
-        else
-        {
-            printf("ctrl + d, exiting with value 127\n");
-            return (127);
-        }
+        // else
+        // {
+        //     printf("ctrl + d, exiting with value 127\n");
+        //     return (127);
+        // }
         if (parse(cmd))
         {
             int i = 0;
@@ -336,6 +353,7 @@ int main(int ac, char **av, char **env)
                while (l < num_of_cmds)
                {
                     d = 0;
+                    //  cmd exec here 
                     while (yes[l][d])
                     {
                         //printf("%s ", yes[l][d]);
@@ -346,27 +364,28 @@ int main(int ac, char **av, char **env)
                     //printf("\n");
                     l++;
                 }
-                int pid = fork();
-                int status;
-                if (pid == -1)
-                {
-                    perror("fork");
-                    exit(EXIT_FAILURE);
-                }
-                if (pid == 0)
-                {
-                    execvp(yes[0][0], yes[0]);
-                    exit(EXIT_SUCCESS);
-                }
-                else
-                {
-                    wait(&status);
-                    //printf("pid else parent \n");
-                    //execvp(yes[0][0], yes[0]);
-                }
+                wait(NULL);
+                // int pid = fork();
+                // int status;
+                // if (pid == -1)
+                // {
+                //     perror("fork");
+                //     exit(EXIT_FAILURE);
+                // }
+                //    if (pid == 0)
+                //    {
+                //    execvp(yes[0][0], yes[0]);
+                //         exit(EXIT_SUCCESS);
+                //     }
+                //     else
+                //     {
+                //         wait(&status);
+                //         //printf("pid else parent \n");
+                //         //execvp(yes[0][0], yes[0]);
+                //     }
                 //execvp(yes[0][0], yes[0]);
-               //expand(s, t, env_list);
-               //parse_cmd(s, t, env_list);
+                expand(s, t, env_list);
+                parse_cmd(s, t, env_list);
                i++;
             //}
         }
