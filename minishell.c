@@ -6,7 +6,7 @@
 /*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/15 18:56:55 by wbouwach         ###   ########.fr       */
+/*   Updated: 2023/05/18 01:35:23 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,7 +290,7 @@ int main(int ac, char **av, char **env)
     }
     env_list = create_env_list(env);
     //prompt(env_list);
-    cmd = readline(BLUE"MINISHELL$ "WHITE);
+    cmd = readline(GREEN"minishell ▸ "WHITE);
     global_exit = 0;
     while (1)
     {
@@ -365,14 +365,14 @@ int main(int ac, char **av, char **env)
                     //execvp(yes[0][0], yes[0]);
                 }
                 //execvp(yes[0][0], yes[0]);
-               expand(s, t, env_list);
-               parse_cmd(s, t, env_list);
+               //expand(s, t, env_list);
+               //parse_cmd(s, t, env_list);
                i++;
             //}
         }
        // prompt(env_list);
        // free(cmd);
-        cmd = readline(BLUE"MINISHELL$ "WHITE);
+        cmd = readline(GREEN"minishell ▸ "WHITE);
     }
     return (global_exit);
 }

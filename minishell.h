@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 21:59:40 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/13 19:11:55 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/18 01:31:47 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINISHELL_H
 # define BLUE "\033[1;34m"
 # define WHITE "\033[0m"
+# define GREEN "\033[0;32m"
+# define PURPLE "\033[0;35m"
 
 # include <stdio.h>
 # include <stdlib.h>
