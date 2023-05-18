@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 02:49:24 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/05 22:25:39 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/19 00:15:45 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,27 +64,27 @@ int parse(char *line)
 {
 	if (!line || !(*line))
 	{
-		global_exit = 2;
+		global_exit = 10;
 		return (0);
 	}
 	if (check_oper('|', line, 1) || check_oper('<', line, 2) || check_oper('>', line, 2))
 	{
-		global_exit = 2;
+		global_exit = 20;
 		return (0);
 	}
 	if (check_oper_in_last(line, '|') || check_oper_in_last(line, '<') || check_oper_in_last(line, '>'))
 	{
-		global_exit = 2;
+		global_exit = 30;
 		return (0);
 	}
 	if (check_chars(line,"\\;") || check_pipe(line))
 	{
-		global_exit = 2;
+		global_exit = 40;
 		return (0);
 	}
 	if (is_empty(line) || is_unclosed_quotes(line))
 	{
-		global_exit = 2;
+		global_exit = 50;
 		return (0);
 	}
 	

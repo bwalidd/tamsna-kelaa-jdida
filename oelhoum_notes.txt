@@ -25,3 +25,8 @@ errno enomen erange
 signals
 https://github.com/jdecorte-be/42-minishell/blob/master/common/builtins/unset.c
 fix permissions in cd
+
+check if the command exist in os 
+if cmd == dfjdsjflk instead of ....
+
+nbdel get_cmd_path env b t_env

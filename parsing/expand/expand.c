@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wbouwach <wbouwach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 23:53:12 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/12 20:03:50 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/18 00:29:33 by wbouwach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static char *replace_var(char *cmd, int *i,t_env *env)
  
 // replace_var ex 
 // echo
-// "hi my home dir is"$HOME"and and "$HOME
+// "hi my home dir is"'$HOME'"and and "$HOME
 // str = "hi my home dir is"
 // str2 = "hi my home dir is"wbouwach
 // str = "and and"$HOME
@@ -70,7 +70,7 @@ static char *replace_var(char *cmd, int *i,t_env *env)
  
 static char *apply_expansion(char *cmd, t_env *env, int *i, int flag)
 {
-    if (cmd[*i] == '$' && flag == 0 && (ft_isalnum(cmd[*i + 1]) || cmd[*i + 1] == '_'))
+    if (cmd[*i] == '$' &&  (flag != 1) && (ft_isalnum(cmd[*i + 1]) || cmd[*i + 1] == '_'))
     {
         cmd = replace_var(cmd, i, env);
         if (cmd[*i] == '$' || cmd[*i] == '"' || cmd[*i] == '\'')
@@ -78,7 +78,7 @@ static char *apply_expansion(char *cmd, t_env *env, int *i, int flag)
         else if (!cmd[*i])
             *i = -2;
     }
-    else if (cmd[*i] == '$' && flag == 0)
+    else if (cmd[*i] == '$' && flag != 1)
     {
         cmd = replace_wrong_name(cmd, i);
         if (cmd[*i] == '$' || cmd[*i] == '"' || cmd[*i] == '\'')
@@ -101,7 +101,7 @@ char *apply_expander(char *cmd, t_env *env)
     while (cmd[i] && i != -1)
     {
         quoate_flag(&flag,cmd[i]);
-        if (cmd[i] == '$' && cmd[i + 1] == '?' && flag == 0)
+        if (cmd[i] == '$' && cmd[i + 1] == '?' && flag != 1)
         {
             cmd = replacing(cmd,&i);
             if (cmd[i] == '$' || cmd[i] == '"' || cmd[i] == '\'')
@@ -109,7 +109,7 @@ char *apply_expander(char *cmd, t_env *env)
             else if (cmd[i] == 0)
                 break ;
         }
-        else if (cmd[i] == '$' && flag == 0 && (cmd[i + 1] == '$' || cmd[i + 1] == '\0'))
+        else if (cmd[i] == '$' && flag != 1 && (cmd[i + 1] == '$' || cmd[i + 1] == '\0'))
         {
                 // just printing $
             //printf("$b");

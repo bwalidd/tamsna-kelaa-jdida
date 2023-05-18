@@ -6,14 +6,17 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 21:59:40 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/15 19:20:42 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/19 00:32:36 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # define BLUE "\033[1;34m"
 # define WHITE "\033[0m"
+# define GREEN "\033[0;32m"
+# define PURPLE "\033[0;35m"
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -26,7 +29,7 @@
 //# include "/usr/include/readline/readline.h"
 //# include "/usr/include/readline/history.h"
 # include <errno.h>
-
+# include <sys/wait.h>
 
 # define STDIN 	0
 # define STDOUT 1
@@ -45,18 +48,18 @@ extern int global_exit;
 
 typedef enum e_token //this
 {
-	CMD_NAME = 1,
-	CMD_ARG,
-	R_IN_SIG,
-	R_OUT_SIG,
-	R_OUT_FILE,
-	PIPE,
-	R_APP_SIG,
-	R_APP_FILE,
-	R_IN_FILE,
-	HEREDOC_SIG,
-	HEREDOC_LIM,
-	EMPTY,
+	CMD_NAME = 1,	//	
+	CMD_ARG, 		//	
+	R_IN_SIG,		//	<
+	R_OUT_SIG,		//	>
+	R_OUT_FILE,		//	
+	PIPE,			//	
+	R_APP_SIG,		// >>	
+	R_APP_FILE,		//	
+	R_IN_FILE,		//	
+	HEREDOC_SIG,	//	<<
+	HEREDOC_LIM,	//	
+	EMPTY,			//	
 }	t_token;
 
 
