@@ -1,8 +1,8 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
-READLINE = -lreadline -L ./readline -I ./readline -lcurses
-#READLINE = -L /usr/lib/x86_64-linux-gnu -lreadline -lncurses
+#READLINE = -lreadline -L ./readline -I ./readline -lcurses
+READLINE = -L /usr/lib/x86_64-linux-gnu -lreadline -lncurses
 LDLIBS = -lreadline -lncurses
 
 .c.o:

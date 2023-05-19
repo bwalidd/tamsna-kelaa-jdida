@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/19 00:34:21 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/19 03:41:16 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,7 +289,7 @@ void    exec_cmd(char **cmd_args, char **env)
     //error_notcmd(cmd);
 }
 
-void    piping(char **cmd, int infile, int outfile, char **env) // t_env env_list
+void    piping(char **cmd, int infile, int outfile, char **env, int *token, t_env *env_list) // t_env env_list
 {
     int fd[2];
     int pid;
@@ -303,7 +303,46 @@ void    piping(char **cmd, int infile, int outfile, char **env) // t_env env_lis
         dup2(fd[1], outfile);
         close(fd[0]);
         close(fd[1]);
-        exec_cmd(cmd, env);
+        if (ft_strncmp(cmd[0], "echo", 4) == 0 && !cmd[0][4])
+        {
+            printf("echo [piping] ============\n");
+            delete_quoate(cmd);
+            echo_cmd(cmd, token);
+            exit(0); // the exit of echo, pwd, export, unset, ect ..
+        }
+        else if (ft_strncmp(cmd[0], "pwd" , 3) == 0 && !cmd[0][3])
+        {
+            printf("pwd [piping] ============\n");
+            pwd_cmd(cmd);
+            printf("zobiuat\n");
+            exit(0); // the exit of echo, pwd, export, unset, ect ..
+        }
+        else if (ft_strncmp(cmd[0], "env", 3) == 0 && !cmd[0][3])
+        {
+            printf("env [piping] ============\n");
+            env_cmd(cmd, env_list);
+            exit(0); // the exit of echo, pwd, export, unset, ect ..
+        }
+        else if (ft_strncmp(cmd[0], "cd", 2) == 0 && !cmd[0][2])
+        {
+            printf("cd [piping] ============\n");
+            cd_cmd(cmd, env_list);
+            exit(0); // the exit of echo, pwd, export, unset, ect ..
+        }
+        else if (ft_strncmp(cmd[0], "export", 6) == 0)
+        {
+            printf("export [piping] ============\n");
+            export_cmd(cmd, env_list);
+            exit(0); // the exit of echo, pwd, export, unset, ect ..
+        }
+        else if (ft_strncmp(cmd[0], "unset", 5) == 0)
+        {
+            printf("unset [piping] ============\n");
+            unset_cmd(cmd, env_list);
+            exit(0); // the exit of echo, pwd, export, unset, ect ..
+        }
+        else
+            exec_cmd(cmd, env);
     }
     dup2(fd[0], infile);
     close(fd[0]);
@@ -373,13 +412,14 @@ int main(int ac, char **av, char **env)
                     printf("hdfdsjkfjksdfkjs\n");
                     expand(parsed_line_args, args_tokens, env_list);  // !!!!!
                 }
+                expand(parsed_line_args, args_tokens, env_list);
                 cmd = get_piped_cmd_by_ptr(parsed_line_args, args_tokens);
                 i = 0;
                 while (i < num_of_cmds - 1)
                 {
                     out_fd = STDOUT;
                     //
-                    piping(cmd[i], STDIN, out_fd, env);
+                    piping(cmd[i], STDIN, out_fd, env, args_tokens, env_list);
                     i++;
                 }
                 dup2(stdout_copy, STDOUT);
@@ -389,7 +429,6 @@ int main(int ac, char **av, char **env)
                 ft_putstr_fd(": command not found\n", 2);
                 global_exit = 127;
                 exit(127);
-                //parse_cmd(s, t, env_list);
             }
             else
             {
@@ -397,45 +436,78 @@ int main(int ac, char **av, char **env)
                 waitpid(pid, &status, 0);
                 // Handle child process exit status if needed
             }
+            // builtins here to be affected by parent process
+            /*==================================================================================================================*/
                 char **parsed_line_args;
                 int *args_tokens;
+                int i = 0;
                 char ***cmd;
-                
+                    
                 line = parse_operator(line);
                 parsed_line_args = args_split(line);
                 args_tokens = tokenise_cmd(parsed_line_args);
+                expand(parsed_line_args, args_tokens, env_list);
                 cmd = get_piped_cmd_by_ptr(parsed_line_args, args_tokens);
-            ////////////////////
-            if (ft_strncmp(cmd[0][0], "echo", 4) == 0 && !cmd[0][0][4])
+            if (ft_strncmp(cmd[i][0], "echo", 4) == 0 && !cmd[i][0][4])
             {
-                delete_quoate(cmd[0]);
-                echo_cmd(cmd[0], args_tokens);
+                delete_quoate(cmd[i]);
+                printf("zobiuat tq3 echo\n");
+                echo_cmd(cmd[i], args_tokens);
             }
-            else if (ft_strncmp(cmd[0][0], "pwd" , 3) == 0 && !cmd[0][0][3])
+            else if (ft_strncmp(cmd[i][0], "pwd" , 3) == 0 && !cmd[i][0][3])
             {
-                pwd_cmd(cmd[0]);
+                printf("pwd [while] ============\n");
+                char	*cwd;
+	            cwd = getcwd(NULL, 0);
+                printf("pwd is =>%s", cwd);
+	            if (!cwd)
+                {
+                    if (errno == ENOMEM)
+                        ft_putstr_fd("pwd: out of memory\n", 2);
+                    else if (errno == ERANGE)
+                        ft_putstr_fd("pwd: path name too long\n", 2);
+                    else
+                        perror("pwd: getcwd error");
+                }
+	            ft_putendl_fd(cwd, 1);
+	             free(cwd);
+                //pwd_cmd(cmd[i]);
             }
-            else if (ft_strncmp(cmd[0][0], "echo", 4) == 0 && !cmd[0][0][4])
+            else if (ft_strncmp(cmd[i][0], "echo", 4) == 0 && !cmd[i][0][4])
             {
-                delete_quoate(cmd[0]);
-                echo_cmd(cmd[0], args_tokens);
+                delete_quoate(cmd[i]);
+                echo_cmd(cmd[i], args_tokens);
             }
-            else if (ft_strncmp(cmd[0][0], "env", 3) == 0 && !cmd[0][0][3])
+            else if (ft_strncmp(cmd[i][0], "env", 3) == 0 && !cmd[i][0][3])
             {
-                env_cmd(cmd[0], env_list);
+                env_cmd(cmd[i], env_list);
             }
-            else if (ft_strncmp(cmd[0][0], "cd", 2) == 0 && !cmd[0][0][2])
+            else if (ft_strncmp(cmd[i][0], "cd", 2) == 0 && !cmd[i][0][2])
             {
-                cd_cmd(cmd[0], env_list);
+                printf("cd [while] ============\n");
+                int ret = chdir("./libft");
+                if (ret < 0)
+                    printf("hhhhhhhhhhhhhhhhhhhhhhhhh\n");
+                else
+                    printf("yesssssssssssssss\n");
+                //cd_cmd(cmd[i], env_list);
             }
-            else if (ft_strncmp(cmd[0][0], "export", 6) == 0)
+            else if (ft_strncmp(cmd[i][0], "export", 6) == 0)
             {
-                export_cmd(cmd[0], env_list);
+                printf("export ============\n");
+                export_cmd(cmd[i], env_list);
             }
-            else if (ft_strncmp(cmd[0][0], "unset", 5) == 0)
+            else if (ft_strncmp(cmd[i][0], "unset", 5) == 0)
             {
-                unset_cmd(cmd[0], env_list);
+                printf("unset ============\n");
+                unset_cmd(cmd[i], env_list);
             }
+            else
+            {
+                printf("zobiuat else\n");
+                exec_cmd(cmd[i], env);
+            }
+/*==================================================================================================================*/
         }
         walid++;
         line = readline(GREEN"minishell ▸ "WHITE);
