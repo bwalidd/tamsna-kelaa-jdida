@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/19 00:34:21 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/20 01:44:42 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,45 +82,6 @@ void    set_env(char *env_name, char *env_value, t_env *env_list) // new_env_val
             env_list = env_list->next;
         }
     }
-}
-
-void    parse_cmd(char **cmd, int *tokenised_cmd, t_env *env_list) //,token
-{
-    if (ft_strncmp(cmd[0], "exit", 4) == 0 && !cmd[0][4])
-    {
-        (void)env_list;
-        exit_cmd(cmd);
-        int i = 0;
-        while (cmd[i])
-        {
-            free(cmd[i]);
-            i++;
-        }
-        free(cmd);
-    }
-    else if (ft_strncmp(cmd[0], "pwd" , 3) == 0 && !cmd[0][3])
-    {
-        (void)env_list;
-        pwd_cmd(cmd);
-    }
-    else if (ft_strncmp(cmd[0], "echo", 4) == 0 && !cmd[0][4])
-    {
-        (void)env_list;
-        delete_quoate(cmd);
-        echo_cmd(cmd, tokenised_cmd);
-    }
-    else if (ft_strncmp(cmd[0], "env", 3) == 0 && !cmd[0][3])
-    {
-        env_cmd(cmd, env_list);
-    }
-    else if (ft_strncmp(cmd[0], "cd", 2) == 0 && !cmd[0][2])
-        cd_cmd(cmd, env_list);
-    else if (ft_strncmp(cmd[0], "export", 6) == 0)
-        export_cmd(cmd, env_list);
-    else if (ft_strncmp(cmd[0], "unset", 5) == 0)
-        unset_cmd(cmd, env_list);
-    else
-        write(1, ":(\n", 3);
 }
 
 int	count_cmds(char **cmd, char c)
@@ -273,6 +234,59 @@ char	*get_cmd_path(char *cmd, char **env)
 	return (cmd);
 }
 
+void     exec_builtins(char **cmd, int *tokens, t_env *env_list)
+{
+    if (ft_strncmp(cmd[0], "echo", 4) == 0 && !cmd[0][4])
+    {
+        echo_cmd(cmd, tokens); // provide env_list and token
+    }
+    else if (ft_strncmp(cmd[0], "cd", 2) == 0 && !cmd[0][2])
+    {
+        delete_quoate(cmd);
+        cd_cmd(cmd, env_list);
+    }
+    else if (ft_strncmp(cmd[0], "pwd" , 3) == 0 && !cmd[0][3])
+    {
+        pwd_cmd(cmd);
+    }
+    else if (ft_strncmp(cmd[0], "exit", 4) == 0 && !cmd[0][4])
+    {
+        exit_cmd(cmd); // provide env_list
+    }
+    else if (ft_strncmp(cmd[0], "env", 3) == 0 && !cmd[0][3])
+    {
+        env_cmd(cmd, env_list);
+    }
+    else if (ft_strncmp(cmd[0], "export", 6) == 0 && !cmd[0][6])
+    {
+        export_cmd(cmd, env_list);
+    }
+    else if (ft_strncmp(cmd[0], "unset", 5) == 0 && !cmd[0][5])
+    {
+        unset_cmd(cmd, env_list);
+    }
+}
+
+int     is_builtins(char *cmd)
+{
+    if (ft_strncmp(cmd, "echo", 4) == 0 && !cmd[4])
+        return (1);
+    else if (ft_strncmp(cmd, "cd", 2) == 0 && !cmd[2])
+        return (1);
+    else if (ft_strncmp(cmd, "pwd" , 3) == 0 && !cmd[3])
+        return (1);
+    else if (ft_strncmp(cmd, "exit", 4) == 0 && !cmd[4])
+        return (1);
+    else if (ft_strncmp(cmd, "env", 3) == 0 && !cmd[3])
+        return (1);
+    else if (ft_strncmp(cmd, "export", 6) == 0 && !cmd[6])
+        return (1);
+    else if (ft_strncmp(cmd, "unset", 5) == 0 && !cmd[5])
+        return (1);
+    else
+        return (0);
+}
+
 void    exec_cmd(char **cmd_args, char **env)
 {
     char    *path;
@@ -289,12 +303,15 @@ void    exec_cmd(char **cmd_args, char **env)
     //error_notcmd(cmd);
 }
 
-void    piping(char **cmd, int infile, int outfile, char **env) // t_env env_list
+void    piping(char **cmd, int infile, int outfile, char **env, t_env *env_list, int *token) // t_env env_list
 {
     int fd[2];
     int pid;
     int status;
     (void)env;
+
+    (void)token;
+    (void)env_list;
 
     pipe(fd);
     pid = fork(); // handle fork perror 
@@ -303,7 +320,14 @@ void    piping(char **cmd, int infile, int outfile, char **env) // t_env env_lis
         dup2(fd[1], outfile);
         close(fd[0]);
         close(fd[1]);
-        exec_cmd(cmd, env);
+        if (is_builtins(cmd[0]) == 1)
+        {
+            //exit(1);
+            exec_builtins(cmd, token, env_list); ////
+            exit(0);
+        }
+        else
+            exec_cmd(cmd, env);
     }
     dup2(fd[0], infile);
     close(fd[0]);
@@ -370,25 +394,29 @@ int main(int ac, char **av, char **env)
                 args_tokens = tokenise_cmd(parsed_line_args);
                 if (walid == 1)
                 {
-                    printf("hdfdsjkfjksdfkjs\n");
+                    printf("======= before expand =========\n");
                     expand(parsed_line_args, args_tokens, env_list);  // !!!!!
                 }
                 cmd = get_piped_cmd_by_ptr(parsed_line_args, args_tokens);
                 i = 0;
-                while (i < num_of_cmds - 1)
+                //if (is_builtins(cmd[0][0]) == 0 && num_of_cmds > 1)
+                if (num_of_cmds > 1)
                 {
-                    out_fd = STDOUT;
-                    //
-                    piping(cmd[i], STDIN, out_fd, env);
-                    i++;
+                    while (i < num_of_cmds - 1)
+                    {
+                        out_fd = STDOUT;
+                        //
+                        piping(cmd[i], STDIN, out_fd, env, env_list, args_tokens);
+                        i++;
+                    }
+                    dup2(stdout_copy, STDOUT);
+                    exec_cmd(cmd[i], env);
+                    ft_putstr_fd("minishell: ", 2);
+                    ft_putstr_fd(cmd[i][0], 2);
+                    ft_putstr_fd(": command not found\n", 2);
+                    global_exit = 127;
+                    exit(127);
                 }
-                dup2(stdout_copy, STDOUT);
-                exec_cmd(cmd[i], env);
-                ft_putstr_fd("minishell: ", 2);
-                ft_putstr_fd(cmd[i][0], 2);
-                ft_putstr_fd(": command not found\n", 2);
-                global_exit = 127;
-                exit(127);
                 //parse_cmd(s, t, env_list);
             }
             else
@@ -397,9 +425,38 @@ int main(int ac, char **av, char **env)
                 waitpid(pid, &status, 0);
                 // Handle child process exit status if needed
             }
+            // parent process affection here 
+            // if  builtins then exec_builtins
+            char **parsed_line_args;
+            int *args_tokens;
+            char ***cmd;
+            int num_of_cmds;
+            line = parse_operator(line);
+            parsed_line_args = args_split(line);
+            num_of_cmds = count_cmds(parsed_line_args, '|');
+            args_tokens = tokenise_cmd(parsed_line_args);
+            cmd = get_piped_cmd_by_ptr(parsed_line_args, args_tokens);
+            if (num_of_cmds == 1)
+            {
+                if (is_builtins(cmd[0][0]) == 1)
+                    exec_builtins(cmd[0], args_tokens, env_list);
+                else
+                {
+                    int ps = fork();
+                    if (ps == 0)
+                    {
+                        exec_cmd(cmd[0], env);
+                    }
+                    else if (ps > 0)
+                    {
+                        wait(&ps);
+                    }
+                }
+            }
         }
         walid++;
         line = readline(GREEN"minishell ▸ "WHITE);
     }
     return (global_exit);
 }
+// empty line in readline

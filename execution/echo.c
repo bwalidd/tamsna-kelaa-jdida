@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 15:40:53 by oel-houm          #+#    #+#             */
-/*   Updated: 2023/05/09 15:50:39 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/19 23:59:10 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int     check_n_sequence(char *str)
     return (1);
 }
 
-void   echo_cmd(char **line, int *t) // remove the flag_ #FIX
+void   echo_cmd(char **line, int *tokens) // remove the flag_ #FIX
 {
     int i;
     int j;
@@ -41,7 +41,7 @@ void   echo_cmd(char **line, int *t) // remove the flag_ #FIX
     flag_n = 0;
     while (line[i])
     {
-        if (t[i] == 2)
+        if (tokens[i] == 2)
         {
             j = 0;
             jlen = ft_strlen(line[i]) - 1;

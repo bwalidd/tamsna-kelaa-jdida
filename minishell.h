@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 21:59:40 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/19 00:32:36 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/20 00:58:42 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@
 # define STDIN 	0
 # define STDOUT 1
 # define STDERR 2
+
+typedef struct s_global_vars
+{
+	int	num_of_cmds;
+}	t_global_vars;
 
 typedef struct s_env
 {
@@ -102,7 +107,7 @@ int		check_oper_in_last(char *line ,char c);
 void	exit_cmd(char **cmd);
 void	pwd_cmd(char **line);
 void	unset_cmd(char **cmd, t_env *env_list);
-void	echo_cmd(char **line, int *t);
+void	echo_cmd(char **line, int *tokens);
 void	env_cmd(char **cmd, t_env *env_list);
 void    export_cmd(char **cmd, t_env *env_list);
 void    cd_cmd(char **cmd, t_env *env_list);
