@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/20 06:21:06 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/20 06:15:02 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,9 +270,9 @@ void     exec_builtins(char **cmd, int *tokens, t_env *env_list)
 
 int     is_builtins(char *cmd)
 {
-    if (ft_strncmp(cmd, "echp", 4) == 0 && !cmd[4])
+    if (ft_strncmp(cmd, "echo", 4) == 0 && !cmd[4])
         return (1);
-    if (ft_strncmp(cmd, "cd", 2) == 0 && !cmd[2])
+    else if (ft_strncmp(cmd, "cd", 2) == 0 && !cmd[2])
         return (1);
     else if (ft_strncmp(cmd, "pwd" , 3) == 0 && !cmd[3])
         return (1);
@@ -478,7 +478,13 @@ int main(int ac, char **av, char **env)
                         i++;
                     }
                     dup2(stdout_copy, STDOUT);
-                    exec_cmd(cmd[i], env);
+                    if (is_builtins(cmd[i][0]) == 1)
+                    {
+                        exec_builtins(cmd[i], args_tokens, env_list);
+                        exit(0);
+                    }
+                    else
+                        exec_cmd(cmd[i], env);
                     ft_putstr_fd("minishell: ", 2);
                     ft_putstr_fd(cmd[i][0], 2);
                     ft_putstr_fd(": command not found\n", 2);
@@ -596,5 +602,3 @@ head: >>: No such file or directory
 */
 
 // here_doc
-// redirection >, >> f akher cmd
-// fix echo 

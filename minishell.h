@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 21:59:40 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/20 00:58:42 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/20 03:16:15 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 //# include "/usr/include/readline/history.h"
 # include <errno.h>
 # include <sys/wait.h>
+# include <fcntl.h>
 
 # define STDIN 	0
 # define STDOUT 1

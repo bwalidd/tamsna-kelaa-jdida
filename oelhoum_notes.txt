@@ -30,3 +30,4 @@ check if the command exist in os
 if cmd == dfjdsjflk instead of ....
 
 nbdel get_cmd_path env b t_env
+problem f exit cmd
