@@ -1,6 +1,6 @@
 # 42-minishell
 
-![Alt Text](https://media.mwstatic.com/product-images/src/Primary/162/162922_070212.jpg)
+![Alt Text]([https://media.mwstatic.com/product-images/src/Primary/162/162922_070212.jpg](https://1.bp.blogspot.com/-X7FHktZiec0/WL5vD4G5KdI/AAAAAAAANaU/FkRPjO3knmMqq4hvcNq0uJ7VGTHzPpuSQCLcB/s1600/DSC_0796_WEB_2.jpg))
 
 Minishell is a project developed as part of the 42 curriculum. It aims to create a simplified shell that can interpret and execute basic commands, handle environment variables, and implement some built-in functionalities.
 
