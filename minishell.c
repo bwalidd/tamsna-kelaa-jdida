@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/20 06:25:53 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/20 06:59:32 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -585,16 +585,3 @@ int main(int ac, char **av, char **env)
     }
     return (global_exit);
 }
-// empty line in readline
-
-/* // echo hahaha >> oufile => stopi args f redir then give it to echo_cmd
-
-minishell ▸ head minishell.c >> file
-outfile is file
-head: >>: No such file or directory
-
-*/
-
-// here_doc
-// redirection >, >> f akher cmd
-// fix echo 
