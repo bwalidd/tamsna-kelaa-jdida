@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 21:59:40 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/20 03:16:15 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/21 22:42:33 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,18 @@ typedef struct s_env
 	struct s_env 	*next;
 	struct s_env 	*prev;
 }               t_env;
+
+
+typedef struct s_redirection
+{
+	int		redirection_token;
+	int		redirection_index;
+	int		outfile_index;
+	int		out_fd;
+	char	*outfile;
+}	t_redirection;
+
+
 
 extern int global_exit;
 
@@ -114,5 +126,48 @@ void    export_cmd(char **cmd, t_env *env_list);
 void    cd_cmd(char **cmd, t_env *env_list);
 
 //void	piping_child_cmd(char *cmd, char **env);
+
+
+void    piping(char **cmd, int infile, int outfile, char **env, t_env *env_list, int *token);
+char	*get_cmd_path(char *cmd, char **env);
+char	*path_join(char *dir, char *cmd);
+char	*get_cmd_path(char *cmd, char **env);
+void     exec_builtins(char **cmd, int *tokens, t_env *env_list);
+int     is_builtins(char *cmd);
+void    exec_cmd(char **cmd_args, char **env);
+
+
+char    *get_env_value(char *env_var, t_env *env_list);
+int		find_env(char *env, t_env *env_list);
+void    set_env(char *env_name, char *env_value, t_env *env_list);
+
+
+char	***get_piped_cmd_by_ptr(char **cmds, int *tokens);
+int		count_cmds(char **cmd, char c);
+
+
+// typedef	struct s_global_vars
+// {
+// 	char	**parsed_line_args;
+// 	int		num_of_cmds;
+//     int		*args_tokens;
+//     char	***cmd;
+//     int		i;
+//     int		out_fd;
+//     int		stdout_copy;
+//     int		stdin_copy;
+// }	t_var; // cmd_exec_vars
+
+
+
+
+
+void	set_redirect_to_null(char **cmd, int *cmd_tokens);
+int		get_redirection_index(int *cmd_tokens, t_redirection *redirection);
+int		get_outfile_index(int *cmd_tokens, int index);
+void	establish_output_stream(char **cmd, int *cmd_tokens, t_redirection *redirection);
+
+void	dup_output_before_piping(t_redirection *redirection);
+void	dup_output_after_piping(t_redirection *redirection);
 
 #endif

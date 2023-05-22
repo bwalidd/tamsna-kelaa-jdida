@@ -1,7 +1,7 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
-#READLINE = -lreadline -L ./readline -I ./readline -lcurses
+READLINE = -lreadline -L ./readline -I ./readline -lcurses
 READLINE = -L /usr/lib/x86_64-linux-gnu -lreadline -lncurses
 LDLIBS = -lreadline -lncurses
 
@@ -25,13 +25,21 @@ SRC = minishell \
 		parsing/delete_quoate \
 		parsing/expand/expand \
 		parsing/expand/expand2 \
-		execution/unset \
-		execution/exit \
-		execution/pwd \
-		execution/echo \
-		execution/cd \
-		execution/export \
-		execution/env \
+		parsing/split_by_pipe \
+		parsing/count_cmds \
+		builtins/unset \
+		builtins/exit \
+		builtins/pwd \
+		builtins/echo \
+		builtins/cd \
+		builtins/export \
+		builtins/env \
+		execution/piping \
+		execution/exec_cmd \
+		execution/exec_builtins \
+		execution/open_outfile \
+		execution/dup_out \
+		
 
 
 OBJ = $(SRC:=.o)
