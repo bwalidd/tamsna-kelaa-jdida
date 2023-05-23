@@ -39,6 +39,12 @@ SRC = minishell \
 		execution/exec_builtins \
 		execution/open_outfile \
 		execution/dup_out \
+		error_manage/args_error \
+		error_manage/cmd_not_found \
+		error_manage/fork_error \
+		execution/init_shell_data \
+		execution/multi_pipes_execution \
+		execution/single_cmd_execution \
 		
 
 

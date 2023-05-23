@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 21:59:40 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/21 22:42:33 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/23 01:45:46 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,17 @@ typedef struct s_env
 	struct s_env 	*prev;
 }               t_env;
 
+typedef	struct	s_cmd_data
+{
+	char	**parsed_line_args;
+	int		num_of_cmds;
+	int		*args_tokens;
+	char	***cmd;
+	int		*cmd_tokens;
+	int		stdout_copy;
+	int		stdin_copy;
+	int		i; // remove
+} t_cmd_data;
 
 typedef struct s_redirection
 {
@@ -59,6 +70,7 @@ typedef struct s_redirection
 	int		out_fd;
 	char	*outfile;
 }	t_redirection;
+
 
 
 
@@ -170,4 +182,20 @@ void	establish_output_stream(char **cmd, int *cmd_tokens, t_redirection *redirec
 void	dup_output_before_piping(t_redirection *redirection);
 void	dup_output_after_piping(t_redirection *redirection);
 
+void    check_argc(int ac);
+void    cmd_not_found(char *cmd, int *global_exit);
+
+void    init_cmd_data(t_cmd_data *cmd_data, char *line);
+
+
+void	check_fork_fail(pid_t *pid);
+
+void	multi_pipes_execution(t_cmd_data *cmd_data, t_redirection *redirection, char **env, t_env *env_list);
+void    single_cmd_execution(t_cmd_data *cmd_data, t_redirection *redirection, char **env, t_env *env_list);
+
 #endif
+
+// multi_pipes_execution
+// last_pipe_execution
+
+// single_cmd_execution

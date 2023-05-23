@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/23 01:46:26 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/23 01:34:40 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,40 @@ int main(int ac, char **av, char **env)
             {
                 if (cmd_data->num_of_cmds > 1)
                     multi_pipes_execution(cmd_data, redirection, env, env_list);
-                if (cmd_data->num_of_cmds == 1)
-                    single_cmd_execution(cmd_data, redirection, env, env_list);
             }
             else
             {
                 int status;
                 waitpid(pid, &status, 0);
+            }
+            // execute_only_cmd
+            if (cmd_data->num_of_cmds == 1)
+            {
+                cmd_data->cmd_tokens = tokenise_cmd(cmd_data->cmd[0]);
+                establish_output_stream(cmd_data->cmd[0], cmd_data->cmd_tokens, redirection);
+                if (is_builtins(cmd_data->cmd[0][0]) == 1)
+                {
+                    int pid = fork();
+                    if (pid == 0)
+                    {
+                        dup2(redirection->out_fd, STDOUT);
+                        exec_builtins(cmd_data->cmd[0], cmd_data->args_tokens, env_list);
+                        exit(0);
+                    }
+                    else if (pid > 0)
+                        wait(&pid);
+                }
+                else
+                {
+                    int pid = fork();
+                    if (pid == 0)
+                    {
+                        dup2(redirection->out_fd, STDOUT);
+                        exec_cmd(cmd_data->cmd[0], env);
+                    }
+                    else if (pid > 0)
+                        wait(&pid);
+                }
             }
         }
         line = readline(GREEN"minishell ▸ "WHITE);
