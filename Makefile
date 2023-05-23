@@ -6,7 +6,8 @@ RESET = \033[0m
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+#CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -g3
 LDLIBS = -lreadline -lncurses
 
 OS := $(shell uname)
@@ -76,7 +77,7 @@ $(NAME): $(OBJ)
 	@printf "$(YELLOW)Compiling minishell... %-10.10s$(RESET)\r" $@
 	@make -s -C libft/
 	@mv libft/libft.a .
-	@$(CC) $(CFLAGS) $(READLINE) $(OBJ) -o $(NAME) libft.a
+	@$(CC) $(CFLAGS) $(READLINE) $(OBJ) -o $(NAME) $(READLINE) $(LDLIBS) libft.a
 	@printf "$(GREEN)😎 minishell is ready           $(RESET)\n"
 
 clean:

@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 02:31:09 by oel-houm          #+#    #+#             */
-/*   Updated: 2023/05/23 03:39:41 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/23 18:21:22 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void    execute(char *line, t_cmd_data *cmd_data, t_redirection *redirection, ch
     pid_t pid = fork();
     check_fork_fail(&pid);
     init_cmd_data(cmd_data, line);
+    expand(cmd_data->parsed_line_args, cmd_data->args_tokens, env_list);
+    delete_quoate(cmd_data->parsed_line_args);
     if (pid == 0)
     {
         if (cmd_data->num_of_cmds > 1)
