@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 21:59:40 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/23 01:45:46 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/23 02:39:13 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,9 +193,7 @@ void	check_fork_fail(pid_t *pid);
 void	multi_pipes_execution(t_cmd_data *cmd_data, t_redirection *redirection, char **env, t_env *env_list);
 void    single_cmd_execution(t_cmd_data *cmd_data, t_redirection *redirection, char **env, t_env *env_list);
 
+void    execute(char *line, t_cmd_data *cmd_data, t_redirection *redirection, char **env, t_env *env_list);
+
+
 #endif
-
-// multi_pipes_execution
-// last_pipe_execution
-
-// single_cmd_execution

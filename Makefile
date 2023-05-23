@@ -45,6 +45,7 @@ SRC = minishell \
 		execution/init_shell_data \
 		execution/multi_pipes_execution \
 		execution/single_cmd_execution \
+		execution/execute \
 		
 
 
