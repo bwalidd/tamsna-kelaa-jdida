@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/23 02:44:03 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/23 04:31:32 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ int main(int ac, char **av, char **env)
         if (line)
             add_history(line);
         else
-            return (0); // handle signals here
+        {
+            write(1, "\n", 1);
+        }
         if (parse(line))
             execute(line, cmd_data, redirection, env, env_list);
         line = readline(GREEN"minishell ▸ "WHITE);

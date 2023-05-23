@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 01:21:10 by oel-houm          #+#    #+#             */
-/*   Updated: 2023/05/23 01:28:22 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/23 04:54:57 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ void	multi_pipes_execution(t_cmd_data *cmd_data, t_redirection *redirection, cha
         dup_output_after_piping(redirection);
 		i++;
     }
-    // latest cmd in the pipe here ..
-    dup2(cmd_data->stdout_copy, STDOUT);
+    cmd_data->cmd_tokens = tokenise_cmd(cmd_data->cmd[i]);
+    establish_output_stream(cmd_data->cmd[i], cmd_data->cmd_tokens, redirection);
+    dup2(redirection->out_fd, STDOUT);
     exec_cmd(cmd_data->cmd[i], env);
     cmd_not_found(cmd_data->cmd[i][0], &global_exit);
 }

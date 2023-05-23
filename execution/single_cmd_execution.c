@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 01:21:42 by oel-houm          #+#    #+#             */
-/*   Updated: 2023/05/23 01:45:31 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/23 04:41:31 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void    single_cmd_execution(t_cmd_data *cmd_data, t_redirection *redirection, c
         {
             dup2(redirection->out_fd, STDOUT);
             exec_builtins(cmd_data->cmd[0], cmd_data->args_tokens, env_list);
-            exit(0);
+            if (redirection->out_fd != STDOUT)
+                exit(0);
         }
         else if (pid > 0)
             wait(&pid);

@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 02:31:09 by oel-houm          #+#    #+#             */
-/*   Updated: 2023/05/23 02:39:00 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/23 03:39:41 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void    execute(char *line, t_cmd_data *cmd_data, t_redirection *redirection, ch
     {
         if (cmd_data->num_of_cmds > 1)
             multi_pipes_execution(cmd_data, redirection, env, env_list);
-        if (cmd_data->num_of_cmds == 1)
+        else if (cmd_data->num_of_cmds == 1)
             single_cmd_execution(cmd_data, redirection, env, env_list);
     }
-    else
+    else if (pid > 0)
     {
         int status;
         waitpid(pid, &status, 0);
