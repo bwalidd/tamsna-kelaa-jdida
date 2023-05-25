@@ -1,6 +1,5 @@
-# 42-minishell
 
-![Alt Text](https://cdn.outdoorhub.com/wp-content/uploads/sites/2/2015/12/outdoorhub--2015-12-02_00-01-38.jpg)
+#  Minishell
 
 Minishell is a project developed as part of the 42 curriculum. It aims to create a simplified shell that can interpret and execute basic commands, handle environment variables, and implement some built-in functionalities.
 
@@ -8,7 +7,7 @@ Installation
 To install and run the Minishell project, follow these steps:
 
 Clone the repository:
-'git clone https://github.com/your-username/minishell.git'
+'git clone https://github.com/0xtoowan/minishell.git'
 
 Navigate to the project directory:
 'cd minishell'
@@ -45,3 +44,31 @@ minishell$ exit
 $
 Contributing
 Contributions to the Minishell project are welcome. If you find any issues or have suggestions for improvements, feel free to open an issue or submit a pull request.
+
+<br>
+
+##  The Project consist of two parts :
+**Parsing**
+
+        1. readline
+        2. pipes
+        3. Command and arguments
+        4. Protections
+        5. The <,>, >> redirects
+        6. Environment variables
+        7. The separations
+        8. history
+**The execution**
+
+        1. Redirects
+        2. Env, export, unset
+        3. Exit and $?
+        4. Pipes / signals / process links 
+
+## Contributing 
+
+| <img src="https://github.com/Toowan0x1/Minishell/raw/master/oel-houm.jpeg" alt="oel-houm" width="170" height="auto"> | <img src="https://github.com/Toowan0x1/Minishell/raw/master/wbouwach.jpeg" alt="wbouwach" width="170" height="auto"> |
+| ------ | ------ |
+| **Executer** | **Parser** |
+| &emsp;42 Intra profile: [oel-houm](https://profile.intra.42.fr/users/oel-houm) | &emsp;42 Intra profile: [wbouwach](https://profile.intra.42.fr/users/wbouwach) |
+| &emsp;Github Profile: [click here ➚](https://github.com/toowan0x1) | &emsp;Github Profile: [click here ➚](https://github.com/bwalidd) |

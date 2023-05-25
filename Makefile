@@ -61,13 +61,14 @@ SRC = minishell \
 		execution/exec_builtins \
 		execution/open_outfile \
 		execution/dup_out \
+		execution/dup_in \
 		error_manage/args_error \
 		error_manage/cmd_not_found \
 		error_manage/fork_error \
-		execution/init_shell_data \
 		execution/multi_pipes_execution \
 		execution/single_cmd_execution \
-		execution/execute \
+		execution/execute_line \
+		execution/init_shell_data \
 
 OBJ = $(SRC:=.o)
 
@@ -106,3 +107,4 @@ fclean: clean
 	@echo "$(GREEN)✅ Deletion complete. $(RESET)"
 
 re: fclean all
+

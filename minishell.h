@@ -6,7 +6,7 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 21:59:40 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/23 04:23:57 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/25 02:00:42 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 # include <errno.h>
 # include <sys/wait.h>
 # include <fcntl.h>
-# include <signal.h>
 
 # define STDIN 	0
 # define STDOUT 1
@@ -57,23 +56,43 @@ typedef	struct	s_cmd_data
 	int		num_of_cmds;
 	int		*args_tokens;
 	char	***cmd;
-	int		*cmd_tokens;
 	int		stdout_copy;
 	int		stdin_copy;
-	int		i; // remove
+	int		i;
 } t_cmd_data;
 
 typedef struct s_redirection
 {
-	int		redirection_token;
-	int		redirection_index;
+	// input redirection vars
+	int		in_redirection_token;
+	int		in_redirection_index;
+	int		infile_index;
+	int		in_fd;
+	char	*infile;
+	//	output redirection vars
+	int		out_redirection_token;
+	int		out_redirection_index;
 	int		outfile_index;
 	int		out_fd;
 	char	*outfile;
+
+	int		stdin_copy;
+	int		stdout_copy;
 }	t_redirection;
 
-
-
+/*
+void	init_cmd_data(t_cmd_data *cmd_data)
+{
+	line = parse_operator(line);
+	cmd_data->parsed_line_args = args_split(line);
+	cmd_data->num_of_cmds = count_cmds(parsed_line_args, '|');;
+	cmd_data->args_tokens = tokenise_cmd(parsed_line_args);;
+	cmd_data->cmd = get_piped_cmd_by_ptr(parsed_line_args, args_tokens);
+	cmd_data->stdout_copy = dup(STDOUT);;
+	cmd_data->stdin_copy = dup(STDIN);
+	cmd_data->i = 0;
+	(void)cmd_data->stdin_copy;
+} */
 
 extern int global_exit;
 
@@ -149,6 +168,7 @@ void     exec_builtins(char **cmd, int *tokens, t_env *env_list);
 int     is_builtins(char *cmd);
 void    exec_cmd(char **cmd_args, char **env);
 
+void	multi_pipes_execution(t_cmd_data *cmd_data, t_redirection *redirection, char **env, t_env *env_list);
 
 char    *get_env_value(char *env_var, t_env *env_list);
 int		find_env(char *env, t_env *env_list);
@@ -158,28 +178,46 @@ void    set_env(char *env_name, char *env_value, t_env *env_list);
 char	***get_piped_cmd_by_ptr(char **cmds, int *tokens);
 int		count_cmds(char **cmd, char c);
 
+void	check_fork_fail(pid_t *pid);
+
+void    single_cmd_execution(t_cmd_data *cmd_data, t_redirection *redirection, char **env, t_env *env_list);
+
+// typedef	struct s_global_vars
+// {
+// 	char	**parsed_line_args;
+// 	int		num_of_cmds;
+//     int		*args_tokens;
+//     char	***cmd;
+//     int		i;
+//     int		out_fd;
+//     int		stdout_copy;
+//     int		stdin_copy;
+// }	t_var; // cmd_exec_vars
 
 
-void	set_redirect_to_null(char **cmd, int *cmd_tokens);
-int		get_redirection_index(int *cmd_tokens, t_redirection *redirection);
+
+void	set_output_redirect_to_null(char **cmd, int *cmd_tokens);
+int		get_output_redirection_index(int *cmd_tokens, t_redirection *redirection);
 int		get_outfile_index(int *cmd_tokens, int index);
 void	establish_output_stream(char **cmd, int *cmd_tokens, t_redirection *redirection);
 
+void    establish_input_stream(char **cmd, int *cmd_tokens, t_redirection *redirection);
+
+void	dup_input_before_piping(t_redirection *redirection);
+void	dup_input_after_piping(t_redirection *redirection);
 void	dup_output_before_piping(t_redirection *redirection);
 void	dup_output_after_piping(t_redirection *redirection);
 
 void    check_argc(int ac);
 void    cmd_not_found(char *cmd, int *global_exit);
 
-void    init_cmd_data(t_cmd_data *cmd_data, char *line);
+void    single_cmd_execution1(t_cmd_data *cmd_data, t_redirection *redirection, char **env, t_env *env_list);
+void	init_cmd_data(t_cmd_data *cmd_data, char *line);
 
 
-void	check_fork_fail(pid_t *pid);
+void    establish_io_stream(char **cmd, int *cmd_tokens, t_redirection *redirection);
+void    dup_io_before_piping(t_redirection *redirection);
 
-void	multi_pipes_execution(t_cmd_data *cmd_data, t_redirection *redirection, char **env, t_env *env_list);
-void    single_cmd_execution(t_cmd_data *cmd_data, t_redirection *redirection, char **env, t_env *env_list);
-
-void    execute(char *line, t_cmd_data *cmd_data, t_redirection *redirection, char **env, t_env *env_list);
-
+void	execute_line(t_cmd_data *cmd_data, t_redirection *redirection, char **env, t_env *env_list, char *line);
 
 #endif

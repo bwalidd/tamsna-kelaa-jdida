@@ -33,6 +33,7 @@ int	main(void)
 	{
 		{"ls", "-l", NULL},
 		{"pwd", NULL},
+		{"cat", "infile", NULL, "outfile", NULL},
 		{"ls", "-la", NULL},
 		{"cat", NULL},
 		{"cat", NULL},
@@ -76,3 +77,4 @@ int	main(void)
 	execvp(cmd[i][0], cmd[i]);
 	return (0);
 }
+

@@ -6,9 +6,10 @@
 /*   By: oel-houm <oel-houm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:00:56 by wbouwach          #+#    #+#             */
-/*   Updated: 2023/05/23 04:31:32 by oel-houm         ###   ########.fr       */
+/*   Updated: 2023/05/25 02:04:03 by oel-houm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -16,7 +17,6 @@ int global_exit;
 
 int main(int ac, char **av, char **env)
 {
-    // initiate_values(T_DATA);
     char            *line;
     t_env           *env_list;
     t_redirection   *redirection;
@@ -34,12 +34,12 @@ int main(int ac, char **av, char **env)
         if (line)
             add_history(line);
         else
-        {
             write(1, "\n", 1);
-        }
         if (parse(line))
-            execute(line, cmd_data, redirection, env, env_list);
+            execute_line(cmd_data, redirection, env, env_list, line);
         line = readline(GREEN"minishell ▸ "WHITE);
     }
     return (global_exit);
 }
+
+// pwd makadirch exit

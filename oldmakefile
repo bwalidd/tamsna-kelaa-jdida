@@ -1,24 +1,9 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+READLINE = -lreadline -L ./readline -I ./readline -lcurses
+READLINE = -L /usr/lib/x86_64-linux-gnu -lreadline -lncurses
 LDLIBS = -lreadline -lncurses
-
-OS := $(shell uname)
-
-ifeq ($(OS), Darwin)  # macOS
-    target:
-        READLINE = -lreadline -L ./readline -I ./readline -lcurses
-else ifeq ($(OS), Linux)  # Linux
-    target:
-        READLINE = -L /usr/lib/x86_64-linux-gnu -lreadline -lncurses
-else
-    target:
-		READLINE = -lreadline -L ./readline -I ./readline -lcurses
-		READLINE = -L /usr/lib/x86_64-linux-gnu -lreadline -lncurses
-        #@echo "Unsupported operating system: $(OS)"
-        #@exit 1
-endif
-
 
 .c.o:
 	@$(CC) $(CFLAGS) -c $< -o $@ 
@@ -54,13 +39,8 @@ SRC = minishell \
 		execution/exec_builtins \
 		execution/open_outfile \
 		execution/dup_out \
-		error_manage/args_error \
-		error_manage/cmd_not_found \
-		error_manage/fork_error \
-		execution/init_shell_data \
-		execution/multi_pipes_execution \
-		execution/single_cmd_execution \
-		execution/execute \
+		error_management/args_error \
+		error_management/cmd_not_found \
 		
 
 
